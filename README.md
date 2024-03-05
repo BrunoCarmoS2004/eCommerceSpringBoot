@@ -1,2 +1,2 @@
-# E-Commerce Spring Boot
+# E-Commerce SpringBoot
 Projeto de E-Commerce
