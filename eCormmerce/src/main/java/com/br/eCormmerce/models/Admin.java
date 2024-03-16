@@ -4,41 +4,40 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
+import java.util.List;
+
+import com.br.eCormmerce.models.Pessoa;
 @Entity
-public class Admin {
+public class Admin extends Pessoa{
     //CRIAR CLASSE PARA HERANÇA DOS TIPOS SEMELHANTES 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long admin_id;
-    private String admin_nome;
-    private Float admin_saldo;
+    @OneToOne(mappedBy = "admin")
+    private Categoria categoria;
 
-    public Admin() {
+    public Admin(String nome, String cpf) {
+        super(nome, cpf);
     }
-    public Admin(Long admin_id, String admin_nome, Float admin_saldo) {
-        this.admin_id = admin_id;
-        this.admin_nome = admin_nome;
-        this.admin_saldo = admin_saldo;
-    }
-    public Long getadmin_Id() {
+
+    public Long getAdmin_id() {
         return admin_id;
     }
-    public void setadmin_Id(Long admin_id) {
+
+    public void setAdmin_id(Long admin_id) {
         this.admin_id = admin_id;
     }
-    public String getAdmin_nome() {
-        return admin_nome;
+
+    public Categoria getCategoria() {
+        return categoria;
     }
-    public void setAdmin_nome(String admin_nome) {
-        this.admin_nome = admin_nome;
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
-    public Float getAdmin_saldo() {
-        return admin_saldo;
-    }
-    public void setAdmin_saldo(Float admin_saldo) {
-        this.admin_saldo = admin_saldo;
-    }
+
     
     
 }
