@@ -2,10 +2,12 @@ package com.br.eCormmerce.models;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -19,11 +21,12 @@ public class Avaliacao {
     private String avaliaca_imagem;
 
     //COLOCAR AS RELAÇOES AQUI
-    @OneToOne
-    @JoinColumn(name = "fk_cliente_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente_id;
-    @OneToOne
-    @JoinColumn(name = "fk_produto_id")
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "produto_id")
     private Produtos pruduto_id;
 
     public Avaliacao(String avaliaca_titulo, String avaliaca_texto, float avaliaca_estrelas, String avaliaca_imagem,
