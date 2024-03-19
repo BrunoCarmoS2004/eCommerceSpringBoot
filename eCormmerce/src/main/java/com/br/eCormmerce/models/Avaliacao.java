@@ -12,9 +12,4 @@ public class Avaliacao {
     private String avaliaca_texto;
     private float avaliaca_estrelas;
     private String avaliaca_imagem;
-
-    //COLOCAR AS RELAÇOES AQUI
-    private Cliente cliente_id;
-    private Produtos pruduto_id;
-    
 }

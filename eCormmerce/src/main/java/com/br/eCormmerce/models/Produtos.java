@@ -18,10 +18,4 @@ public class Produtos {
     private String produto_descricao;
     private String produto_imagem;
     private int produto_qtd_vendas;
-
-    //COLOCAR AS RELAÇOES AQUI
-    private Vendedor vendedor_id;
-    private Categoria cadegoria_id;
-
-    
 }

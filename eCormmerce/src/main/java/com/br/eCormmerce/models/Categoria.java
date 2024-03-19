@@ -11,9 +11,4 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoria_id;
     private String categoria_nome;
-    
-    //COLOCAR AS RELAÇOES AQUI
-    private Admin admin_id;
-   
-   
 }

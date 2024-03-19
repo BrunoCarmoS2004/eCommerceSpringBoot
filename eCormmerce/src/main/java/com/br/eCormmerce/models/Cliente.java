@@ -1,13 +1,22 @@
 package com.br.eCormmerce.models;
 
+import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Cliente {
-   private Long cliente_id;
-   private String cliente_cpf;
-   private String cliente_nome;
-   private float cliente_saldo;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long cliente_id;
+    private String cliente_cpf;
+    private String cliente_nome;
+    private float cliente_saldo;
 public Cliente(Long cliente_id, String cliente_cpf, String cliente_nome, float cliente_saldo) {
     this.cliente_id = cliente_id;
     this.cliente_cpf = cliente_cpf;
