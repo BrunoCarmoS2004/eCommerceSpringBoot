@@ -21,22 +21,14 @@ public class Avaliacao {
     private String avaliaca_imagem;
 
     //COLOCAR AS RELAÇOES AQUI
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cliente_id")
-    private Cliente cliente_id;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "produto_id")
-    private Produtos pruduto_id;
 
-    public Avaliacao(String avaliaca_titulo, String avaliaca_texto, float avaliaca_estrelas, String avaliaca_imagem,
-        Cliente cliente_id, Produtos pruduto_id) {
+
+    public Avaliacao(String avaliaca_titulo, String avaliaca_texto, float avaliaca_estrelas, String avaliaca_imagem) {
       this.avaliaca_titulo = avaliaca_titulo;
       this.avaliaca_texto = avaliaca_texto;
       this.avaliaca_estrelas = avaliaca_estrelas;
       this.avaliaca_imagem = avaliaca_imagem;
-      this.cliente_id = cliente_id;
-      this.pruduto_id = pruduto_id;
     }
     public Avaliacao() {
     }
@@ -70,18 +62,6 @@ public class Avaliacao {
     }
     public void setAvaliaca_imagem(String avaliaca_imagem) {
         this.avaliaca_imagem = avaliaca_imagem;
-    }
-    public Cliente getCliente_id() {
-        return cliente_id;
-    }
-    public void setCliente_id(Cliente cliente_id) {
-        this.cliente_id = cliente_id;
-    }
-    public Produtos getPruduto_id() {
-        return pruduto_id;
-    }
-    public void setPruduto_id(Produtos pruduto_id) {
-        this.pruduto_id = pruduto_id;
     }
     
 }

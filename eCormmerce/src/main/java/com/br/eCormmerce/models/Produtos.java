@@ -1,12 +1,11 @@
 package com.br.eCormmerce.models;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 
 @Entity
@@ -22,13 +21,10 @@ public class Produtos {
     private int produto_qtd_vendas;
     //COLOCAR AS RELAÇOES AQUI
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vendedor_id")
+    @OneToOne
+    @JoinColumn(name = "vendedor_id", nullable = false)
     private Vendedor vendedor_id;
-   
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoria_id")
+   //FAZER ISSO AI DE CIMA PARA TODOS OS QUE EU EXCLUI, INCLUSIVE O ESSE CATEGORIA
     private Categoria categoria;
 
 
