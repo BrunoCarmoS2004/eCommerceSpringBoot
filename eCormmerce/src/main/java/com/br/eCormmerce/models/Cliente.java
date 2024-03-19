@@ -31,4 +31,7 @@ public class Cliente extends Pessoa{
     public void setAvaliacoes(List<Avaliacao> avaliacoes) {
         this.avaliacoes = avaliacoes;
     }
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

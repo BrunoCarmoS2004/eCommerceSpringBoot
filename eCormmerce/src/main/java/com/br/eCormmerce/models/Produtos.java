@@ -145,4 +145,8 @@ public class Produtos {
         this.avaliacao = avaliacao;
     }
 
+    public void setProduto_id(Long produto_id) {
+        this.produto_id = produto_id;
+    }
+
 }

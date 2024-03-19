@@ -1,5 +1,8 @@
 package com.br.eCormmerce.models;
 
+import jakarta.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public abstract class Pessoa {
   private String nome;
   private String cpf;

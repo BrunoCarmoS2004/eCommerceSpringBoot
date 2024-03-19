@@ -33,4 +33,8 @@ public class Vendedor extends Pessoa{
     public void setProdutos(List<Produtos> produtos) {
         this.produtos = produtos;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
