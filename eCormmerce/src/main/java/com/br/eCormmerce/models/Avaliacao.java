@@ -68,5 +68,17 @@ public class Avaliacao {
     public void setAvaliaca_imagem(String avaliaca_imagem) {
         this.avaliaca_imagem = avaliaca_imagem;
     }
+    public Produtos getProdutos_id() {
+        return produtos_id;
+    }
+    public void setProdutos_id(Produtos produtos_id) {
+        this.produtos_id = produtos_id;
+    }
+    public Cliente getCliente_id() {
+        return cliente_id;
+    }
+    public void setCliente_id(Cliente cliente_id) {
+        this.cliente_id = cliente_id;
+    }
     
 }

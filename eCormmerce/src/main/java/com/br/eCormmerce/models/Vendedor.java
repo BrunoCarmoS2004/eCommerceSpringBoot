@@ -17,6 +17,13 @@ public class Vendedor extends Pessoa{
     @OneToMany(mappedBy = "vendedor_id")
     private List<Produtos> produtos;
 
+    public Vendedor(String nome, String cpf, double saldo) {
+        super(nome, cpf, saldo);
+    }
+
+    public Vendedor(){
+    }
+
     public Long getId() {
         return id;
     }

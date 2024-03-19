@@ -15,4 +15,20 @@ public class Cliente extends Pessoa{
     private Long id;
     @OneToMany(mappedBy = "cliente_id")
     private List<Avaliacao> avaliacoes;
+    
+    public Cliente(String nome, String cpf, double saldo) {
+        super(nome, cpf, saldo);
+    }
+    public Cliente(){
+    }
+
+    public Long getId() {
+        return id;
+    }
+    public List<Avaliacao> getAvaliacoes() {
+        return avaliacoes;
+    }
+    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+        this.avaliacoes = avaliacoes;
+    }
 }

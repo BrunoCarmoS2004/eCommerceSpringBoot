@@ -22,7 +22,6 @@ public class Produtos {
     private String produto_descricao;
     private String produto_imagem;
     private int produto_qtd_vendas;
-    //COLOCAR AS RELAÇOES AQUI
 
     @OneToOne
     @JoinColumn(name = "vendedor_id", nullable = false)
@@ -36,13 +35,24 @@ public class Produtos {
     private List<Avaliacao>avaliacao;
 
 
-    public Long getProduto_id() {
-        return produto_id;
+    public Produtos(String produto_titulo, double produto_preco, int produto_quantidade, String produto_descricao,
+            String produto_imagem, int produto_qtd_vendas, Vendedor vendedor_id, Categoria categoria_id) {
+        this.produto_titulo = produto_titulo;
+        this.produto_preco = produto_preco;
+        this.produto_quantidade = produto_quantidade;
+        this.produto_descricao = produto_descricao;
+        this.produto_imagem = produto_imagem;
+        this.produto_qtd_vendas = produto_qtd_vendas;
+        this.vendedor_id = vendedor_id;
+        this.categoria_id = categoria_id;
+    }
+
+    public Produtos() {
     }
 
 
-    public void setProduto_id(Long produto_id) {
-        this.produto_id = produto_id;
+    public Long getProduto_id() {
+        return produto_id;
     }
 
 
@@ -113,6 +123,26 @@ public class Produtos {
 
     public void setVendedor_id(Vendedor vendedor_id) {
         this.vendedor_id = vendedor_id;
+    }
+
+
+    public Categoria getCategoria_id() {
+        return categoria_id;
+    }
+
+
+    public void setCategoria_id(Categoria categoria_id) {
+        this.categoria_id = categoria_id;
+    }
+
+
+    public List<Avaliacao> getAvaliacao() {
+        return avaliacao;
+    }
+
+
+    public void setAvaliacao(List<Avaliacao> avaliacao) {
+        this.avaliacao = avaliacao;
     }
 
 }
