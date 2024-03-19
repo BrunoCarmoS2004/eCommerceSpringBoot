@@ -1,5 +1,9 @@
 package com.br.eCormmerce.repositorys;
 
-public interface ProdutosRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.br.eCormmerce.models.Produtos;
+
+public interface ProdutosRepository extends JpaRepository<Produtos, Long>{
     
 }
