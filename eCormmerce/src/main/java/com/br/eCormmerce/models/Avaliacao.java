@@ -21,8 +21,13 @@ public class Avaliacao {
     private String avaliaca_imagem;
 
     //COLOCAR AS RELAÇOES AQUI
-    
-
+    @OneToOne
+    @JoinColumn(name = "produto_id", nullable = false)
+    private Produtos produtos_id;
+    //FALTA O CLIENTE
+    @OneToOne
+    @JoinColumn(name = "cliente_id", nullable = false)
+    private Cliente cliente_id;
 
     public Avaliacao(String avaliaca_titulo, String avaliaca_texto, float avaliaca_estrelas, String avaliaca_imagem) {
       this.avaliaca_titulo = avaliaca_titulo;

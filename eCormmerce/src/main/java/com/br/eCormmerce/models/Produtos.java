@@ -1,10 +1,13 @@
 package com.br.eCormmerce.models;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 
@@ -24,8 +27,13 @@ public class Produtos {
     @OneToOne
     @JoinColumn(name = "vendedor_id", nullable = false)
     private Vendedor vendedor_id;
-   //FAZER ISSO AI DE CIMA PARA TODOS OS QUE EU EXCLUI, INCLUSIVE O ESSE CATEGORIA
-    private Categoria categoria;
+
+    @OneToOne
+    @JoinColumn(name = "categoria_id", nullable = false)
+    private Categoria categoria_id;
+
+    @OneToMany(mappedBy = "produtos_id")
+    private List<Avaliacao>avaliacao;
 
 
     public Long getProduto_id() {
@@ -107,13 +115,4 @@ public class Produtos {
         this.vendedor_id = vendedor_id;
     }
 
-
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
 }

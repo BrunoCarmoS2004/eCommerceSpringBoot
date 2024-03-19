@@ -8,22 +8,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
-
 @Entity
-public class Vendedor extends Pessoa{
+public class Cliente extends Pessoa{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(mappedBy = "vendedor_id")
-    private List<Produtos> produtos;
-
-    public Long getId() {
-        return id;
-    }
-    public List<Produtos> getProdutos() {
-        return produtos;
-    }
-    public void setProdutos(List<Produtos> produtos) {
-        this.produtos = produtos;
-    }
+    @OneToMany(mappedBy = "cliente_id")
+    private List<Avaliacao> avaliacoes;
 }
