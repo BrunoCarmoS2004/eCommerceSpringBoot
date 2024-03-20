@@ -28,7 +28,11 @@ public class ClienteService {
     }
 
     public ResponseEntity<Object> criarCliente(Cliente cliente){
-        return clienteRepository.save(cliente);
+        if(cliente != null){
+            return ResponseEntity.ok(clienteRepository.save(cliente));
+        }
+        String clienteNaoCriado = "Algum dado do cliente não pode ser aceito";
+        return ResponseEntity.badRequest().body(clienteNaoCriado);
     }
 
     public ResponseEntity<Object> atualizarCliente(Long id, Cliente cliente){
@@ -40,7 +44,7 @@ public class ClienteService {
         return ResponseEntity.badRequest().body(idNaoEncontrado);
     }
 
-    public ResponseEntity<Object> deletarFuncionario(Long id, Cliente cliente){
+    public ResponseEntity<Object> deletarFuncionario(Long id){
         if (clienteRepository.existsById(id)) {
             clienteRepository.deleteById(id);
             String clienteExcluido = "Cliente excluido com sucesso!";
