@@ -1,8 +1,51 @@
 package com.br.eCormmerce.service;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import com.br.eCormmerce.models.Admin;
+import com.br.eCormmerce.repositorys.AdminRepository;
+import com.br.eCormmerce.repositorys.CategoriaRepository;
 
 @Service
 public class AdminService {
-    
+    @Autowired
+    private AdminRepository adminRepository;
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+
+    public List<Admin> listarAdmins(){
+        return adminRepository.findAll();
+    }
+
+    public  ResponseEntity<Object> criarAdmin(Admin admin){
+        if (admin != null) {
+            return ResponseEntity.ok(adminRepository.save(admin));
+        }
+        String adminNaoCriado = "O cliente não pode ser nulo";
+        return ResponseEntity.badRequest().body(adminNaoCriado);
+    }
+
+    public ResponseEntity<Object> atualizarAdmin(Long id, Admin admin){
+        if(adminRepository.existsById(id)){
+            admin.setAdmin_id(id);
+            return ResponseEntity.ok(adminRepository.save(admin));
+        }
+        String idAdminNaoEncontrado = "Não foi encontrado uma entidade com esse ID";
+        return ResponseEntity.badRequest().body(idAdminNaoEncontrado);
+    }
+
+    public ResponseEntity<Object> deletarAdmin(Long id){
+        if (categoriaRepository.existsById(id)) {
+            categoriaRepository.deleteById(id);
+            String adminExcluido = "Admin excluido com sucesso!";
+            return ResponseEntity.ok(adminExcluido);
+        }
+        String idAdminNaoEncontrado = "Id não encontrado";
+        return ResponseEntity.badRequest().body(idAdminNaoEncontrado);
+    }
 }

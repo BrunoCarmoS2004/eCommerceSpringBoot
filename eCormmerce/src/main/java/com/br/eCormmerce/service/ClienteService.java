@@ -31,7 +31,7 @@ public class ClienteService {
         if(cliente != null){
             return ResponseEntity.ok(clienteRepository.save(cliente));
         }
-        String clienteNaoCriado = "Algum dado do cliente não pode ser aceito";
+        String clienteNaoCriado = "O cliente não pode ser nulo";
         return ResponseEntity.badRequest().body(clienteNaoCriado);
     }
 
