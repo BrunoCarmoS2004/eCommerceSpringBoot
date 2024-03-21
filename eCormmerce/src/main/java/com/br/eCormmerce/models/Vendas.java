@@ -22,10 +22,6 @@ public class Vendas {
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente_id;
 
-
-
-
-    
     public Vendas() {
     }
     public Vendas(Long vendas_id, Vendedor vendedor_id, Produtos produto_id, Cliente cliente_id) {
