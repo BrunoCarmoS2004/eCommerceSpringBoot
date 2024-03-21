@@ -3,6 +3,7 @@ package com.br.eCormmerce.models;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,8 +14,10 @@ public class Cliente extends Pessoa{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(mappedBy = "cliente_id")
+    @OneToMany(mappedBy = "cliente_id", fetch = FetchType.LAZY)
     private List<Avaliacao> avaliacoes;
+    @OneToMany(mappedBy = "cliente_id", fetch = FetchType.LAZY)
+    private List<Vendas> compras;
     
     public Cliente(String nome, String cpf, double saldo) {
         super(nome, cpf, saldo);

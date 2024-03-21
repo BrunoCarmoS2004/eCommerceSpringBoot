@@ -20,7 +20,7 @@ public class Categoria {
     private Long categoria_id;
     private String categoria_nome;
 
-    @OneToMany(mappedBy = "categoria_id")
+    @OneToMany(mappedBy = "categoria_id", fetch = FetchType.LAZY)
     private List<Produtos> produtos;
     @OneToOne
     @JoinColumn(name = "admin_id", nullable = false)

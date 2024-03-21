@@ -3,6 +3,7 @@ package com.br.eCormmerce.models;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,8 +32,10 @@ public class Produtos {
     @JoinColumn(name = "categoria_id", nullable = false)
     private Categoria categoria_id;
 
-    @OneToMany(mappedBy = "produtos_id")
+    @OneToMany(mappedBy = "produtos_id", fetch = FetchType.LAZY)
     private List<Avaliacao>avaliacao;
+    @OneToMany(mappedBy = "produto_id", fetch =  FetchType.LAZY)
+    private List<Vendas>vendas;
 
 
     public Produtos(String produto_titulo, double produto_preco, int produto_quantidade, String produto_descricao,

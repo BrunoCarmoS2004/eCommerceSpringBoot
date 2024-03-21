@@ -1,6 +1,7 @@
 package com.br.eCormmerce.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,7 +17,7 @@ public class Admin extends Pessoa{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long admin_id;
-    @OneToMany(mappedBy = "admin_id")
+    @OneToMany(mappedBy = "admin_id", fetch = FetchType.LAZY)
     private List<Categoria> categorias;
 
     public Admin(String nome, String cpf) {
