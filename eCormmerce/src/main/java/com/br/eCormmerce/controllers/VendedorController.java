@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.br.eCormmerce.models.Vendedor;
 import com.br.eCormmerce.service.VendedorService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/vendedor")
 public class VendedorController {
@@ -23,11 +25,11 @@ public class VendedorController {
         return vendedorService.listarVendedores();
     }
     @PostMapping("/criar")
-    public ResponseEntity<Object>criarVendedor(@RequestBody Vendedor vendedor){
+    public ResponseEntity<Object>criarVendedor(@Valid @RequestBody Vendedor vendedor){
         return vendedorService.criarVendedor(vendedor);
     }
     @PutMapping("/atualizar/{id}")
-    public ResponseEntity<Object>atualizarVendedor(@PathVariable Long id, @RequestBody Vendedor vendedor){
+    public ResponseEntity<Object>atualizarVendedor(@PathVariable Long id, @Valid @RequestBody Vendedor vendedor){
         return vendedorService.atualizarVendedor(id, vendedor);
     }
     @DeleteMapping("deletar/{id}")

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.br.eCormmerce.models.Cliente;
 import com.br.eCormmerce.service.ClienteService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/cliente")
 public class ClienteController {
@@ -27,11 +29,11 @@ public class ClienteController {
         return clienteService.listarClientes();
     }
     @PostMapping("/criar")
-    public ResponseEntity<Object> criarCliente(@RequestBody Cliente cliente){
+    public ResponseEntity<Object> criarCliente(@Valid @RequestBody Cliente cliente){
         return clienteService.criarCliente(cliente);
     }
     @PutMapping("/atualizar/{id}")
-    public ResponseEntity<Object> atualizarCliente(@PathVariable Long id, @RequestBody Cliente cliente){
+    public ResponseEntity<Object> atualizarCliente(@PathVariable Long id, @Valid @RequestBody Cliente cliente){
         return clienteService.atualizarCliente(id, cliente);
     }
     @DeleteMapping("/deletar/{id}")

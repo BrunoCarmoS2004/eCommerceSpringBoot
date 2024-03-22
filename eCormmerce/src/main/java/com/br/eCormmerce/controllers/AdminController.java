@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.br.eCormmerce.models.Admin;
 import com.br.eCormmerce.service.AdminService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
@@ -24,11 +26,11 @@ public class AdminController {
         return adminService.listarAdmins();
     }
 
-    public ResponseEntity<Object>criarAdmin(@RequestBody Admin admin){
+    public ResponseEntity<Object>criarAdmin(@Valid @RequestBody Admin admin){
         return adminService.criarAdmin(admin);
     }
 
-    public ResponseEntity<Object>atualizarAdmin(@PathVariable Long id, Admin admin){
+    public ResponseEntity<Object>atualizarAdmin(@PathVariable Long id, @Valid Admin admin){
         return adminService.atualizarAdmin(id, admin);
     }
 
