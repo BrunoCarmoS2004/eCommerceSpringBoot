@@ -37,12 +37,12 @@ public class ClienteController {
     }
 
     @PostMapping
-    public Cliente criar(@Valid @RequestBody Cliente cliente){
+    public Cliente criarCliente(@Valid @RequestBody Cliente cliente){
         return clienteService.criarCliente(cliente);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Cliente cliente){
+    public ResponseEntity<?> atualizarCliente(@PathVariable Long id, @RequestBody Cliente cliente){
         if(clienteService.atualizarCliente(id, cliente) == null){
 
             String mensagem = "O id informado não existe";
@@ -52,7 +52,7 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletar(@PathVariable Long id){
+    public ResponseEntity<?> deletarCliente(@PathVariable Long id){
         if(clienteService.deletarCliente(id)){
             String mensagem = "Deleção realizada com sucesso";
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(mensagem);
