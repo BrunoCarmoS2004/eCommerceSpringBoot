@@ -12,23 +12,20 @@ public class Vendas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long vendas_id;
-    @OneToOne
-    @JoinColumn(name = "vendedor_id", nullable = false)
-    private Vendedor vendedor_id;
-    @OneToOne
-    @JoinColumn(name = "produto_id", nullable = false)
-    private Produtos produto_id;
-    @OneToOne
-    @JoinColumn(name = "cliente_id", nullable = false)
-    private Cliente cliente_id;
+    
+    private Long vendedorId;
+    
+    private Long produtosId;
+    
+    private Long clienteId;
 
     public Vendas() {
     }
-    public Vendas(Long vendas_id, Vendedor vendedor_id, Produtos produto_id, Cliente cliente_id) {
+    public Vendas(Long vendas_id, Long vendedorId, Long produtosId, Long clienteId) {
         this.vendas_id = vendas_id;
-        this.vendedor_id = vendedor_id;
-        this.produto_id = produto_id;
-        this.cliente_id = cliente_id;
+        this.vendedorId = vendedorId;
+        this.produtosId = produtosId;
+        this.clienteId = clienteId;
     }
 
     public Long getVendas_id() {
@@ -37,22 +34,22 @@ public class Vendas {
     public void setVendas_id(Long vendas_id) {
         this.vendas_id = vendas_id;
     }
-    public Vendedor getVendedor_id() {
-        return vendedor_id;
+    public Long getVendedor_id() {
+        return vendedorId;
     }
-    public void setVendedor_id(Vendedor vendedor_id) {
-        this.vendedor_id = vendedor_id;
+    public void setVendedor_id(Long vendedorId) {
+        this.vendedorId = vendedorId;
     }
-    public Produtos getProduto_id() {
-        return produto_id;
+    public Long getProduto_id() {
+        return produtosId;
     }
-    public void setProdutos_id(Produtos produto_id) {
-        this.produto_id = produto_id;
+    public void setProdutos_id(Long produtosId) {
+        this.produtosId = produtosId;
     }
-    public Cliente getCliente_id() {
-        return cliente_id;
+    public Long getCliente_id() {
+        return clienteId;
     }
-    public void setCliente_id(Cliente cliente_id) {
-        this.cliente_id = cliente_id;
+    public void setCliente_id(Long clienteId) {
+        this.clienteId = clienteId;
     }
 }

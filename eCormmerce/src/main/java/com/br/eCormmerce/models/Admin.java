@@ -6,8 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-
-
 import java.util.List;
 
 
@@ -17,12 +15,13 @@ public class Admin extends Pessoa{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long admin_id;
-    @OneToMany(mappedBy = "admin_id", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "adminid", fetch = FetchType.LAZY)
     private List<Categoria> categorias;
 
     public Admin(String nome, String cpf) {
         super(nome, cpf);
     }
+    
     public Admin() {
     }
 

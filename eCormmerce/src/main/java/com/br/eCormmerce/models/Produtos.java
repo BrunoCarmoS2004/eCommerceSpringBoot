@@ -24,30 +24,25 @@ public class Produtos {
     private String produto_imagem;
     private int produto_qtd_vendas;
 
-    @OneToOne
-    @JoinColumn(name = "vendedor_id", nullable = false)
-    private Vendedor vendedor_id;
+    private Long vendedorId;
 
-    @OneToOne
-    @JoinColumn(name = "categoria_id", nullable = false)
-    private Categoria categoria_id;
+    private Long categoriaId;
 
-    @OneToMany(mappedBy = "produtos_id", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "produtosId", fetch = FetchType.LAZY)
     private List<Avaliacao>avaliacao;
-    @OneToMany(mappedBy = "produto_id", fetch =  FetchType.LAZY)
+    @OneToMany(mappedBy = "produtosId", fetch =  FetchType.LAZY)
     private List<Vendas>vendas;
 
 
     public Produtos(String produto_titulo, double produto_preco, int produto_quantidade, String produto_descricao,
-            String produto_imagem, int produto_qtd_vendas, Vendedor vendedor_id, Categoria categoria_id) {
+            String produto_imagem, Long vendedorId, Long categoriaId) {
         this.produto_titulo = produto_titulo;
         this.produto_preco = produto_preco;
         this.produto_quantidade = produto_quantidade;
         this.produto_descricao = produto_descricao;
         this.produto_imagem = produto_imagem;
-        this.produto_qtd_vendas = produto_qtd_vendas;
-        this.vendedor_id = vendedor_id;
-        this.categoria_id = categoria_id;
+        this.vendedorId = vendedorId;
+        this.categoriaId = categoriaId;
     }
 
     public Produtos() {
@@ -119,23 +114,23 @@ public class Produtos {
     }
 
 
-    public Vendedor getVendedor_id() {
-        return vendedor_id;
+    public Long getVendedor_id() {
+        return vendedorId;
     }
 
 
-    public void setVendedor_id(Vendedor vendedor_id) {
-        this.vendedor_id = vendedor_id;
+    public void setVendedor_id(Long vendedorId) {
+        this.vendedorId = vendedorId;
     }
 
 
-    public Categoria getCategoria_id() {
-        return categoria_id;
+    public Long getCategoria_id() {
+        return categoriaId;
     }
 
 
-    public void setCategoria_id(Categoria categoria_id) {
-        this.categoria_id = categoria_id;
+    public void setCategoria_id(Long categoriaId) {
+        this.categoriaId = categoriaId;
     }
 
 

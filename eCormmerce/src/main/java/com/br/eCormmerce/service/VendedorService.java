@@ -14,8 +14,6 @@ import com.br.eCormmerce.repositorys.VendedorRepository;
 public class VendedorService {
     @Autowired
     private VendedorRepository vendedorRepository;
-    @Autowired
-    private ProdutosRepository produtosRepository;
 
     public List<Vendedor>listarVendedores(){
         return vendedorRepository.findAll();

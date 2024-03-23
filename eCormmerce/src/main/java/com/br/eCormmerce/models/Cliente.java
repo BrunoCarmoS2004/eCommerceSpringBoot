@@ -14,9 +14,9 @@ public class Cliente extends Pessoa{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(mappedBy = "cliente_id", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "clienteId", fetch = FetchType.LAZY)
     private List<Avaliacao> avaliacoes;
-    @OneToMany(mappedBy = "cliente_id", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "clienteId", fetch = FetchType.LAZY)
     private List<Vendas> compras;
     
     public Cliente(String nome, String cpf, double saldo) {

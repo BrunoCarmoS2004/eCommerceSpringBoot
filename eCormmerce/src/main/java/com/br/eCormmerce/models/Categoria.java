@@ -18,18 +18,19 @@ public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoria_id;
+
     private String categoria_nome;
 
-    @OneToMany(mappedBy = "categoria_id", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "categoriaId", fetch = FetchType.LAZY)
     private List<Produtos> produtos;
-    @OneToOne
-    @JoinColumn(name = "admin_id", nullable = false)
-    private Admin admin_id;
+    
+    private Long adminid;
+    
 
-    public Categoria(Long categoria_id, String categoria_nome, Admin admin_id) {
-        this.categoria_id = categoria_id;
+
+    public Categoria(String categoria_nome, Long adminid) {
         this.categoria_nome = categoria_nome;
-        this.admin_id = admin_id;
+        this.adminid = adminid;
     }
     public Categoria() {
     }
@@ -48,13 +49,31 @@ public class Categoria {
     public void setProdutos(List<Produtos> produtos) {
         this.produtos = produtos;
     }
-    public Admin getAdmin_id() {
-        return admin_id;
+    public Long getAdminid() {
+        return adminid;
     }
-    public void setAdmin_id(Admin admin_id) {
-        this.admin_id = admin_id;
+    public void setAdminid(Long adminid) {
+        this.adminid = adminid;
     }
     public void setCategoria_id(Long categoria_id) {
         this.categoria_id = categoria_id;
     }
+
+    /*
+    public class Response {
+    private List<Categoria> categorias;
+    private String message;
+
+    // getters e setters
+}
+
+public Response listarCategoriaPorAdmin(Long id){
+    Response response = new Response();
+    if(adminRepository.existsById(id)){
+      response.setCategorias(categoriaRepository.findByAdminId(id));
+    } else {
+      response.setMessage("Admin com id " + id + " não existe.");
+    }
+    return response;
+} */
 }
