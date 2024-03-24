@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.br.eCormmerce.models.Avaliacao;
 import com.br.eCormmerce.models.Cliente;
+import com.br.eCormmerce.service.AvaliacaoService;
 import com.br.eCormmerce.service.ClienteService;
 
 import jakarta.validation.Valid;
@@ -23,6 +25,8 @@ import jakarta.validation.Valid;
 public class ClienteController {
     @Autowired
     private ClienteService clienteService;
+    @Autowired
+    private AvaliacaoService avaliacaoService;
 
     @GetMapping
     public List<Cliente> listarClientes(){
@@ -39,5 +43,25 @@ public class ClienteController {
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Object> deletarCliente(@PathVariable Long id){
         return clienteService.deletarFuncionario(id);
+    }
+
+    //AVALIAÇÃO
+    @GetMapping("/avaliarproduto")
+    public List<Avaliacao> listarAvaliacaos(){
+        return avaliacaoService.listarAvaliacoes();
+    }
+    @PostMapping("/avaliarproduto/criar")
+    public ResponseEntity<Object> criarProduto(@Valid @RequestBody Avaliacao avaliacao){
+        return avaliacaoService.criarAvaliacao(avaliacao);
+    }
+
+    @PutMapping("/avaliarproduto/atualizar/{id}")
+    public ResponseEntity<Object> atualizarProduto(@PathVariable Long id, @Valid @RequestBody Avaliacao avaliacao){
+        return avaliacaoService.atualizarAvaliacao(id, avaliacao);
+    }
+
+    @DeleteMapping("/avaliarproduto/deletar/{id}")
+    public ResponseEntity<Object> deletarAvaliacao(@PathVariable Long id){
+        return avaliacaoService.deletarAvaliacao(id);
     }
 }

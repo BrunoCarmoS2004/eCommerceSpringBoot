@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.br.eCormmerce.models.Admin;
 import com.br.eCormmerce.models.Categoria;
+import com.br.eCormmerce.models.Vendas;
 import com.br.eCormmerce.repositorys.CategoriaRepository;
 import com.br.eCormmerce.service.AdminService;
 import com.br.eCormmerce.service.CategoriaService;
+import com.br.eCormmerce.service.VendasServices;
 
 import jakarta.validation.Valid;
 
@@ -28,6 +30,9 @@ public class AdminController {
     private AdminService adminService;
     @Autowired
     private CategoriaService categoriaService;
+    @Autowired
+    private VendasServices vendasServices;
+    
     //CRIAR ADMIN
     @GetMapping
     public List<Admin>listarAdmin(){
@@ -67,9 +72,25 @@ public class AdminController {
         return categoriaService.atualizarCategoria(id, categoria);
     }
 
-    @DeleteMapping("categoria/deletar/{id}")  
+    @DeleteMapping("/categoria/deletar/{id}")  
     public ResponseEntity<Object> deletarCategoria(@PathVariable Long id){
         return categoriaService.deletarCategoria(id);
     }
+
+    //Vendas
+    @GetMapping("/vendas")
+    public List<Vendas>listarVendas(){
+        return vendasServices.listarVendas();
+    }
+
+    @PutMapping("/venda/atualizar/{id}")
+    public ResponseEntity<Object>atualizarVenda(@PathVariable Long id, Vendas venda){
+        return vendasServices.criarVendas(venda);
+    }
+    
+    @DeleteMapping("/venda/deletar/{id}")
+    public ResponseEntity<Object>deletarVenda(@PathVariable Long id){
+        return vendasServices.deletarVendas(id);
+    }    
 
 }
