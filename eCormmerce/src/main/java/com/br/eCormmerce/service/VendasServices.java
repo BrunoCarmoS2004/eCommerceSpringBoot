@@ -51,6 +51,8 @@ public class VendasServices {
                 //Fazer validação de quando o produto chegar a 0 ele ser excluido, fazer isso depois da entrega do trabalho
                 return ResponseEntity.ok(vendasRepository.save(venda));
               }
+              String produtosemquantidade = "Cliente sem o saldo suficiente";
+              return ResponseEntity.badRequest().body(produtosemquantidade);
             }
             String produtosemquantidade = "Não a quantidade suficiente do produto";
             return ResponseEntity.badRequest().body(produtosemquantidade);

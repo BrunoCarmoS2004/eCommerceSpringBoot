@@ -1,16 +1,21 @@
 package com.br.eCormmerce.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.br.eCormmerce.models.Admin;
 import com.br.eCormmerce.models.Cliente;
 import com.br.eCormmerce.models.Produtos;
+import com.br.eCormmerce.models.Vendedor;
+import com.br.eCormmerce.repositorys.AdminRepository;
 import com.br.eCormmerce.repositorys.AvaliacaoRepository;
 import com.br.eCormmerce.repositorys.ClienteRepository;
 import com.br.eCormmerce.repositorys.ProdutosRepository;
+import com.br.eCormmerce.repositorys.VendedorRepository;
 
 @Service
 public class ClienteService {
@@ -23,13 +28,38 @@ public class ClienteService {
     @Autowired
     private AvaliacaoRepository avaliacaoRepository;
 
+    @Autowired
+    private AdminRepository adminRepository;
+    @Autowired
+    private VendedorRepository vendedorRepository;
+
+
     public List<Cliente> listarClientes(){
         return clienteRepository.findAll();
     }
 
     public ResponseEntity<Object> criarCliente(Cliente cliente){
         if(cliente != null){
-            return ResponseEntity.ok(clienteRepository.save(cliente));
+            if (adminRepository.existsByCpf(cliente.getCpf())) {
+                Optional<Admin> adminOptional = adminRepository.findByCpf(cliente.getCpf());
+                Admin admin = adminOptional.get();
+                if (admin.getNome().equals(cliente.getNome())) {
+                    return ResponseEntity.ok(clienteRepository.save(cliente));
+                }
+                String cpfJaEmUso = "CPF informado já esta em uso";
+                return ResponseEntity.badRequest().body(cpfJaEmUso);
+            }
+            if (vendedorRepository.existsByCpf(cliente.getCpf())) {
+                Optional<Vendedor> vendedorOptional = vendedorRepository.findByCpf(cliente.getCpf());
+                Vendedor vendedor = vendedorOptional.get();
+                if (vendedor.getNome().equals(cliente.getNome())) {
+                    return ResponseEntity.ok(clienteRepository.save(cliente)); 
+                }
+                String cpfJaEmUso = "CPF informado já esta em uso";
+                return ResponseEntity.badRequest().body(cpfJaEmUso);
+            }else{
+                return ResponseEntity.ok(clienteRepository.save(cliente)); 
+            }
         }
         String clienteNaoCriado = "O cliente não pode ser nulo";
         return ResponseEntity.badRequest().body(clienteNaoCriado);
