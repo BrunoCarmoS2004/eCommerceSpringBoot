@@ -2,20 +2,26 @@ package com.br.eCormmerce.service;
 
 import java.util.List;
 
-import com.br.eCormmerce.models.Cliente;
-import com.br.eCormmerce.repositorys.ClienteRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.amqp.RabbitProperties.Retry;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import ch.qos.logback.core.net.server.Client;
+import com.br.eCormmerce.models.Cliente;
+import com.br.eCormmerce.models.Produtos;
+import com.br.eCormmerce.repositorys.AvaliacaoRepository;
+import com.br.eCormmerce.repositorys.ClienteRepository;
+import com.br.eCormmerce.repositorys.ProdutosRepository;
 
 @Service
 public class ClienteService {
-    
     @Autowired
-    ClienteRepository clienteRepository;
+    private ClienteRepository clienteRepository;
+
+    @Autowired
+    private ProdutosRepository produtosRepository;
+
+    @Autowired
+    private AvaliacaoRepository avaliacaoRepository;
 
     public List<Cliente> listarClientes(){
         return clienteRepository.findAll();
@@ -25,23 +31,22 @@ public class ClienteService {
         return clienteRepository.save(cliente);
     }
 
-    public Cliente atualizarCliente(Long id, Cliente cliente){
+    public ResponseEntity<Object> atualizarCliente(Long id, Cliente cliente){
         if(clienteRepository.existsById(id)){
-            cliente.setCliente_id(id);
-            return clienteRepository.save(cliente);
+            cliente.setId(id);
+            return ResponseEntity.ok(clienteRepository.save(cliente));
         }
-        return null;
+        String idNaoEncontrado = "Id Não encontrado";
+        return ResponseEntity.badRequest().body(idNaoEncontrado);
     }
 
-    public boolean deletarCliente(Long id){
-        if(clienteRepository.existsById(id)){
+    public ResponseEntity<Object> deletarFuncionario(Long id, Cliente cliente){
+        if (clienteRepository.existsById(id)) {
             clienteRepository.deleteById(id);
-            return true;
+            String clienteExcluido = "Cliente excluido com sucesso!";
+            return ResponseEntity.ok(clienteExcluido);
         }
-        return false;
-    }
-
-    public int qntCliente(){
-        return clienteRepository.findAll().size();
+        String idNaoEncontrado = "Id Não encontrado";
+        return ResponseEntity.badRequest().body(idNaoEncontrado);
     }
 }
