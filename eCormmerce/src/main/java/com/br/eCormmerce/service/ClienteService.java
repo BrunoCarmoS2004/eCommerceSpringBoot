@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.br.eCormmerce.models.Cliente;
 import com.br.eCormmerce.models.Produtos;
-import com.br.eCormmerce.repositorys.AvaliacaoRepository;
 import com.br.eCormmerce.repositorys.ClienteRepository;
 import com.br.eCormmerce.repositorys.ProdutosRepository;
 
@@ -19,9 +18,6 @@ public class ClienteService {
 
     @Autowired
     private ProdutosRepository produtosRepository;
-
-    @Autowired
-    private AvaliacaoRepository avaliacaoRepository;
 
     public List<Cliente> listarClientes(){
         return clienteRepository.findAll();
@@ -40,7 +36,7 @@ public class ClienteService {
         return ResponseEntity.badRequest().body(idNaoEncontrado);
     }
 
-    public ResponseEntity<Object> deletarFuncionario(Long id, Cliente cliente){
+    public ResponseEntity<Object> deletarCliente(Long id){
         if (clienteRepository.existsById(id)) {
             clienteRepository.deleteById(id);
             String clienteExcluido = "Cliente excluido com sucesso!";

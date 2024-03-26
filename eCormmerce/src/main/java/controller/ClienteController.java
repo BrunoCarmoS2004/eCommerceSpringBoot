@@ -28,41 +28,4 @@ import jakarta.validation.Valid;
 @RequestMapping("/clientes")
 public class ClienteController {
     
-    @Autowired
-    ClienteService clienteService;
-
-    @GetMapping
-    public List<Cliente> listarClientes(){
-        return clienteService.listarClientes();
-    }
-
-    @PostMapping
-    public Cliente criarCliente(@Valid @RequestBody Cliente cliente){
-        return clienteService.criarCliente(cliente);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<?> atualizarCliente(@PathVariable Long id, @RequestBody Cliente cliente){
-        if(clienteService.atualizarCliente(id, cliente) == null){
-
-            String mensagem = "O id informado não existe";
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(mensagem);
-        }
-        return ResponseEntity.ok(cliente);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletarCliente(@PathVariable Long id){
-        if(clienteService.deletarCliente(id)){
-            String mensagem = "Deleção realizada com sucesso";
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(mensagem);
-        }
-        String mensagem = "Esse id não existe";
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(mensagem);
-    }
-
-    @GetMapping("/qnt-cliente")
-    public int qntCliente(){
-        return clienteService.qntCliente();
-    }
 }
