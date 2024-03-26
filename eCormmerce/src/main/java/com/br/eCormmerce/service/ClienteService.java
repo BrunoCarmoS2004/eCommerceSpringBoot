@@ -74,7 +74,7 @@ public class ClienteService {
         return ResponseEntity.badRequest().body(idNaoEncontrado);
     }
 
-    public ResponseEntity<Object> deletarFuncionario(Long id){
+    public ResponseEntity<Object> deletarCliente(Long id){
         if (clienteRepository.existsById(id)) {
             clienteRepository.deleteById(id);
             String clienteExcluido = "Cliente excluido com sucesso!";
