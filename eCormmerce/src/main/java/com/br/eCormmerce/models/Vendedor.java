@@ -1,59 +1,43 @@
 package com.br.eCormmerce.models;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
 
 @Entity
-public class Vendedor {
+public class Vendedor extends Pessoa{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String cpf;
-    private String nome_vendedor;
-    private float vendedor_saldo;
+    @OneToMany(mappedBy = "vendedorId", fetch = FetchType.LAZY)
+    private List<Produtos> produtos;
+    @OneToMany(mappedBy = "clienteId", fetch = FetchType.LAZY)
+    private List<Vendas> vendas;
 
-    public Vendedor() {
+    public Vendedor(String nome, String cpf, double saldo) {
+        super(nome, cpf, saldo);
     }
-    public Vendedor(Long id, String cpf, String nome_vendedor, float vendedor_saldo) {
-        this.id = id;
-        this.cpf = cpf;
-        this.nome_vendedor = nome_vendedor;
-        this.vendedor_saldo = vendedor_saldo;
+
+    public Vendedor(){
     }
 
     public Long getId() {
         return id;
     }
+    public List<Produtos> getProdutos() {
+        return produtos;
+    }
+    public void setProdutos(List<Produtos> produtos) {
+        this.produtos = produtos;
+    }
 
     public void setId(Long id) {
         this.id = id;
     }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getNome_vendedor() {
-        return nome_vendedor;
-    }
-
-    public void setNome_vendedor(String nome_vendedor) {
-        this.nome_vendedor = nome_vendedor;
-    }
-
-    public float getvendedor_Saldo() {
-        return vendedor_saldo;
-    }
-
-    public void setvendedor_Saldo(float vendedor_saldo) {
-        this.vendedor_saldo = vendedor_saldo;
-    }
-
-    
 }

@@ -1,43 +1,40 @@
 package com.br.eCormmerce.models;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
-public class Cliente {
-   private Long cliente_id;
-   private String cliente_cpf;
-   private String cliente_nome;
-   private float cliente_saldo;
-public Cliente(Long cliente_id, String cliente_cpf, String cliente_nome, float cliente_saldo) {
-    this.cliente_id = cliente_id;
-    this.cliente_cpf = cliente_cpf;
-    this.cliente_nome = cliente_nome;
-    this.cliente_saldo = cliente_saldo;
-}
-public Cliente() {
-}
-public Long getCliente_id() {
-    return cliente_id;
-}
-public void setCliente_id(Long cliente_id) {
-    this.cliente_id = cliente_id;
-}
-public String getCliente_cpf() {
-    return cliente_cpf;
-}
-public void setCliente_cpf(String cliente_cpf) {
-    this.cliente_cpf = cliente_cpf;
-}
-public String getCliente_nome() {
-    return cliente_nome;
-}
-public void setCliente_nome(String cliente_nome) {
-    this.cliente_nome = cliente_nome;
-}
-public float getCliente_saldo() {
-    return cliente_saldo;
-}
-public void setCliente_saldo(float cliente_saldo) {
-    this.cliente_saldo = cliente_saldo;
-} 
+public class Cliente extends Pessoa{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @OneToMany(mappedBy = "clienteId", fetch = FetchType.LAZY)
+    private List<Avaliacao> avaliacoes;
+    @OneToMany(mappedBy = "clienteId", fetch = FetchType.LAZY)
+    private List<Vendas> compras;
+    
+    public Cliente(String nome, String cpf, double saldo) {
+        super(nome, cpf, saldo);
+    }
+    public Cliente(){
+    }
+
+    public Long getId() {
+        return id;
+    }
+    public List<Avaliacao> getAvaliacoes() {
+        return avaliacoes;
+    }
+    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+        this.avaliacoes = avaliacoes;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
