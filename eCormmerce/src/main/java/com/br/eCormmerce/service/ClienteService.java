@@ -23,8 +23,8 @@ public class ClienteService {
         return clienteRepository.findAll();
     }
 
-    public Cliente criarCliente(Cliente cliente){
-        return clienteRepository.save(cliente);
+    public ResponseEntity<Object> criarCliente(Cliente cliente){
+        return ResponseEntity.ok(clienteRepository.save(cliente));
     }
 
     public ResponseEntity<Object> atualizarCliente(Long id, Cliente cliente){

@@ -14,12 +14,12 @@ public class VendedorService {
     @Autowired
     private VendedorRepository vendedorRepository;
 
-    public List<Vendedor> lsitarVendedor(){
+    public List<Vendedor> listarVendedor(){
         return vendedorRepository.findAll();
     }
 
-    public Vendedor criarVendedor(Vendedor vendedor){
-        return vendedorRepository.save(vendedor);
+    public ResponseEntity<Object> criarVendedor(Vendedor vendedor){
+        return ResponseEntity.ok(vendedorRepository.save(vendedor));
     }
 
     public ResponseEntity<Object> atualizarVendedor(Long id, Vendedor vendedor){
@@ -31,7 +31,7 @@ public class VendedorService {
         return ResponseEntity.badRequest().body(idNaoEncontrado);
     }
 
-    public ResponseEntity<Object> deletarVendedor(Long id, Vendedor vendedor){
+    public ResponseEntity<Object> deletarVendedor(Long id){
         if(vendedorRepository.existsById(id)){
             vendedorRepository.existsById(id);
             String vendedorExcluido = "Vendedor excluido com sucesso!";
