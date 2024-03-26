@@ -29,30 +29,26 @@ public class VendedorService implements PessoaService<Vendedor>{
     } 
     @Override
     public ResponseEntity<Object>criarUsuario(Vendedor vendedor){
-        if (vendedor != null) {
-            if (adminRepository.existsByCpf(vendedor.getCpf())) {
-                Optional<Admin> adminOptional = adminRepository.findByCpf(vendedor.getCpf());
-                Admin admin = adminOptional.get();
-                if (admin.getNome().equals(vendedor.getNome())) {
-                    return ResponseEntity.ok(vendedorRepository.save(vendedor));
-                }
-                String cpfJaEmUso = "CPF informado já esta em uso";
-                return ResponseEntity.badRequest().body(cpfJaEmUso);
+        if (adminRepository.existsByCpf(vendedor.getCpf())) {
+            Optional<Admin> adminOptional = adminRepository.findByCpf(vendedor.getCpf());
+            Admin admin = adminOptional.get();
+            if (admin.getNome().equals(vendedor.getNome())) {
+                return ResponseEntity.ok(vendedorRepository.save(vendedor));
             }
-            if (clienteRepository.existsByCpf(vendedor.getCpf())) {
-                Optional<Cliente> clienteOptional = clienteRepository.findByCpf(vendedor.getCpf());
-                Cliente cliente = clienteOptional.get();
-                if (cliente.getNome().equals(vendedor.getNome())) {
-                    return ResponseEntity.ok(vendedorRepository.save(vendedor)); 
-                }
-                String cpfJaEmUso = "CPF informado já esta em uso";
-                return ResponseEntity.badRequest().body(cpfJaEmUso);
-            }else{
+            String cpfJaEmUso = "CPF informado já esta em uso";
+            return ResponseEntity.badRequest().body(cpfJaEmUso);
+        }
+        if (clienteRepository.existsByCpf(vendedor.getCpf())) {
+            Optional<Cliente> clienteOptional = clienteRepository.findByCpf(vendedor.getCpf());
+            Cliente cliente = clienteOptional.get();
+            if (cliente.getNome().equals(vendedor.getNome())) {
                 return ResponseEntity.ok(vendedorRepository.save(vendedor)); 
             }
+            String cpfJaEmUso = "CPF informado já esta em uso";
+            return ResponseEntity.badRequest().body(cpfJaEmUso);
+        }else{
+            return ResponseEntity.ok(vendedorRepository.save(vendedor)); 
         }
-        String vendedorNaoCriado = "O Vendedor não pode ser null";
-        return ResponseEntity.badRequest().body(vendedorNaoCriado);
     }
     @Override
     public ResponseEntity<Object>atualizarUsuario(Long id, Vendedor vendedor){

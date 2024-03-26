@@ -31,33 +31,31 @@ public class AdminService implements PessoaService<Admin>{
     public List<Admin> listarUsuario(){
         return adminRepository.findAll();
     }
+    
     @Override
     public  ResponseEntity<Object> criarUsuario(Admin admin){
-        if (admin != null) {
-            if (clienteRepository.existsByCpf(admin.getCpf())) {
-                Optional<Cliente> clienteOptional = clienteRepository.findByCpf(admin.getCpf());
-                Cliente cliente = clienteOptional.get();
-                if (cliente.getNome().equals(admin.getNome())) {
-                    return ResponseEntity.ok(adminRepository.save(admin));
-                }
-                String cpfJaEmUso = "CPF informado já esta em uso";
-                return ResponseEntity.badRequest().body(cpfJaEmUso);
-            }
-            if (vendedorRepository.existsByCpf(admin.getCpf())) {
-                Optional<Vendedor> vendedorOptional = vendedorRepository.findByCpf(admin.getCpf());
-                Vendedor vendedor = vendedorOptional.get();
-                if (vendedor.getNome().equals(admin.getNome())) {
-                    return ResponseEntity.ok(adminRepository.save(admin)); 
-                }
-                String cpfJaEmUso = "CPF informado já esta em uso";
-                return ResponseEntity.badRequest().body(cpfJaEmUso);
-            }else{
+        if (clienteRepository.existsByCpf(admin.getCpf())) {
+            Optional<Cliente> clienteOptional = clienteRepository.findByCpf(admin.getCpf());
+            Cliente cliente = clienteOptional.get();
+            if (cliente.getNome().equals(admin.getNome())) {
                 return ResponseEntity.ok(adminRepository.save(admin));
             }
+            String cpfJaEmUso = "CPF informado já esta em uso";
+            return ResponseEntity.badRequest().body(cpfJaEmUso);
         }
-        String adminNaoCriado = "O admin não pode ser nulo";
-        return ResponseEntity.badRequest().body(adminNaoCriado);
+        if (vendedorRepository.existsByCpf(admin.getCpf())) {
+            Optional<Vendedor> vendedorOptional = vendedorRepository.findByCpf(admin.getCpf());
+            Vendedor vendedor = vendedorOptional.get();
+            if (vendedor.getNome().equals(admin.getNome())) {
+                return ResponseEntity.ok(adminRepository.save(admin)); 
+            }
+            String cpfJaEmUso = "CPF informado já esta em uso";
+            return ResponseEntity.badRequest().body(cpfJaEmUso);
+        }else{
+            return ResponseEntity.ok(adminRepository.save(admin));
+        }
     }
+
     @Override
     public ResponseEntity<Object> atualizarUsuario(Long id, Admin admin){
         if(adminRepository.existsById(id)){
@@ -67,6 +65,7 @@ public class AdminService implements PessoaService<Admin>{
         String idAdminNaoEncontrado = "Não foi encontrado uma entidade com esse ID";
         return ResponseEntity.badRequest().body(idAdminNaoEncontrado);
     }
+
     @Override
     public ResponseEntity<Object> deletarUsuario(Long id){
         if (categoriaRepository.existsById(id)) {
