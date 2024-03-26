@@ -17,7 +17,7 @@ import com.br.eCormmerce.repositorys.ClienteRepository;
 import com.br.eCormmerce.repositorys.VendedorRepository;
 
 @Service
-public class AdminService {
+public class AdminService extends PessoaService<Admin>{
     @Autowired
     private AdminRepository adminRepository;
     @Autowired
@@ -27,11 +27,12 @@ public class AdminService {
     @Autowired
     private VendedorRepository vendedorRepository;
 
-    public List<Admin> listarAdmins(){
+    @Override
+    public List<Admin> listar(){
         return adminRepository.findAll();
     }
-
-    public  ResponseEntity<Object> criarAdmin(Admin admin){
+    @Override
+    public  ResponseEntity<Object> criar(Admin admin){
         if (admin != null) {
             if (clienteRepository.existsByCpf(admin.getCpf())) {
                 Optional<Cliente> clienteOptional = clienteRepository.findByCpf(admin.getCpf());
@@ -57,8 +58,8 @@ public class AdminService {
         String adminNaoCriado = "O admin não pode ser nulo";
         return ResponseEntity.badRequest().body(adminNaoCriado);
     }
-
-    public ResponseEntity<Object> atualizarAdmin(Long id, Admin admin){
+    @Override
+    public ResponseEntity<Object> atualizar(Long id, Admin admin){
         if(adminRepository.existsById(id)){
             admin.setAdmin_id(id);
             return ResponseEntity.ok(adminRepository.save(admin));
@@ -66,8 +67,8 @@ public class AdminService {
         String idAdminNaoEncontrado = "Não foi encontrado uma entidade com esse ID";
         return ResponseEntity.badRequest().body(idAdminNaoEncontrado);
     }
-
-    public ResponseEntity<Object> deletarAdmin(Long id){
+    @Override
+    public ResponseEntity<Object> deletar(Long id){
         if (categoriaRepository.existsById(id)) {
             categoriaRepository.deleteById(id);
             String adminExcluido = "Admin excluido com sucesso!";

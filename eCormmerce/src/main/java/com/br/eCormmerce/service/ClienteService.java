@@ -18,7 +18,7 @@ import com.br.eCormmerce.repositorys.ProdutosRepository;
 import com.br.eCormmerce.repositorys.VendedorRepository;
 
 @Service
-public class ClienteService {
+public class ClienteService extends PessoaService<Cliente>{
     @Autowired
     private ClienteRepository clienteRepository;
 
@@ -33,12 +33,12 @@ public class ClienteService {
     @Autowired
     private VendedorRepository vendedorRepository;
 
-
-    public List<Cliente> listarClientes(){
+    @Override
+    public List<Cliente> listar(){
         return clienteRepository.findAll();
     }
-
-    public ResponseEntity<Object> criarCliente(Cliente cliente){
+    @Override
+    public ResponseEntity<Object> criar(Cliente cliente){
         if(cliente != null){
             if (adminRepository.existsByCpf(cliente.getCpf())) {
                 Optional<Admin> adminOptional = adminRepository.findByCpf(cliente.getCpf());
@@ -64,8 +64,8 @@ public class ClienteService {
         String clienteNaoCriado = "O cliente não pode ser nulo";
         return ResponseEntity.badRequest().body(clienteNaoCriado);
     }
-
-    public ResponseEntity<Object> atualizarCliente(Long id, Cliente cliente){
+    @Override
+    public ResponseEntity<Object> atualizar(Long id, Cliente cliente){
         if(clienteRepository.existsById(id)){
             cliente.setId(id);
             return ResponseEntity.ok(clienteRepository.save(cliente));
@@ -73,8 +73,8 @@ public class ClienteService {
         String idNaoEncontrado = "Id Não encontrado";
         return ResponseEntity.badRequest().body(idNaoEncontrado);
     }
-
-    public ResponseEntity<Object> deletarCliente(Long id){
+    @Override
+    public ResponseEntity<Object> deletar(Long id){
         if (clienteRepository.existsById(id)) {
             clienteRepository.deleteById(id);
             String clienteExcluido = "Cliente excluido com sucesso!";

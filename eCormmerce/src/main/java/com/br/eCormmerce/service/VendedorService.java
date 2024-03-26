@@ -16,19 +16,19 @@ import com.br.eCormmerce.repositorys.ProdutosRepository;
 import com.br.eCormmerce.repositorys.VendedorRepository;
 
 @Service
-public class VendedorService {
+public class VendedorService extends PessoaService<Vendedor>{
     @Autowired
     private AdminRepository adminRepository;
     @Autowired
     private VendedorRepository vendedorRepository;
     @Autowired
     private ClienteRepository clienteRepository;
-
-    public List<Vendedor>listarVendedores(){
+    @Override
+    public List<Vendedor>listar(){
         return vendedorRepository.findAll();
     } 
-
-    public ResponseEntity<Object>criarVendedor(Vendedor vendedor){
+    @Override
+    public ResponseEntity<Object>criar(Vendedor vendedor){
         if (vendedor != null) {
             if (adminRepository.existsByCpf(vendedor.getCpf())) {
                 Optional<Admin> adminOptional = adminRepository.findByCpf(vendedor.getCpf());
@@ -54,8 +54,8 @@ public class VendedorService {
         String vendedorNaoCriado = "O Vendedor não pode ser null";
         return ResponseEntity.badRequest().body(vendedorNaoCriado);
     }
-
-    public ResponseEntity<Object>atualizarVendedor(Long id, Vendedor vendedor){
+    @Override
+    public ResponseEntity<Object>atualizar(Long id, Vendedor vendedor){
         if (vendedorRepository.existsById(id)) {
             vendedor.setId(id);
             return ResponseEntity.ok(vendedorRepository.save(vendedor));
@@ -63,8 +63,8 @@ public class VendedorService {
         String idVendedorNaoEncontrado = "Id do vendedor não foi encontrado";
         return ResponseEntity.badRequest().body(idVendedorNaoEncontrado);
     }
-
-    public ResponseEntity<Object>deletarVendedor(Long id){
+    @Override
+    public ResponseEntity<Object>deletar(Long id){
         if (vendedorRepository.existsById(id)) {
             vendedorRepository.deleteById(id);
             String vendedorExcluido = "Vendedor excluido com sucesso!";

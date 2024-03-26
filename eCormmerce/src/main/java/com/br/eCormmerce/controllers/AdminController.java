@@ -36,19 +36,19 @@ public class AdminController {
     //CRIAR ADMIN
     @GetMapping
     public List<Admin>listarAdmin(){
-        return adminService.listarAdmins();
+        return adminService.listar();
     }
     @PostMapping("/criar")
     public ResponseEntity<Object>criarAdmin(@Valid @RequestBody Admin admin){
-        return adminService.criarAdmin(admin);
+        return adminService.criar(admin);
     }
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<Object>atualizarAdmin(@PathVariable Long id, @Valid Admin admin){
-        return adminService.atualizarAdmin(id, admin);
+        return adminService.atualizar(id, admin);
     }
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Object>deletarAdmin(@PathVariable Long id){
-        return adminService.deletarAdmin(id);
+        return adminService.deletar(id);
     }
 
     //CRIAR CATEGORIA

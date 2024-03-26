@@ -30,19 +30,19 @@ public class ClienteController {
 
     @GetMapping
     public List<Cliente> listarClientes(){
-        return clienteService.listarClientes();
+        return clienteService.listar();
     }
     @PostMapping("/criar")
     public ResponseEntity<Object> criarCliente(@Valid @RequestBody Cliente cliente){
-        return clienteService.criarCliente(cliente);
+        return clienteService.criar(cliente);
     }
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<Object> atualizarCliente(@PathVariable Long id, @Valid @RequestBody Cliente cliente){
-        return clienteService.atualizarCliente(id, cliente);
+        return clienteService.atualizar(id, cliente);
     }
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Object> deletarCliente(@PathVariable Long id){
-        return clienteService.deletarCliente(id);
+        return clienteService.deletar(id);
     }
 
     //AVALIAÇÃO
