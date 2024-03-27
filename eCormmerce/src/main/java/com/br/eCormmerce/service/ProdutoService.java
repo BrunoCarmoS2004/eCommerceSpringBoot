@@ -7,12 +7,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.br.eCormmerce.models.Produtos;
+import com.br.eCormmerce.repositorys.CategoriaRepository;
 import com.br.eCormmerce.repositorys.ProdutosRepository;
+import com.br.eCormmerce.repositorys.VendedorRepository;
 
 @Service
 public class ProdutoService {
   @Autowired
   private ProdutosRepository produtosRepository;
+  @Autowired 
+  private VendedorRepository vendedorRepository;
+  @Autowired
+  private CategoriaRepository categoriaRepository;
 
   public List<Produtos>listarTodosProdutos(){
     return produtosRepository.findAll();
@@ -29,10 +35,14 @@ public class ProdutoService {
   }
 
   public ResponseEntity<Object>criarProduto(Produtos produtos){
-    if (produtos != null) {
-      return ResponseEntity.ok(produtosRepository.save(produtos));
+    if (vendedorRepository.existsById(produtos.getVendedor_id())) {
+      if (categoriaRepository.existsById(produtos.getCategoria_id())) {
+        return ResponseEntity.ok(produtosRepository.save(produtos));
+      }
+      String produtoNaoCriado = "Não existe categoria com esse id";
+      return ResponseEntity.badRequest().body(produtoNaoCriado);
     }
-    String produtoNaoCriado = "O produto não pode ser nulo";
+    String produtoNaoCriado = "Não existe Vendedor com esse ID";
     return ResponseEntity.badRequest().body(produtoNaoCriado);
   }
 

@@ -32,36 +32,38 @@ public class VendasServices {
   }
 
   public ResponseEntity<Object>criarVendas(Vendas venda){
-    if (venda != null) {
-      if (clienteRepository.existsById(venda.getCliente_id())){
-        if (vendedorRepository.existsById(venda.getVendedor_id())){
-          if (produtosRepository.existsById(venda.getProduto_id())){
-            Optional<Cliente> opCliente = clienteRepository.findById(venda.getCliente_id());
-            Cliente cliente = opCliente.get();
-            Optional<Vendedor> opVendedor = vendedorRepository.findById(venda.getVendedor_id());
-            Vendedor vendedor = opVendedor.get();
-            Optional<Produtos> opProduto = produtosRepository.findById(venda.getProduto_id());
-            Produtos produto = opProduto.get();
-            if (produto.getProduto_quantidade() - 1 > 0){
-              if (cliente.getSaldo() - produto.getProduto_preco() >= 0){
-                produto.setProduto_quantidade(produto.getProduto_quantidade() - 1);
-                cliente.setSaldo(cliente.getSaldo() - produto.getProduto_preco());
-                vendedor.setSaldo(vendedor.getSaldo() + produto.getProduto_preco());
-                produto.setProduto_qtd_vendas(produto.getProduto_qtd_vendas() + 1);
-                //Fazer validação de quando o produto chegar a 0 ele ser excluido, fazer isso depois da entrega do trabalho
-                return ResponseEntity.ok(vendasRepository.save(venda));
-              }
-              String produtosemquantidade = "Cliente sem o saldo suficiente";
-              return ResponseEntity.badRequest().body(produtosemquantidade);
+    if (clienteRepository.existsById(venda.getCliente_id())){
+      if (vendedorRepository.existsById(venda.getVendedor_id())){
+        if (produtosRepository.existsById(venda.getProduto_id())){
+          Optional<Cliente> opCliente = clienteRepository.findById(venda.getCliente_id());
+          Cliente cliente = opCliente.get();
+          Optional<Vendedor> opVendedor = vendedorRepository.findById(venda.getVendedor_id());
+          Vendedor vendedor = opVendedor.get();
+          Optional<Produtos> opProduto = produtosRepository.findById(venda.getProduto_id());
+          Produtos produto = opProduto.get();
+          if (produto.getProduto_quantidade() - 1 > 0){
+            if (cliente.getSaldo() - produto.getProduto_preco() >= 0){
+              produto.setProduto_quantidade(produto.getProduto_quantidade() - 1);
+              cliente.setSaldo(cliente.getSaldo() - produto.getProduto_preco());
+              vendedor.setSaldo(vendedor.getSaldo() + produto.getProduto_preco());
+              produto.setProduto_qtd_vendas(produto.getProduto_qtd_vendas() + 1);
+              //Fazer validação de quando o produto chegar a 0 ele ser excluido, fazer isso depois da entrega do trabalho
+              return ResponseEntity.ok(vendasRepository.save(venda));
             }
-            String produtosemquantidade = "Não a quantidade suficiente do produto";
+            String produtosemquantidade = "Cliente sem o saldo suficiente";
             return ResponseEntity.badRequest().body(produtosemquantidade);
           }
+          String produtosemquantidade = "Não a quantidade suficiente do produto";
+          return ResponseEntity.badRequest().body(produtosemquantidade);
         }
-      } 
+        String produtoNaoCriado = "Não existe produto com esse id";
+        return ResponseEntity.badRequest().body(produtoNaoCriado);
+      }
+      String produtoNaoCriado = "Não existe vendedor com esse id";
+      return ResponseEntity.badRequest().body(produtoNaoCriado);
     }
-    String vendaNaoCriada = "Vendas não podem ser nulo";
-    return ResponseEntity.badRequest().body(vendaNaoCriada);
+    String produtoNaoCriado = "Não existe cliente com esse ID";
+    return ResponseEntity.badRequest().body(produtoNaoCriado);
   }
 
   public ResponseEntity<Object>atualizarVendas(Long id, Vendas venda){
