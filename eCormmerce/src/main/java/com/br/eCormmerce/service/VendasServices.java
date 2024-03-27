@@ -43,7 +43,7 @@ public class VendasServices {
             Optional<Produtos> opProduto = produtosRepository.findById(venda.getProduto_id());
             Produtos produto = opProduto.get();
             if (produto.getProduto_quantidade() - 1 > 0){
-              if (cliente.getSaldo() - produto.getProduto_preco() > 0){
+              if (cliente.getSaldo() - produto.getProduto_preco() >= 0){
                 produto.setProduto_quantidade(produto.getProduto_quantidade() - 1);
                 cliente.setSaldo(cliente.getSaldo() - produto.getProduto_preco());
                 vendedor.setSaldo(vendedor.getSaldo() + produto.getProduto_preco());
