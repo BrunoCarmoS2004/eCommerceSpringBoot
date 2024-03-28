@@ -79,4 +79,20 @@ public class ClienteService implements PessoaService<Cliente>{
         String idNaoEncontrado = "Id Não encontrado";
         return ResponseEntity.badRequest().body(idNaoEncontrado);
     }
+
+    public ResponseEntity<Object> adicionarSaldo(Long id, Cliente clienteRequest){
+        if (clienteRepository.existsById(id)) {
+            Optional<Cliente>clienteOptional = clienteRepository.findById(id);
+            Cliente cliente = clienteOptional.get();
+            cliente.setSaldo(cliente.getSaldo() + clienteRequest.getSaldo());
+            String clienteSaldoAtualizado = "Foi adicionado saldo com sucesso\n"
+            +"Novo saldo: "+cliente.getSaldo();
+            cliente.setId(id);
+            clienteRepository.save(cliente);
+            return ResponseEntity.ok(clienteSaldoAtualizado);
+        }
+        String idClienteNaoEncontrado = "Não existe um cliente com esse Id";
+        return ResponseEntity.badRequest().body(idClienteNaoEncontrado);
+        
+    }
 }

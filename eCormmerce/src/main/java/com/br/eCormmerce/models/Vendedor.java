@@ -17,11 +17,15 @@ public class Vendedor extends Pessoa{
     private Long id;
     @OneToMany(mappedBy = "vendedorId", fetch = FetchType.LAZY)
     private List<Produtos> produtos;
-    @OneToMany(mappedBy = "clienteId", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "vendedorId", fetch = FetchType.LAZY)
     private List<Vendas> vendas;
 
     public Vendedor(String nome, String cpf, double saldo) {
         super(nome, cpf, saldo);
+    }
+
+    public Vendedor(String nome, String cpf) {
+        super(nome, cpf);
     }
 
     public Vendedor(){
@@ -39,5 +43,13 @@ public class Vendedor extends Pessoa{
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<Vendas> getVendas() {
+        return vendas;
+    }
+
+    public void setVendas(List<Vendas> vendas) {
+        this.vendas = vendas;
     }
 }
