@@ -30,19 +30,19 @@ public class VendedorController {
 
     @GetMapping
     public List<Vendedor>listarVendedores(){
-        return vendedorService.listar();
+        return vendedorService.listarUsuario();
     }
     @PostMapping("/criar")
     public ResponseEntity<Object>criarVendedor(@Valid @RequestBody Vendedor vendedor){
-        return vendedorService.criar(vendedor);
+        return vendedorService.criarUsuario(vendedor);
     }
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<Object>atualizarVendedor(@PathVariable Long id, @Valid @RequestBody Vendedor vendedor){
-        return vendedorService.atualizar(id, vendedor);
+        return vendedorService.atualizarUsuario(id, vendedor);
     }
     @DeleteMapping("deletar/{id}")
     public ResponseEntity<Object>deletarVendedor(@PathVariable Long id){
-        return vendedorService.deletar(id);
+        return vendedorService.deletarUsuario(id);
     }
 
     //CRUD PRODUTO

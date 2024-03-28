@@ -25,10 +25,10 @@ public class CategoriaService {
   }
 
   public ResponseEntity<Object>criarCategoria(Categoria categoria){
-    if (categoria != null) {
+    if (adminRepository.existsById(categoria.getAdminid())) {
       return ResponseEntity.ok(categoriaRepository.save(categoria));
     }
-    String categoriaNaoCriada = "A categoria não pode ser nula";
+    String categoriaNaoCriada = "Não existe admin com esse ID";
     return ResponseEntity.badRequest().body(categoriaNaoCriada);
   }
 

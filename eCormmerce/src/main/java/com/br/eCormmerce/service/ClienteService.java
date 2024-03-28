@@ -18,7 +18,7 @@ import com.br.eCormmerce.repositorys.ProdutosRepository;
 import com.br.eCormmerce.repositorys.VendedorRepository;
 
 @Service
-public class ClienteService extends PessoaService<Cliente>{
+public class ClienteService implements PessoaService<Cliente>{
     @Autowired
     private ClienteRepository clienteRepository;
 
@@ -34,38 +34,34 @@ public class ClienteService extends PessoaService<Cliente>{
     private VendedorRepository vendedorRepository;
 
     @Override
-    public List<Cliente> listar(){
+    public List<Cliente> listarUsuario(){
         return clienteRepository.findAll();
     }
     @Override
-    public ResponseEntity<Object> criar(Cliente cliente){
-        if(cliente != null){
-            if (adminRepository.existsByCpf(cliente.getCpf())) {
-                Optional<Admin> adminOptional = adminRepository.findByCpf(cliente.getCpf());
-                Admin admin = adminOptional.get();
-                if (admin.getNome().equals(cliente.getNome())) {
-                    return ResponseEntity.ok(clienteRepository.save(cliente));
-                }
-                String cpfJaEmUso = "CPF informado já esta em uso";
-                return ResponseEntity.badRequest().body(cpfJaEmUso);
+    public ResponseEntity<Object> criarUsuario(Cliente cliente){
+        if (adminRepository.existsByCpf(cliente.getCpf())) {
+            Optional<Admin> adminOptional = adminRepository.findByCpf(cliente.getCpf());
+            Admin admin = adminOptional.get();
+            if (admin.getNome().equals(cliente.getNome())) {
+                return ResponseEntity.ok(clienteRepository.save(cliente));
             }
-            if (vendedorRepository.existsByCpf(cliente.getCpf())) {
-                Optional<Vendedor> vendedorOptional = vendedorRepository.findByCpf(cliente.getCpf());
-                Vendedor vendedor = vendedorOptional.get();
-                if (vendedor.getNome().equals(cliente.getNome())) {
-                    return ResponseEntity.ok(clienteRepository.save(cliente)); 
-                }
-                String cpfJaEmUso = "CPF informado já esta em uso";
-                return ResponseEntity.badRequest().body(cpfJaEmUso);
-            }else{
+            String cpfJaEmUso = "CPF informado já esta em uso";
+            return ResponseEntity.badRequest().body(cpfJaEmUso);
+        }
+        if (vendedorRepository.existsByCpf(cliente.getCpf())) {
+            Optional<Vendedor> vendedorOptional = vendedorRepository.findByCpf(cliente.getCpf());
+            Vendedor vendedor = vendedorOptional.get();
+            if (vendedor.getNome().equals(cliente.getNome())) {
                 return ResponseEntity.ok(clienteRepository.save(cliente)); 
             }
+            String cpfJaEmUso = "CPF informado já esta em uso";
+            return ResponseEntity.badRequest().body(cpfJaEmUso);
+        }else{
+            return ResponseEntity.ok(clienteRepository.save(cliente)); 
         }
-        String clienteNaoCriado = "O cliente não pode ser nulo";
-        return ResponseEntity.badRequest().body(clienteNaoCriado);
     }
     @Override
-    public ResponseEntity<Object> atualizar(Long id, Cliente cliente){
+    public ResponseEntity<Object> atualizarUsuario(Long id, Cliente cliente){
         if(clienteRepository.existsById(id)){
             cliente.setId(id);
             return ResponseEntity.ok(clienteRepository.save(cliente));
@@ -74,7 +70,7 @@ public class ClienteService extends PessoaService<Cliente>{
         return ResponseEntity.badRequest().body(idNaoEncontrado);
     }
     @Override
-    public ResponseEntity<Object> deletar(Long id){
+    public ResponseEntity<Object> deletarUsuario(Long id){
         if (clienteRepository.existsById(id)) {
             clienteRepository.deleteById(id);
             String clienteExcluido = "Cliente excluido com sucesso!";

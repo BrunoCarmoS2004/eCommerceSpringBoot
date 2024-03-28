@@ -20,8 +20,7 @@ public class Vendas {
 
     public Vendas() {
     }
-    public Vendas(Long vendas_id, Long vendedorId, Long produtosId, Long clienteId) {
-        this.vendas_id = vendas_id;
+    public Vendas(Long vendedorId, Long produtosId, Long clienteId) {
         this.vendedorId = vendedorId;
         this.produtosId = produtosId;
         this.clienteId = clienteId;

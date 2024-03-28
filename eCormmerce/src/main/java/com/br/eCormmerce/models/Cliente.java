@@ -37,4 +37,10 @@ public class Cliente extends Pessoa{
     public void setId(Long id) {
         this.id = id;
     }
+    public List<Vendas> getCompras() {
+        return compras;
+    }
+    public void setCompras(List<Vendas> compras) {
+        this.compras = compras;
+    }
 }
