@@ -75,4 +75,7 @@ public class AvaliacaoService {
     String avaliacaoNaoCriada = "Não existe um cliente com esse id";
     return ResponseEntity.badRequest().body(avaliacaoNaoCriada);
   }
+  
+  
+  
 }

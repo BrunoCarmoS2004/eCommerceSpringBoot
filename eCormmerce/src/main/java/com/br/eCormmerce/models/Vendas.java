@@ -50,4 +50,22 @@ public class Vendas {
     public void setCliente_id(Long clienteId) {
         this.clienteId = clienteId;
     }
+    public Long getVendedorId() {
+        return vendedorId;
+    }
+    public void setVendedorId(Long vendedorId) {
+        this.vendedorId = vendedorId;
+    }
+    public Long getProdutosId() {
+        return produtosId;
+    }
+    public void setProdutosId(Long produtosId) {
+        this.produtosId = produtosId;
+    }
+    public Long getClienteId() {
+        return clienteId;
+    }
+    public void setClienteId(Long clienteId) {
+        this.clienteId = clienteId;
+    }
 }

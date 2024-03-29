@@ -92,6 +92,4 @@ public class VendasServices {
     String vendaNaoExcluida = "Id de venda não encontrado!";
     return ResponseEntity.badRequest().body(vendaNaoExcluida);
   }
-
-  
 }
