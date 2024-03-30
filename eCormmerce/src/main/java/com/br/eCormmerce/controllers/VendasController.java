@@ -3,6 +3,7 @@ package com.br.eCormmerce.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,5 +34,10 @@ public class VendasController {
   @PostMapping("/comprar")
   public ResponseEntity<Object>criarVenda(@Valid @RequestBody Vendas venda){
     return vendasServices.criarVendas(venda);
+  }
+
+  @GetMapping("/vendedorDestaque")
+  public int vendedorDestaque(){
+    return vendasServices.vendedorComMaisVenda();
   }
 }

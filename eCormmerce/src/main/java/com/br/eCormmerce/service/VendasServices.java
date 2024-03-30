@@ -92,4 +92,13 @@ public class VendasServices {
     String vendaNaoExcluida = "Id de venda não encontrado!";
     return ResponseEntity.badRequest().body(vendaNaoExcluida);
   }
+
+  public int vendedorComMaisVenda(){
+    List<Vendedor> allVendedores = vendedorRepository.findAll();
+    for (Vendedor vendedor : allVendedores) {
+      int totalVenda = vendedor.getVendas().size();
+      return totalVenda;
+    }
+    return 999;
+  }
 }
