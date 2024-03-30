@@ -1,5 +1,7 @@
 package com.br.eCormmerce.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.br.eCormmerce.models.Produtos;
+import com.br.eCormmerce.models.Vendedor;
 import com.br.eCormmerce.repositorys.CategoriaRepository;
 import com.br.eCormmerce.repositorys.ProdutosRepository;
 import com.br.eCormmerce.repositorys.VendedorRepository;
@@ -63,5 +66,21 @@ public class ProdutoService {
     }
     String idProdutoNaoEncontrado = "Não existe produto com esse Id!";
     return ResponseEntity.badRequest().body(idProdutoNaoEncontrado);
+  }
+
+  public List<Produtos> produtosDestaque(){
+  int qtd_atual, maior_qtd = 0;
+  List<Produtos> produtoOrdem = new ArrayList<>();
+  List<Produtos> allProdutos = produtosRepository.findAll();
+    for (Produtos atualProduto : allProdutos) {
+      qtd_atual = atualProduto.getProduto_qtd_vendas();
+      if (qtd_atual > maior_qtd) {
+      maior_qtd = qtd_atual;
+      produtoOrdem.add(atualProduto);
+      
+      }
+    }
+    Collections.reverse(produtoOrdem); 
+    return produtoOrdem;
   }
 }

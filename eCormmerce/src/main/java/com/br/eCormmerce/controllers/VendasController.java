@@ -25,7 +25,7 @@ public class VendasController {
   }
 
   @GetMapping("/vendedorDestaque")
-  public int vendedorDestaque(){
-    return vendasServices.vendedorComMaisVenda();
+  public ResponseEntity<Object> vendedorDestaque(){
+    return vendasServices.vendedorDestaque();
   }
 }

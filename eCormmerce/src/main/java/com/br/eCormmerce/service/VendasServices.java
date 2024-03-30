@@ -93,12 +93,21 @@ public class VendasServices {
     return ResponseEntity.badRequest().body(vendaNaoExcluida);
   }
 
-  public int vendedorComMaisVenda(){
+  public ResponseEntity<Object> vendedorDestaque(){
+    int atualVendedor, maisVenda = 0;
+    Vendedor vendedor = null;
     List<Vendedor> allVendedores = vendedorRepository.findAll();
-    for (Vendedor vendedor : allVendedores) {
-      int totalVenda = vendedor.getVendas().size();
-      return totalVenda;
+    for (Vendedor vendedorAtual : allVendedores) {
+      atualVendedor = vendedorAtual.getVendas().size();
+      if (atualVendedor > maisVenda) {
+       maisVenda = atualVendedor;
+       vendedor = vendedorAtual;
+      }
     }
-    return 999;
+    if (vendedor == null) {
+      String naoHaVendas = "Não nenhuma venda registrada!";
+      return ResponseEntity.badRequest().body(naoHaVendas);
+    }
+    return ResponseEntity.ok(vendedor);
   }
 }

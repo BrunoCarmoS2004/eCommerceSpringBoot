@@ -71,5 +71,10 @@ public class VendedorController {
         return produtoService.deletarProduto(id);
     }
 
+    @GetMapping("/produto/destaques")
+    public List<Produtos>produtoDestaque(){
+        return produtoService.produtosDestaque();
+    }
+
 
 }
