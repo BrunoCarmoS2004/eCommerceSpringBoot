@@ -2,6 +2,7 @@ package com.br.eCormmerce.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,19 +69,10 @@ public class ProdutoService {
     return ResponseEntity.badRequest().body(idProdutoNaoEncontrado);
   }
 
-  public List<Produtos> produtosDestaque(){
-  int qtd_atual, maior_qtd = 0;
-  List<Produtos> produtoOrdem = new ArrayList<>();
-  List<Produtos> allProdutos = produtosRepository.findAll();
-    for (Produtos atualProduto : allProdutos) {
-      qtd_atual = atualProduto.getProduto_qtd_vendas();
-      if (qtd_atual > maior_qtd) {
-      maior_qtd = qtd_atual;
-      produtoOrdem.add(atualProduto);
-      
-      }
-    }
-    Collections.reverse(produtoOrdem); 
-    return produtoOrdem;
-  }
+  public List<Produtos> produtosDestaque() {
+    List<Produtos> allProdutos = produtosRepository.findAll();
+    /*Ordenar a lista de produtos com base na quantidade de vendas (em ordem decrescente)*/
+    Collections.sort(allProdutos, Comparator.comparingInt(Produtos::getProduto_qtd_vendas).reversed());
+    return allProdutos;
+}
 }
