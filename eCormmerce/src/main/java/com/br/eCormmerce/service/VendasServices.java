@@ -1,5 +1,6 @@
 package com.br.eCormmerce.service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -93,21 +94,14 @@ public class VendasServices {
     return ResponseEntity.badRequest().body(vendaNaoExcluida);
   }
 
-  public ResponseEntity<Object> vendedorDestaque(){
-    int atualVendedor, maisVenda = 0;
-    Vendedor vendedor = null;
+  public ResponseEntity<Object> vendedorDestaque() {
     List<Vendedor> allVendedores = vendedorRepository.findAll();
-    for (Vendedor vendedorAtual : allVendedores) {
-      atualVendedor = vendedorAtual.getVendas().size();
-      if (atualVendedor > maisVenda) {
-       maisVenda = atualVendedor;
-       vendedor = vendedorAtual;
-      }
-    }
+    // Encontra o vendedor com mais vendas usando stream
+    Vendedor vendedor = allVendedores.stream().max(Comparator.comparingInt(vendedorDestaque -> vendedorDestaque.getVendas().size())).orElse(null);
     if (vendedor == null) {
-      String naoHaVendas = "Não nenhuma venda registrada!";
-      return ResponseEntity.badRequest().body(naoHaVendas);
+        String naoHaVendas = "Não há nenhuma venda registrada!";
+        return ResponseEntity.badRequest().body(naoHaVendas);
     }
     return ResponseEntity.ok(vendedor);
-  }
+}
 }

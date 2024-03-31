@@ -71,7 +71,7 @@ public class ProdutoService {
 
   public List<Produtos> produtosDestaque() {
     List<Produtos> allProdutos = produtosRepository.findAll();
-    /*Ordenar a lista de produtos com base na quantidade de vendas (em ordem decrescente)*/
+    //Ordenar a lista de produtos com base na quantidade de vendas (em ordem decrescente)
     Collections.sort(allProdutos, Comparator.comparingInt(Produtos::getProduto_qtd_vendas).reversed());
     return allProdutos;
 }
