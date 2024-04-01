@@ -22,6 +22,9 @@ public class Cliente extends Pessoa{
     public Cliente(String nome, String cpf, double saldo) {
         super(nome, cpf, saldo);
     }
+    public Cliente(String nome, String cpf) {
+        super(nome, cpf);
+    }
     public Cliente(){
     }
 
