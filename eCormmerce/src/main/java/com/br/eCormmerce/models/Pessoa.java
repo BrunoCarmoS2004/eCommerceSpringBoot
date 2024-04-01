@@ -11,10 +11,14 @@ import jakarta.validation.constraints.Pattern;
 public abstract class Pessoa {
   @NotBlank(message = "Um nome é obrigatório")
   private String nome;
+
+
   @NotBlank(message = "CPF é obrigatório")
   @Pattern(regexp = "^\\d{11}$", message = "CPF deve conter apenas números e ter 11 dígitos")
   @Column(unique = true)
   private String cpf;
+
+  
   private Double saldo;
   
   public Pessoa(String nome, String cpf) {
