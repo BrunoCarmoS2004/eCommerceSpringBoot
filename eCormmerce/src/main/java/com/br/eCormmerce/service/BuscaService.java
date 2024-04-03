@@ -12,6 +12,7 @@ import com.br.eCormmerce.repositorys.ProdutosRepository;
 public class BuscaService {
    @Autowired private ProdutosRepository produtosRepository;
     public List<Produtos> buscarProdutos(String produto_busca){
+        produto_busca = produto_busca.toLowerCase();
         return produtosRepository.findAllByProduto_titulo(produto_busca);
     }
 }

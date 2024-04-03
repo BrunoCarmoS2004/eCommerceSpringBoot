@@ -127,7 +127,7 @@ public class Produtos {
     public Long getCategoria_id() {
         return categoriaId;
     }
-
+    //mostrar o nome da categoria
 
     public void setCategoria_id(Long categoriaId) {
         this.categoriaId = categoriaId;
