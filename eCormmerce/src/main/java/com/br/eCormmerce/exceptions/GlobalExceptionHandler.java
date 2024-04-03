@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 
 @ControllerAdvice
@@ -23,10 +24,14 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<Object> HttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e){
+    public ResponseEntity<Object> httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e){
         return new ResponseEntity<>("Esse método não é suportado", HttpStatus.METHOD_NOT_ALLOWED);
     }
 
+    @ExceptionHandler(value = NoResourceFoundException.class)
+    public ResponseEntity<Object> noResourceFoundException(NoResourceFoundException e){
+        return new ResponseEntity<>("Rota não encontrada", HttpStatus.NOT_FOUND);
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
         public ResponseEntity<Object> handleValidationExceptions(
