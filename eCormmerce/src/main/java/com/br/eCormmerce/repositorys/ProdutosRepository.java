@@ -11,6 +11,6 @@ public interface ProdutosRepository extends JpaRepository<Produtos, Long>{
     List<Produtos> findByVendedorId(Long vendedorId);
     List<Produtos> findByCategoriaId(Long categoriaId);
 
-    @Query("SELECT u FROM Produtos u WHERE u.produto_titulo LIKE %:produto_titulo%")
-    List<Produtos> findAllByproduto_titulo(String produto_titulo);
+    @Query("SELECT u FROM Produtos u WHERE LOWER(u.produto_titulo) LIKE %:produto_titulo%")
+    List<Produtos> findAllByProduto_titulo(String produto_titulo);
 }
