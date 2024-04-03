@@ -18,7 +18,7 @@ import com.br.eCormmerce.service.BuscaService;
 public class BuscaController {
     @Autowired BuscaService buscaService;
 
-    @PostMapping("/{produto_titulo}")
+    @GetMapping("/{produto_titulo}")
     public List<Produtos> buscarProdutos(@PathVariable String produto_titulo){
         return buscaService.buscarProdutos(produto_titulo);
     }
