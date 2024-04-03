@@ -68,8 +68,8 @@ public class AdminService implements PessoaService<Admin>{
 
     @Override
     public ResponseEntity<Object> deletarUsuario(Long id){
-        if (categoriaRepository.existsById(id)) {
-            categoriaRepository.deleteById(id);
+        if (adminRepository.existsById(id)) {
+            adminRepository.deleteById(id);
             String adminExcluido = "Admin excluido com sucesso!";
             return ResponseEntity.ok(adminExcluido);
         }
