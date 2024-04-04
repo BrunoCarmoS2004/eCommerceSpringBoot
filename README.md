@@ -1,2 +1,7 @@
 # E-Commerce SpringBoot
-Projeto de E-Commerce
+
+## RGB E-Commerce
+
+### Um projeto baseado em MVCs e POO
+
+
