@@ -93,6 +93,25 @@ public class ClienteService implements PessoaService<Cliente>{
         }
         String idClienteNaoEncontrado = "Não existe um cliente com esse Id";
         return ResponseEntity.badRequest().body(idClienteNaoEncontrado);
-        
     }
+
+    public ResponseEntity<Object> adicionarProdutoCarrinho(Long produto_id, Long cliente_id){
+        if (produtosRepository.existsById(produto_id)) {
+            if (clienteRepository.existsById(cliente_id)){
+                Optional<Produtos>produtoOptional = produtosRepository.findById(produto_id);
+                Produtos produtos = produtoOptional.get();
+                Optional<Cliente> clienteOptional = clienteRepository.findById(cliente_id);
+                Cliente cliente = clienteOptional.get();
+                cliente.setCarrinho(produtos);
+                produtos.setClienteId(cliente_id);
+                String itemAdicionado = produtos.getProduto_titulo()+" foi adicionado ao carrinho!";
+                return ResponseEntity.ok(itemAdicionado);
+            }
+            String clienteNaoEncontrado = "Não foi encontrado um cliente com esse ID!";
+            return ResponseEntity.ok(clienteNaoEncontrado);
+        }
+        String produtoNaoEncontrado = "Não foi encontrado um produto com esse ID!";
+        return ResponseEntity.ok(produtoNaoEncontrado);
+    }
+
 }

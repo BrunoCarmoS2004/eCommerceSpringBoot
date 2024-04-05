@@ -1,5 +1,6 @@
 package com.br.eCormmerce.service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -55,6 +56,7 @@ public class VendasServices {
             String produtosemquantidade = "Cliente sem o saldo suficiente";
             return ResponseEntity.badRequest().body(produtosemquantidade);
           }
+          produtosRepository.deleteById(produto.getProduto_id());
           String produtosemquantidade = "Não a quantidade suficiente do produto";
           return ResponseEntity.badRequest().body(produtosemquantidade);
         }
@@ -104,5 +106,42 @@ public class VendasServices {
         return ResponseEntity.badRequest().body(naoHaVendas);
     }
     return ResponseEntity.ok(vendedor);
-}
+  }
+
+  
+  public ResponseEntity<?>comprarTodosProdutos(Long cliente_id){
+    List<Produtos> produtosAdicionados = new ArrayList<>();
+    if (clienteRepository.existsById(cliente_id)) {
+      Optional<Cliente>clienteOptional = clienteRepository.findById(cliente_id);
+      Cliente cliente = clienteOptional.get();
+
+      for(Produtos produto : cliente.getCarrinho()){
+        Optional<Vendedor> vendedorOptional = vendedorRepository.findById(produto.getVendedorId());
+        Vendedor vendedor = vendedorOptional.get();
+        if (produto.getProduto_quantidade() - 1 >= 0){
+          if (cliente.getSaldo() - produto.getProduto_preco() >= 0){
+            produto.setProduto_quantidade(produto.getProduto_quantidade() - 1);
+            cliente.setSaldo(cliente.getSaldo() - produto.getProduto_preco());
+            vendedor.setSaldo(vendedor.getSaldo() + produto.getProduto_preco());
+            produto.setProduto_qtd_vendas(produto.getProduto_qtd_vendas() + 1);
+            //Fazer validação de quando o produto chegar a 0 ele ser excluido, fazer isso depois da entrega do trabalho
+            Vendas venda = new Vendas(cliente_id, produto.getProduto_id(), vendedor.getId());
+            vendasRepository.save(venda);
+            produtosAdicionados.add(produto);
+            cliente.removerProdutoCarrinho(produto);
+            
+          }
+          String produtosemquantidade = "Cliente sem o saldo suficiente";
+          return ResponseEntity.badRequest().body(produtosemquantidade);
+        }
+        produtosRepository.deleteById(produto.getProduto_id());
+        String produtosemquantidade = "Não a quantidade suficiente do produto";
+        return ResponseEntity.badRequest().body(produtosemquantidade);
+      }
+      return ResponseEntity.ok(produtosAdicionados);
+    }
+    String clienteNaoEncontrado = "Não existe um cliente com esse ID!";
+    return ResponseEntity.badRequest().body(clienteNaoEncontrado);
+  }
+
 }

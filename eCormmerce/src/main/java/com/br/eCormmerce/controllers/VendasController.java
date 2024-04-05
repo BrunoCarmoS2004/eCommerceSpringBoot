@@ -30,4 +30,5 @@ public class VendasController {
   public ResponseEntity<Object> vendedorDestaque(){
     return vendasServices.vendedorDestaque();
   }
+  
 }

@@ -16,8 +16,15 @@ public class Cliente extends Pessoa{
     private Long id;
     @OneToMany(mappedBy = "clienteId", fetch = FetchType.LAZY)
     private List<Avaliacao> avaliacoes;
+
     @OneToMany(mappedBy = "clienteId", fetch = FetchType.LAZY)
     private List<Vendas> compras;
+    
+    @OneToMany(mappedBy = "clienteId", fetch = FetchType.LAZY)
+    private List<Produtos> carrinho;
+    
+    private Double total;
+
     
     public Cliente(String nome, String cpf, double saldo) {
         super(nome, cpf, saldo);
@@ -45,5 +52,25 @@ public class Cliente extends Pessoa{
     }
     public void setCompras(List<Vendas> compras) {
         this.compras = compras;
+    }
+    public List<Produtos> getCarrinho() {
+        return carrinho;
+    }
+    public void setCarrinho(Produtos carrinho) {
+        this.carrinho.add(carrinho);
+    }
+    public void setCarrinho(List<Produtos> carrinho) {
+        this.carrinho = carrinho;
+    }
+
+    public void removerProdutoCarrinho(Produtos produto){
+        this.carrinho.remove(produto);
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+    public void setTotal(Double total) {
+        this.total = total;
     }
 }

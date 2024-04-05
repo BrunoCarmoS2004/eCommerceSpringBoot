@@ -19,8 +19,11 @@ import com.br.eCormmerce.models.Avaliacao;
 import com.br.eCormmerce.models.Cliente;
 import com.br.eCormmerce.service.AvaliacaoService;
 import com.br.eCormmerce.service.ClienteService;
+import com.br.eCormmerce.service.VendasServices;
 
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/cliente")
@@ -29,6 +32,8 @@ public class ClienteController {
     private ClienteService clienteService;
     @Autowired
     private AvaliacaoService avaliacaoService;
+    @Autowired
+    private VendasServices vendasServices;
 
     @GetMapping
     public List<Cliente> listarClientes(){
@@ -71,5 +76,17 @@ public class ClienteController {
     public ResponseEntity<Object> deletarAvaliacao(@PathVariable Long id){
         return avaliacaoService.deletarAvaliacao(id);
     }
+
+    @GetMapping("/carrinho")
+    public String getMethodName(@RequestParam String param) {
+        return new String();
+    }
+/*
+    @PostMapping("/carrinho/{id}/comprar/produtos")
+    public ResponseEntity<?> comprarTodosProdutos(@PathVariable Long id){
+        return vendasServices.comprarTodosProdutos(id);
+    }
+   */  
+    
 
 }

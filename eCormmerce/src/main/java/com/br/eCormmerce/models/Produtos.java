@@ -25,12 +25,13 @@ public class Produtos {
     private int produto_qtd_vendas;
     private Long vendedorId;
     private Long categoriaId;
+    private List<Long> clienteId;
     private String categoriaNome;
 
     @OneToMany(mappedBy = "produtosId", fetch = FetchType.LAZY)
     private List<Avaliacao>avaliacao;
-    /*@OneToMany(mappedBy = "produtosId", fetch =  FetchType.LAZY)
-    private List<Vendas>vendas;*/
+    
+    
 
 
     public Produtos(String produto_titulo, double produto_preco, int produto_quantidade, String produto_descricao,
@@ -112,17 +113,6 @@ public class Produtos {
         this.produto_qtd_vendas = produto_qtd_vendas;
     }
 
-
-    public Long getVendedor_id() {
-        return vendedorId;
-    }
-
-
-    public void setVendedor_id(Long vendedorId) {
-        this.vendedorId = vendedorId;
-    }
-
-
     public Long getCategoria_id() {
         return categoriaId;
     }
@@ -168,6 +158,10 @@ public class Produtos {
 
     public void setCategoriaNome(String categoriaNome) {
         this.categoriaNome = categoriaNome;
+    }
+
+    public void setClienteId(Long clienteId) {
+        this.clienteId.add(clienteId);
     }
 
 }

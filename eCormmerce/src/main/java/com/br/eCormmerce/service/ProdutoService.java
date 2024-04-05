@@ -41,7 +41,7 @@ public class ProdutoService {
   }
 
   public ResponseEntity<Object>criarProduto(Produtos produtos){
-    if (vendedorRepository.existsById(produtos.getVendedor_id())) {
+    if (vendedorRepository.existsById(produtos.getVendedorId())) {
       if (categoriaRepository.existsById(produtos.getCategoria_id())){
         Optional<Categoria> categoriaOptional = categoriaRepository.findById(produtos.getCategoria_id());
         Categoria categoria = categoriaOptional.get();
