@@ -3,6 +3,8 @@ package com.br.eCormmerce.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,14 +16,14 @@ import com.br.eCormmerce.service.VendasServices;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/vendas")
+@RequestMapping("/produto")
 public class VendasController {
   @Autowired
   private VendasServices vendasServices;
 
-  @PostMapping("/comprar")
-  public ResponseEntity<Object>criarVenda(@Valid @RequestBody Vendas venda){
-    return vendasServices.criarVendas(venda);
+  @PatchMapping("/comprar/{id}")
+  public ResponseEntity<Object>criarVenda(@PathVariable Long id, @Valid @RequestBody Vendas venda){
+    return vendasServices.criarVendas(venda, id);
   }
 
   @GetMapping("/vendedorDestaque")

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.br.eCormmerce.models.Produtos;
 import com.br.eCormmerce.service.BuscaService;
 @RestController
-@RequestMapping("/busca")
+@RequestMapping("/buscar")
 public class BuscaController {
     @Autowired BuscaService buscaService;
 

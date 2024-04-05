@@ -85,7 +85,7 @@ public class AdminController {
 
     @PutMapping("/venda/atualizar/{id}")
     public ResponseEntity<Object>atualizarVenda(@PathVariable Long id, Vendas venda){
-        return vendasServices.criarVendas(venda);
+        return vendasServices.atualizarVendas(id, venda);
     }
     
     @DeleteMapping("/venda/deletar/{id}")

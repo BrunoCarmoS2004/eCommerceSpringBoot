@@ -32,7 +32,8 @@ public class VendasServices {
     return vendasRepository.findAll();
   }
 
-  public ResponseEntity<Object>criarVendas(Vendas venda){
+  public ResponseEntity<Object>criarVendas(Vendas venda, Long id){
+    venda.setProdutos_id(id);
     if (clienteRepository.existsById(venda.getCliente_id())){
       if (vendedorRepository.existsById(venda.getVendedor_id())){
         if (produtosRepository.existsById(venda.getProduto_id())){
