@@ -50,12 +50,12 @@ public class AvaliacaoService {
 
 
   public ResponseEntity<Object>validacaoAvaliacao(Long id, Avaliacao avaliacao){
-    if (clienteRepository.existsById(avaliacao.getCliente_id())){
-      if (produtosRepository.existsById(avaliacao.getProdutos_id())){
-        Optional<Vendas> vendaOptional = vendasRepository.findByProdutosId(avaliacao.getProdutos_id());
+    if (clienteRepository.existsById(avaliacao.getClienteId())){
+      if (produtosRepository.existsById(avaliacao.getProdutosId())){
+        Optional<Vendas> vendaOptional = vendasRepository.findByProdutosId(avaliacao.getProdutosId());
         if (vendaOptional.isPresent()) {
           Vendas vendas = vendaOptional.get();
-          if (vendas.getCliente_id() == avaliacao.getCliente_id()){
+          if (vendas.getClienteId() == avaliacao.getClienteId()){
             if (id == null) {
               return ResponseEntity.ok(avaliacaoRepository.save(avaliacao));
             }else{

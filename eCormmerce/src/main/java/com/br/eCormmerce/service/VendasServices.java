@@ -33,16 +33,15 @@ public class VendasServices {
     return vendasRepository.findAll();
   }
 
-  public ResponseEntity<Object>criarVendas(Vendas venda, Long id){
-    venda.setProdutos_id(id);
-    if (clienteRepository.existsById(venda.getCliente_id())){
-      if (vendedorRepository.existsById(venda.getVendedor_id())){
-        if (produtosRepository.existsById(venda.getProduto_id())){
-          Optional<Cliente> opCliente = clienteRepository.findById(venda.getCliente_id());
+  public ResponseEntity<Object>criarVendas(Vendas venda){
+    if (clienteRepository.existsById(venda.getClienteId())){
+      if (vendedorRepository.existsById(venda.getVendedorId())){
+        if (produtosRepository.existsById(venda.getProdutosId())){
+          Optional<Cliente> opCliente = clienteRepository.findById(venda.getClienteId());
           Cliente cliente = opCliente.get();
-          Optional<Vendedor> opVendedor = vendedorRepository.findById(venda.getVendedor_id());
+          Optional<Vendedor> opVendedor = vendedorRepository.findById(venda.getVendedorId());
           Vendedor vendedor = opVendedor.get();
-          Optional<Produtos> opProduto = produtosRepository.findById(venda.getProduto_id());
+          Optional<Produtos> opProduto = produtosRepository.findById(venda.getProdutosId());
           Produtos produto = opProduto.get();
           if (produto.getProduto_quantidade() - 1 >= 0){
             if (cliente.getSaldo() - produto.getProduto_preco() >= 0){
@@ -73,9 +72,9 @@ public class VendasServices {
   public ResponseEntity<Object>atualizarVendas(Long id, Vendas venda){
     //Fazer "Reibolso" para quando trocar o cliente ou vendedor devolver o dinheiro e fazer os tratamentos para o vendedor, fazer isso depois da entrega do trabalho
     if (vendasRepository.existsById(id)){
-      if (clienteRepository.existsById(venda.getCliente_id())){
-        if (vendedorRepository.existsById(venda.getVendedor_id())){
-          if (produtosRepository.existsById(venda.getProduto_id())){
+      if (clienteRepository.existsById(venda.getClienteId())){
+        if (vendedorRepository.existsById(venda.getVendedorId())){
+          if (produtosRepository.existsById(venda.getProdutosId())){
             
             venda.setVendas_id(id);
             return ResponseEntity.ok(vendasRepository.save(venda));
@@ -108,7 +107,7 @@ public class VendasServices {
     return ResponseEntity.ok(vendedor);
   }
 
-  
+  /* 
   public ResponseEntity<?>comprarTodosProdutos(Long cliente_id){
     List<Produtos> produtosAdicionados = new ArrayList<>();
     if (clienteRepository.existsById(cliente_id)) {
@@ -143,5 +142,5 @@ public class VendasServices {
     String clienteNaoEncontrado = "Não existe um cliente com esse ID!";
     return ResponseEntity.badRequest().body(clienteNaoEncontrado);
   }
-
+*/
 }

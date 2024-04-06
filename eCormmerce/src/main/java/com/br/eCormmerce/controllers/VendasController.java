@@ -21,9 +21,9 @@ public class VendasController {
   @Autowired
   private VendasServices vendasServices;
 
-  @PatchMapping("/comprar/{id}")
-  public ResponseEntity<Object>criarVenda(@PathVariable Long id, @Valid @RequestBody Vendas venda){
-    return vendasServices.criarVendas(venda, id);
+  @PatchMapping("/comprar")
+  public ResponseEntity<Object>criarVenda(@Valid @RequestBody Vendas venda){
+    return vendasServices.criarVendas(venda);
   }
 
   @GetMapping("/vendedorDestaque")

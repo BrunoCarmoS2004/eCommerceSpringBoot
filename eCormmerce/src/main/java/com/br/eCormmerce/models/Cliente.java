@@ -8,7 +8,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Cliente extends Pessoa{
     @Id
@@ -31,46 +37,5 @@ public class Cliente extends Pessoa{
     }
     public Cliente(String nome, String cpf) {
         super(nome, cpf);
-    }
-    public Cliente(){
-    }
-
-    public Long getId() {
-        return id;
-    }
-    public List<Avaliacao> getAvaliacoes() {
-        return avaliacoes;
-    }
-    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
-        this.avaliacoes = avaliacoes;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public List<Vendas> getCompras() {
-        return compras;
-    }
-    public void setCompras(List<Vendas> compras) {
-        this.compras = compras;
-    }
-    public List<Produtos> getCarrinho() {
-        return carrinho;
-    }
-    public void setCarrinho(Produtos carrinho) {
-        this.carrinho.add(carrinho);
-    }
-    public void setCarrinho(List<Produtos> carrinho) {
-        this.carrinho = carrinho;
-    }
-
-    public void removerProdutoCarrinho(Produtos produto){
-        this.carrinho.remove(produto);
-    }
-
-    public Double getTotal() {
-        return total;
-    }
-    public void setTotal(Double total) {
-        this.total = total;
     }
 }

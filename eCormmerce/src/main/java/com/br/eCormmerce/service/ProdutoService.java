@@ -42,8 +42,8 @@ public class ProdutoService {
 
   public ResponseEntity<Object>criarProduto(Produtos produtos){
     if (vendedorRepository.existsById(produtos.getVendedorId())) {
-      if (categoriaRepository.existsById(produtos.getCategoria_id())){
-        Optional<Categoria> categoriaOptional = categoriaRepository.findById(produtos.getCategoria_id());
+      if (categoriaRepository.existsById(produtos.getCategoriaId())){
+        Optional<Categoria> categoriaOptional = categoriaRepository.findById(produtos.getCategoriaId());
         Categoria categoria = categoriaOptional.get();
         produtos.setCategoriaNome(categoria.getCategoria_nome());
         return ResponseEntity.ok(produtosRepository.save(produtos));

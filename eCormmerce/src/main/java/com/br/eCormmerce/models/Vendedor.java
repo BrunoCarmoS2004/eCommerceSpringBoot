@@ -8,8 +8,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Vendedor extends Pessoa{
     @Id
@@ -28,28 +33,4 @@ public class Vendedor extends Pessoa{
         super(nome, cpf);
     }
 
-    public Vendedor(){
-    }
-
-    public Long getId() {
-        return id;
-    }
-    public List<Produtos> getProdutos() {
-        return produtos;
-    }
-    public void setProdutos(List<Produtos> produtos) {
-        this.produtos = produtos;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public List<Vendas> getVendas() {
-        return vendas;
-    }
-
-    public void setVendas(List<Vendas> vendas) {
-        this.vendas = vendas;
-    }
 }
