@@ -50,6 +50,7 @@ public class AdminController {
     public ResponseEntity<Object>deletarAdmin(@PathVariable Long id){
         return adminService.deletarUsuario(id);
     }
+    //
 
     //CRIAR CATEGORIA
     @GetMapping("/categorias")
