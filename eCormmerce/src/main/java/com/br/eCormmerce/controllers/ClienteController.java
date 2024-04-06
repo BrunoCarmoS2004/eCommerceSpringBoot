@@ -76,17 +76,6 @@ public class ClienteController {
     public ResponseEntity<Object> deletarAvaliacao(@PathVariable Long id){
         return avaliacaoService.deletarAvaliacao(id);
     }
-
-    @GetMapping("/carrinho")
-    public String getMethodName(@RequestParam String param) {
-        return new String();
-    }
-/*
-    @PostMapping("/carrinho/{id}/comprar/produtos")
-    public ResponseEntity<?> comprarTodosProdutos(@PathVariable Long id){
-        return vendasServices.comprarTodosProdutos(id);
-    }
-   */  
     
 
 }

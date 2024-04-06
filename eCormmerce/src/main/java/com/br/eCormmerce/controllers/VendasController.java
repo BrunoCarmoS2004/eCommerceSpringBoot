@@ -21,7 +21,7 @@ public class VendasController {
   @Autowired
   private VendasServices vendasServices;
 
-  @PatchMapping("/comprar")
+  @PostMapping("/comprar")
   public ResponseEntity<Object>criarVenda(@Valid @RequestBody Vendas venda){
     return vendasServices.criarVendas(venda);
   }
