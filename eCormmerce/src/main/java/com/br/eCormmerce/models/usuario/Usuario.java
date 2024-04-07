@@ -29,6 +29,13 @@ public class Usuario extends Pessoa implements UserDetails {
   private String password;
   private UserRole role;
 
+  public Usuario(String email, String password, String nome, String cpf, UserRole role){
+    super(nome, cpf);
+    this.email = email;
+    this.password = password;
+    this.role = role;
+  }
+
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     if (this.role == UserRole.ADMIN) {
