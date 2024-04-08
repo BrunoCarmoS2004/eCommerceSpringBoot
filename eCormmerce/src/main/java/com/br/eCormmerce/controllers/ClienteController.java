@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.br.eCormmerce.Infra.Security.TokenService;
 import com.br.eCormmerce.models.Avaliacao;
 import com.br.eCormmerce.models.Cliente;
 import com.br.eCormmerce.service.AvaliacaoService;
@@ -29,13 +32,17 @@ public class ClienteController {
     private ClienteService clienteService;
     @Autowired
     private AvaliacaoService avaliacaoService;
+    @Autowired
+    private TokenService tokenService;
 
     @GetMapping
     public List<Cliente> listarClientes(){
+        /*SecurityContextHolder.getContext().getAuthentication().getPrincipal();*/
         return clienteService.listarUsuario();
     }
     @PostMapping("/criar")
     public ResponseEntity<Object> criarCliente(@Valid @RequestBody Cliente cliente){
+        SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return clienteService.criarUsuario(cliente);
     }
     @PutMapping("/atualizar/{id}")
