@@ -42,7 +42,6 @@ public class ClienteController {
     }
     @PostMapping("/criar")
     public ResponseEntity<Object> criarCliente(@Valid @RequestBody Cliente cliente){
-        SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return clienteService.criarUsuario(cliente);
     }
     @PutMapping("/atualizar/{id}")

@@ -7,6 +7,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,11 +30,12 @@ public class Produtos {
     private Long vendedorId;
     private Long categoriaId;
     private String categoriaNome;
-    
-    private List<Long> clienteId;
+
 
     @OneToMany(mappedBy = "produtosId", fetch = FetchType.LAZY)
     private List<Avaliacao>avaliacao;
+    @ManyToOne
+    private Carrinho carrinho;
     
 
     public Produtos(String produto_titulo, double produto_preco, int produto_quantidade, String produto_descricao,

@@ -8,9 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.br.eCormmerce.models.Admin;
+import com.br.eCormmerce.models.Carrinho;
 import com.br.eCormmerce.models.Cliente;
 import com.br.eCormmerce.models.Vendedor;
 import com.br.eCormmerce.repositorys.AdminRepository;
+import com.br.eCormmerce.repositorys.CarrinhoRepository;
 import com.br.eCormmerce.repositorys.ClienteRepository;
 import com.br.eCormmerce.repositorys.VendedorRepository;
 
@@ -23,6 +25,8 @@ public class ClienteService implements PessoaService<Cliente>{
     private AdminRepository adminRepository;
     @Autowired
     private VendedorRepository vendedorRepository;
+    @Autowired 
+    private CarrinhoRepository carrinhoRepository;
 
     @Override
     public List<Cliente> listarUsuario(){
@@ -34,6 +38,8 @@ public class ClienteService implements PessoaService<Cliente>{
             Optional<Admin> adminOptional = adminRepository.findByCpf(cliente.getCpf());
             Admin admin = adminOptional.get();
             if (admin.getNome().equals(cliente.getNome())) {
+                Carrinho carrinho = new Carrinho(cliente);
+                carrinhoRepository.save(carrinho);
                 return ResponseEntity.ok(clienteRepository.save(cliente));
             }
             String cpfJaEmUso = "CPF informado já esta em uso";
@@ -48,7 +54,10 @@ public class ClienteService implements PessoaService<Cliente>{
             String cpfJaEmUso = "CPF informado já esta em uso";
             return ResponseEntity.badRequest().body(cpfJaEmUso);
         }else{
-            return ResponseEntity.ok(clienteRepository.save(cliente)); 
+            clienteRepository.save(cliente);
+            Carrinho carrinho = new Carrinho(cliente);
+            carrinhoRepository.save(carrinho);
+            return ResponseEntity.ok(cliente); 
         }
     }
     @Override
