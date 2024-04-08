@@ -1,6 +1,5 @@
 package com.br.eCormmerce.service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.br.eCormmerce.models.Categoria;
 import com.br.eCormmerce.models.Produtos;
-import com.br.eCormmerce.models.Vendedor;
 import com.br.eCormmerce.repositorys.CategoriaRepository;
 import com.br.eCormmerce.repositorys.ProdutosRepository;
 import com.br.eCormmerce.repositorys.VendedorRepository;

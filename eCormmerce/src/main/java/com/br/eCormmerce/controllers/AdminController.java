@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.br.eCormmerce.models.Admin;
 import com.br.eCormmerce.models.Categoria;
 import com.br.eCormmerce.models.Vendas;
-import com.br.eCormmerce.repositorys.CategoriaRepository;
 import com.br.eCormmerce.service.AdminService;
 import com.br.eCormmerce.service.CategoriaService;
 import com.br.eCormmerce.service.VendasServices;

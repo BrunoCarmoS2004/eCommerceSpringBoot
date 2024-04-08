@@ -12,7 +12,6 @@ import com.br.eCormmerce.models.Admin;
 import com.br.eCormmerce.models.Cliente;
 import com.br.eCormmerce.models.Vendedor;
 import com.br.eCormmerce.repositorys.AdminRepository;
-import com.br.eCormmerce.repositorys.CategoriaRepository;
 import com.br.eCormmerce.repositorys.ClienteRepository;
 import com.br.eCormmerce.repositorys.VendedorRepository;
 
@@ -20,8 +19,6 @@ import com.br.eCormmerce.repositorys.VendedorRepository;
 public class AdminService implements PessoaService<Admin>{
     @Autowired
     private AdminRepository adminRepository;
-    @Autowired
-    private CategoriaRepository categoriaRepository;
     @Autowired
     private ClienteRepository clienteRepository;
     @Autowired

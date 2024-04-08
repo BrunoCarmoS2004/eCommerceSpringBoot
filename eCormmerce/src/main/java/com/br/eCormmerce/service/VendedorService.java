@@ -12,7 +12,6 @@ import com.br.eCormmerce.models.Cliente;
 import com.br.eCormmerce.models.Vendedor;
 import com.br.eCormmerce.repositorys.AdminRepository;
 import com.br.eCormmerce.repositorys.ClienteRepository;
-import com.br.eCormmerce.repositorys.ProdutosRepository;
 import com.br.eCormmerce.repositorys.VendedorRepository;
 
 @Service

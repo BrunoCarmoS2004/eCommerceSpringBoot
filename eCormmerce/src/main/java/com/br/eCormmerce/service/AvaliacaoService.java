@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.br.eCormmerce.models.Admin;
 import com.br.eCormmerce.models.Avaliacao;
 import com.br.eCormmerce.models.Vendas;
 import com.br.eCormmerce.repositorys.AvaliacaoRepository;

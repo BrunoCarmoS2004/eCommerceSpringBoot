@@ -41,7 +41,9 @@ public class Usuario extends Pessoa implements UserDetails {
     if (this.role == UserRole.ADMIN) {
       return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_CLIENTE"),new SimpleGrantedAuthority("ROLE_VENDEDOR"));
     }
-    else{
+    else if (this.role == UserRole.VENDEDOR){
+      return List.of(new SimpleGrantedAuthority("ROLE_VENDEDOR"));
+    }else{
       return List.of(new SimpleGrantedAuthority("ROLE_CLIENTE"));
     }
   }

@@ -1,14 +1,11 @@
 package com.br.eCormmerce.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.br.eCormmerce.models.Admin;
 import com.br.eCormmerce.models.Categoria;
 import com.br.eCormmerce.repositorys.AdminRepository;
 import com.br.eCormmerce.repositorys.CategoriaRepository;
@@ -53,16 +50,6 @@ public class CategoriaService {
 
   //CATEGORIA POR ADMIN
   public List<Categoria>listarCategoriaPorAdmin(Long id){
-    /*Optional<Admin> adminOptional = adminRepository.findById(id);
-  //if (adminOptional.isPresent()) {
-    Admin admin = adminOptional.get();
-    List<Categoria> categorias = categoriaRepository.findByAdminid(admin);
-    return categorias;
-  //} else {
-    
-  //}
-    
-   */
     List<Categoria> categorias = categoriaRepository.findByAdminid(id);
     return categorias;
   }

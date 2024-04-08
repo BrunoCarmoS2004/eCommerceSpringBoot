@@ -1,7 +1,5 @@
 package com.br.eCormmerce.models;
 
-import org.hibernate.validator.constraints.UniqueElements;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotBlank;

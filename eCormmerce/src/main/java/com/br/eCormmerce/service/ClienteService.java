@@ -9,24 +9,15 @@ import org.springframework.stereotype.Service;
 
 import com.br.eCormmerce.models.Admin;
 import com.br.eCormmerce.models.Cliente;
-import com.br.eCormmerce.models.Produtos;
 import com.br.eCormmerce.models.Vendedor;
 import com.br.eCormmerce.repositorys.AdminRepository;
-import com.br.eCormmerce.repositorys.AvaliacaoRepository;
 import com.br.eCormmerce.repositorys.ClienteRepository;
-import com.br.eCormmerce.repositorys.ProdutosRepository;
 import com.br.eCormmerce.repositorys.VendedorRepository;
 
 @Service
 public class ClienteService implements PessoaService<Cliente>{
     @Autowired
     private ClienteRepository clienteRepository;
-
-    @Autowired
-    private ProdutosRepository produtosRepository;
-
-    @Autowired
-    private AvaliacaoRepository avaliacaoRepository;
 
     @Autowired
     private AdminRepository adminRepository;

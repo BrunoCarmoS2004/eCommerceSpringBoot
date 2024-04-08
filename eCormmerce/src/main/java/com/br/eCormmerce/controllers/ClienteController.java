@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,10 +18,8 @@ import com.br.eCormmerce.models.Avaliacao;
 import com.br.eCormmerce.models.Cliente;
 import com.br.eCormmerce.service.AvaliacaoService;
 import com.br.eCormmerce.service.ClienteService;
-import com.br.eCormmerce.service.VendasServices;
 
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -32,8 +29,6 @@ public class ClienteController {
     private ClienteService clienteService;
     @Autowired
     private AvaliacaoService avaliacaoService;
-    @Autowired
-    private VendasServices vendasServices;
 
     @GetMapping
     public List<Cliente> listarClientes(){
