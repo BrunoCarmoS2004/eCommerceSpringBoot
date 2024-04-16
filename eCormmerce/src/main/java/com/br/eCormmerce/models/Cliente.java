@@ -1,5 +1,6 @@
 package com.br.eCormmerce.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -8,6 +9,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
@@ -27,12 +29,19 @@ public class Cliente extends Pessoa{
 
     @OneToOne(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Carrinho carrinho;
-    
-    private Double total;
 
+    @OneToMany(mappedBy = "clienteId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Vendas> vendas;
+
+    private Long enderecoId;
     
-    public Cliente(String nome, String cpf, double saldo) {
-        super(nome, cpf, saldo);
+    @ManyToMany
+    private List<Endereco> enderecos = new ArrayList<>();
+    
+
+    public Cliente(String nome, String cpf, double saldo, String cep, String rua, Long enderecoId) {
+        super(nome, cpf, saldo,rua,cep);
+        this.enderecoId = enderecoId;
     }
     public Cliente(String nome, String cpf) {
         super(nome, cpf);

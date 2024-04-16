@@ -1,5 +1,6 @@
 package com.br.eCormmerce.models.usuario;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -7,12 +8,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.br.eCormmerce.models.Endereco;
 import com.br.eCormmerce.models.Pessoa;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,12 +31,17 @@ public class Usuario extends Pessoa implements UserDetails {
   private String email;
   private String password;
   private UserRole role;
+  private Long enderecoId;
+    
+  @ManyToMany
+  private List<Endereco> enderecos = new ArrayList<>();
 
-  public Usuario(String email, String password, String nome, String cpf, UserRole role){
-    super(nome, cpf);
+  public Usuario(String email, String password, String nome, String cpf, UserRole role, double saldo, String cep, String rua, Long enderecoId){
+    super(nome, cpf, saldo,rua,cep);
     this.email = email;
     this.password = password;
     this.role = role;
+    this.enderecoId = enderecoId;
   }
 
   @Override

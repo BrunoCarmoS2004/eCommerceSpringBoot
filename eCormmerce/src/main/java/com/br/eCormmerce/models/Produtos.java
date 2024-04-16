@@ -34,8 +34,8 @@ public class Produtos {
 
     @OneToMany(mappedBy = "produtosId", fetch = FetchType.LAZY)
     private List<Avaliacao>avaliacao;
-    @ManyToOne
-    private Carrinho carrinho;
+    //@ManyToOne
+    //private Carrinho carrinho;
     
 
     public Produtos(String produto_titulo, double produto_preco, int produto_quantidade, String produto_descricao,

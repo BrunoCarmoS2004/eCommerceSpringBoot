@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.br.eCormmerce.models.Admin;
 import com.br.eCormmerce.models.Categoria;
+import com.br.eCormmerce.models.Endereco;
 import com.br.eCormmerce.models.Vendas;
 import com.br.eCormmerce.service.AdminService;
 import com.br.eCormmerce.service.CategoriaService;
+import com.br.eCormmerce.service.EnderecoService;
 import com.br.eCormmerce.service.VendasServices;
 
 import jakarta.validation.Valid;
@@ -31,6 +33,8 @@ public class AdminController {
     private CategoriaService categoriaService;
     @Autowired
     private VendasServices vendasServices;
+    @Autowired
+    private EnderecoService enderecoService;
     
     //CRIAR ADMIN
     @GetMapping
@@ -93,4 +97,25 @@ public class AdminController {
         return vendasServices.deletarVendas(id);
     }    
 
+    //Endereco
+    @GetMapping("/enderecos")
+    public List<Endereco>listarTodosEnderecos(){
+        return enderecoService.listarEnderecos();
+    }
+
+    @PostMapping("/endereco/criar")
+    public ResponseEntity<Object> criarEnderecos(@Valid @RequestBody Endereco categoria){
+        return enderecoService.criarEnderecos(categoria);
+    }
+
+    @PutMapping("/endereco/atualizar/{id}")
+    public ResponseEntity<Object> atualizarEnderecos(@PathVariable Long id, @Valid @RequestBody Endereco categoria){
+        return enderecoService.atualizarEnderecos(id, categoria);
+    }
+
+    @DeleteMapping("/endereco/deletar/{id}")  
+    public ResponseEntity<Object> deletarEnderecos(@PathVariable Long id){
+        return enderecoService.deletarEnderecos(id);
+    }
+    
 }

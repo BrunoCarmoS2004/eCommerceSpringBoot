@@ -34,8 +34,8 @@ public ResponseEntity<Object> UsuarioRegister(RegisterDTO usuario){
     return ResponseEntity.badRequest().build();
   }
   String encryptedPassword = new BCryptPasswordEncoder().encode(usuario.password());
-  Usuario novoUsuario = new Usuario(usuario.email(), encryptedPassword, usuario.nome(), usuario.cpf(), usuario.role());
-  this.usuarioRepository.save(novoUsuario);
+  Usuario novoUsuario = new Usuario(usuario.email(), encryptedPassword, usuario.nome(), usuario.cpf(), usuario.role(), usuario.saldo(), usuario.cep(), usuario.rua(), usuario.enderecoId());
+  usuarioRepository.save(novoUsuario);
   return ResponseEntity.ok(novoUsuario);
 }
 }

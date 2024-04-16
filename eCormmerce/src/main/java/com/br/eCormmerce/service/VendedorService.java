@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.br.eCormmerce.models.Admin;
 import com.br.eCormmerce.models.Cliente;
+import com.br.eCormmerce.models.Endereco;
 import com.br.eCormmerce.models.Vendedor;
 import com.br.eCormmerce.repositorys.AdminRepository;
 import com.br.eCormmerce.repositorys.ClienteRepository;
+import com.br.eCormmerce.repositorys.EnderecoRespository;
 import com.br.eCormmerce.repositorys.VendedorRepository;
 
 @Service
@@ -22,32 +24,43 @@ public class VendedorService implements PessoaService<Vendedor>{
     private VendedorRepository vendedorRepository;
     @Autowired
     private ClienteRepository clienteRepository;
+    @Autowired
+    private EnderecoRespository enderecoRespository;
     @Override
     public List<Vendedor>listarUsuario(){
         return vendedorRepository.findAll();
     } 
     @Override
     public ResponseEntity<Object>criarUsuario(Vendedor vendedor){
-        if (adminRepository.existsByCpf(vendedor.getCpf())) {
-            Optional<Admin> adminOptional = adminRepository.findByCpf(vendedor.getCpf());
-            Admin admin = adminOptional.get();
-            if (admin.getNome().equals(vendedor.getNome())) {
-                return ResponseEntity.ok(vendedorRepository.save(vendedor));
+        if (enderecoRespository.existsById(vendedor.getEnderecoId())) {
+            Optional<Endereco> enderecoOptional = enderecoRespository.findById(vendedor.getEnderecoId());
+            Endereco endereco = enderecoOptional.get();
+            if (adminRepository.existsByCpf(vendedor.getCpf())) {
+                Optional<Admin> adminOptional = adminRepository.findByCpf(vendedor.getCpf());
+                Admin admin = adminOptional.get();
+                if (admin.getNome().equals(vendedor.getNome())) {
+                    vendedor.getEnderecos().add(endereco);
+                    return ResponseEntity.ok(vendedorRepository.save(vendedor));
+                }
+                String cpfJaEmUso = "CPF informado já esta em uso";
+                return ResponseEntity.badRequest().body(cpfJaEmUso);
             }
-            String cpfJaEmUso = "CPF informado já esta em uso";
-            return ResponseEntity.badRequest().body(cpfJaEmUso);
-        }
-        if (clienteRepository.existsByCpf(vendedor.getCpf())) {
-            Optional<Cliente> clienteOptional = clienteRepository.findByCpf(vendedor.getCpf());
-            Cliente cliente = clienteOptional.get();
-            if (cliente.getNome().equals(vendedor.getNome())) {
+            if (clienteRepository.existsByCpf(vendedor.getCpf())) {
+                Optional<Cliente> clienteOptional = clienteRepository.findByCpf(vendedor.getCpf());
+                Cliente cliente = clienteOptional.get();
+                if (cliente.getNome().equals(vendedor.getNome())) {
+                    vendedor.getEnderecos().add(endereco);
+                    return ResponseEntity.ok(vendedorRepository.save(vendedor)); 
+                }
+                String cpfJaEmUso = "CPF informado já esta em uso";
+                return ResponseEntity.badRequest().body(cpfJaEmUso);
+            }else{
+                vendedor.getEnderecos().add(endereco);
                 return ResponseEntity.ok(vendedorRepository.save(vendedor)); 
             }
-            String cpfJaEmUso = "CPF informado já esta em uso";
-            return ResponseEntity.badRequest().body(cpfJaEmUso);
-        }else{
-            return ResponseEntity.ok(vendedorRepository.save(vendedor)); 
         }
+        String enderecoNaoEncontrado = "Endereço nao encontrado";
+        return ResponseEntity.badRequest().body(enderecoNaoEncontrado);
     }
     @Override
     public ResponseEntity<Object>atualizarUsuario(Long id, Vendedor vendedor){

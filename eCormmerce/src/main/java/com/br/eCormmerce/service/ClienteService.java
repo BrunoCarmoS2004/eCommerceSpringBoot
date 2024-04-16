@@ -10,10 +10,14 @@ import org.springframework.stereotype.Service;
 import com.br.eCormmerce.models.Admin;
 import com.br.eCormmerce.models.Carrinho;
 import com.br.eCormmerce.models.Cliente;
+import com.br.eCormmerce.models.Endereco;
+import com.br.eCormmerce.models.Produtos;
 import com.br.eCormmerce.models.Vendedor;
 import com.br.eCormmerce.repositorys.AdminRepository;
 import com.br.eCormmerce.repositorys.CarrinhoRepository;
 import com.br.eCormmerce.repositorys.ClienteRepository;
+import com.br.eCormmerce.repositorys.EnderecoRespository;
+import com.br.eCormmerce.repositorys.ProdutosRepository;
 import com.br.eCormmerce.repositorys.VendedorRepository;
 
 @Service
@@ -27,6 +31,8 @@ public class ClienteService implements PessoaService<Cliente>{
     private VendedorRepository vendedorRepository;
     @Autowired 
     private CarrinhoRepository carrinhoRepository;
+    @Autowired
+    private EnderecoRespository enderecoRespository;
 
     @Override
     public List<Cliente> listarUsuario(){
@@ -34,31 +40,40 @@ public class ClienteService implements PessoaService<Cliente>{
     }
     @Override
     public ResponseEntity<Object> criarUsuario(Cliente cliente){
-        if (adminRepository.existsByCpf(cliente.getCpf())) {
-            Optional<Admin> adminOptional = adminRepository.findByCpf(cliente.getCpf());
-            Admin admin = adminOptional.get();
-            if (admin.getNome().equals(cliente.getNome())) {
+        if (enderecoRespository.existsById(cliente.getEnderecoId())) {
+            Optional<Endereco> enderecoOptional = enderecoRespository.findById(cliente.getEnderecoId());
+            Endereco endereco = enderecoOptional.get();
+            if (adminRepository.existsByCpf(cliente.getCpf())) {
+                Optional<Admin> adminOptional = adminRepository.findByCpf(cliente.getCpf());
+                Admin admin = adminOptional.get();
+                if (admin.getNome().equals(cliente.getNome())) {
+                    Carrinho carrinho = new Carrinho(cliente);
+                    carrinhoRepository.save(carrinho);
+                    cliente.getEnderecos().add(endereco);
+                    return ResponseEntity.ok(clienteRepository.save(cliente));
+                }
+                String cpfJaEmUso = "CPF informado já esta em uso";
+                return ResponseEntity.badRequest().body(cpfJaEmUso);
+            }
+            if (vendedorRepository.existsByCpf(cliente.getCpf())) {
+                Optional<Vendedor> vendedorOptional = vendedorRepository.findByCpf(cliente.getCpf());
+                Vendedor vendedor = vendedorOptional.get();
+                if (vendedor.getNome().equals(cliente.getNome())) {
+                    cliente.getEnderecos().add(endereco);
+                    return ResponseEntity.ok(clienteRepository.save(cliente)); 
+                }
+                String cpfJaEmUso = "CPF informado já esta em uso";
+                return ResponseEntity.badRequest().body(cpfJaEmUso);
+            }else{
+                clienteRepository.save(cliente);
                 Carrinho carrinho = new Carrinho(cliente);
                 carrinhoRepository.save(carrinho);
-                return ResponseEntity.ok(clienteRepository.save(cliente));
+                cliente.getEnderecos().add(endereco);
+                return ResponseEntity.ok(cliente); 
             }
-            String cpfJaEmUso = "CPF informado já esta em uso";
-            return ResponseEntity.badRequest().body(cpfJaEmUso);
         }
-        if (vendedorRepository.existsByCpf(cliente.getCpf())) {
-            Optional<Vendedor> vendedorOptional = vendedorRepository.findByCpf(cliente.getCpf());
-            Vendedor vendedor = vendedorOptional.get();
-            if (vendedor.getNome().equals(cliente.getNome())) {
-                return ResponseEntity.ok(clienteRepository.save(cliente)); 
-            }
-            String cpfJaEmUso = "CPF informado já esta em uso";
-            return ResponseEntity.badRequest().body(cpfJaEmUso);
-        }else{
-            clienteRepository.save(cliente);
-            Carrinho carrinho = new Carrinho(cliente);
-            carrinhoRepository.save(carrinho);
-            return ResponseEntity.ok(cliente); 
-        }
+        String enderecoNaoEncontrado = "Endereço nao encontrado";
+        return ResponseEntity.badRequest().body(enderecoNaoEncontrado);
     }
     @Override
     public ResponseEntity<Object> atualizarUsuario(Long id, Cliente cliente){
@@ -94,24 +109,4 @@ public class ClienteService implements PessoaService<Cliente>{
         String idClienteNaoEncontrado = "Não existe um cliente com esse Id";
         return ResponseEntity.badRequest().body(idClienteNaoEncontrado);
     }
-/* 
-    public ResponseEntity<Object> adicionarProdutoCarrinho(Long produto_id, Long cliente_id){
-        if (produtosRepository.existsById(produto_id)) {
-            if (clienteRepository.existsById(cliente_id)){
-                Optional<Produtos>produtoOptional = produtosRepository.findById(produto_id);
-                Produtos produtos = produtoOptional.get();
-                Optional<Cliente> clienteOptional = clienteRepository.findById(cliente_id);
-                Cliente cliente = clienteOptional.get();
-                cliente.setCarrinho(produtos);
-                produtos.setClienteId(cliente_id);
-                String itemAdicionado = produtos.getProduto_titulo()+" foi adicionado ao carrinho!";
-                return ResponseEntity.ok(itemAdicionado);
-            }
-            String clienteNaoEncontrado = "Não foi encontrado um cliente com esse ID!";
-            return ResponseEntity.ok(clienteNaoEncontrado);
-        }
-        String produtoNaoEncontrado = "Não foi encontrado um produto com esse ID!";
-        return ResponseEntity.ok(produtoNaoEncontrado);
-    }
-*/
 }

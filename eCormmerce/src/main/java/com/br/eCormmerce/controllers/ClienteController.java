@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.br.eCormmerce.Infra.Security.TokenService;
 import com.br.eCormmerce.models.Avaliacao;
+import com.br.eCormmerce.models.Carrinho;
 import com.br.eCormmerce.models.Cliente;
 import com.br.eCormmerce.service.AvaliacaoService;
+import com.br.eCormmerce.service.CarrinhoService;
 import com.br.eCormmerce.service.ClienteService;
 
 import jakarta.validation.Valid;
@@ -34,6 +36,8 @@ public class ClienteController {
     private AvaliacaoService avaliacaoService;
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private CarrinhoService carrinhoService;
 
     @GetMapping
     public List<Cliente> listarClientes(){
@@ -77,6 +81,21 @@ public class ClienteController {
     public ResponseEntity<Object> deletarAvaliacao(@PathVariable Long id){
         return avaliacaoService.deletarAvaliacao(id);
     }
-    
-
+    //CARRINHO
+    @PatchMapping("/carrinho")
+    public ResponseEntity<Object> listarCarrinho(@RequestBody Cliente cliente){
+        return carrinhoService.listarCarrinho(cliente);
+    }
+    @PatchMapping("/carrinho/comprar")
+    public ResponseEntity<Object> comprarTodosItens(@RequestBody Cliente cliente){
+      return carrinhoService.comprarTodosItens(cliente);
+    }
+    @PatchMapping("/carrinho/comprar/{produto_id}")
+    public ResponseEntity<Object> comprarUmItem(@PathVariable   Long produto_id,@RequestBody Cliente cliente){
+      return carrinhoService.comprarUmItem(produto_id, cliente);
+    }
+    @PatchMapping("/carrinho/remover/{produto_id}")
+    public ResponseEntity<Object> removerProdutosCarrinho(@PathVariable   Long produto_id,@RequestBody Cliente cliente){
+      return carrinhoService.removerProdutosCarrinho(produto_id, cliente);
+    }
 }
