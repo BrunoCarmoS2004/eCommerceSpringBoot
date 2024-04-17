@@ -31,7 +31,7 @@ public class VendasController {
   }
   //CARRINHO
   @PatchMapping("/{produto_id}")
-  public ResponseEntity<Object> adicionarProdutoAoCarrinho(@PathVariable Long produto_id, @RequestBody Cliente cliente){
-      return carrinhoService.adicionarProdutoCarrinho(produto_id, cliente);
+  public ResponseEntity<Object> adicionarProdutoAoCarrinho(@PathVariable Long produto_id){
+      return carrinhoService.adicionarProdutoCarrinho(produto_id);
   }
 }

@@ -30,29 +30,27 @@ public class Carrinho {
     private Double total = 0.0;
 
     @OneToOne
-    private Cliente cliente;
-    @OneToOne
     private Usuario usuario;
 
     @ManyToMany(cascade = CascadeType.REMOVE)
     private List<Produtos> produto = new ArrayList<>();
 
-    public Carrinho(Cliente cliente, List<Produtos> produto) {
-        this.cliente = cliente;
+    public Carrinho(Usuario usuario, List<Produtos> produto) {
+        this.usuario = usuario;
         this.produto = produto;
     }
     public Carrinho(List<Produtos> produto) {
         this.produto = produto;
     }
-    public Carrinho(Cliente cliente) {
-        this.cliente = cliente;
+    public Carrinho(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public String getCliente() {
-        return cliente.getNome();
+        return usuario.getNome();
     }
-    public Long getClienteId() {
-        return cliente.getId();
+    public String getClienteId() {
+        return usuario.getId();
     }
 
 }

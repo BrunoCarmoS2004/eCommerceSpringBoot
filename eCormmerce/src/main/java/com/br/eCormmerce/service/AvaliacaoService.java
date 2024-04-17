@@ -13,13 +13,14 @@ import com.br.eCormmerce.repositorys.AvaliacaoRepository;
 import com.br.eCormmerce.repositorys.ClienteRepository;
 import com.br.eCormmerce.repositorys.ProdutosRepository;
 import com.br.eCormmerce.repositorys.VendasRepository;
+import com.br.eCormmerce.repositorys.usuarioRepository.UsuarioRepository;
 
 @Service
 public class AvaliacaoService {
   @Autowired
   private AvaliacaoRepository avaliacaoRepository;
   @Autowired
-  private ClienteRepository clienteRepository;
+  private UsuarioRepository usuarioRepository;
   @Autowired
   private ProdutosRepository produtosRepository;
   @Autowired 
@@ -49,12 +50,12 @@ public class AvaliacaoService {
 
 
   public ResponseEntity<Object>validacaoAvaliacao(Long id, Avaliacao avaliacao){
-    if (clienteRepository.existsById(avaliacao.getClienteId())){
+    if (usuarioRepository.existsById(avaliacao.getUsuarioId())){
       if (produtosRepository.existsById(avaliacao.getProdutosId())){
         Optional<Vendas> vendaOptional = vendasRepository.findByProdutosId(avaliacao.getProdutosId());
         if (vendaOptional.isPresent()) {
           Vendas vendas = vendaOptional.get();
-          if (vendas.getClienteId() == avaliacao.getClienteId()){
+          if (vendas.getUsuarioId() == avaliacao.getUsuarioId()){
             if (id == null) {
               return ResponseEntity.ok(avaliacaoRepository.save(avaliacao));
             }else{

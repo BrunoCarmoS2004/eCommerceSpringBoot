@@ -24,15 +24,15 @@ public class Avaliacao {
 
     private Long produtosId;
    
-    private Long clienteId;
+    private String usuarioId;
 
     public Avaliacao(String avaliaca_titulo, String avaliaca_texto, float avaliaca_estrelas, String avaliaca_imagem,
-            Long produtosId, Long clienteId) {
+            Long produtosId, String usuarioId) {
         this.avaliaca_titulo = avaliaca_titulo;
         this.avaliaca_texto = avaliaca_texto;
         this.avaliaca_estrelas = avaliaca_estrelas;
         this.avaliaca_imagem = avaliaca_imagem;
         this.produtosId = produtosId;
-        this.clienteId = clienteId;
+        this.usuarioId = usuarioId;
     }
 }

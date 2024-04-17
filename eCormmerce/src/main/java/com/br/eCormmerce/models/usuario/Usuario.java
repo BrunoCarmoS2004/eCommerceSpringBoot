@@ -8,9 +8,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.br.eCormmerce.models.Avaliacao;
 import com.br.eCormmerce.models.Carrinho;
 import com.br.eCormmerce.models.Endereco;
 import com.br.eCormmerce.models.Pessoa;
+import com.br.eCormmerce.models.Vendas;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -19,6 +21,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,6 +45,10 @@ public class Usuario extends Pessoa implements UserDetails {
 
   @OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private Carrinho carrinho;
+  @OneToMany(mappedBy = "usuarioId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private List<Vendas> vendas;
+  @OneToMany(mappedBy = "usuarioId", fetch = FetchType.LAZY)
+  private List<Avaliacao> avaliacoes;
 
 
 

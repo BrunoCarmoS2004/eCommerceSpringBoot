@@ -88,19 +88,19 @@ public class ClienteController {
     }
     //CARRINHO
     @PatchMapping("/carrinho")
-    public ResponseEntity<Object> listarCarrinho(@RequestBody Cliente cliente){
-        return carrinhoService.listarCarrinho(cliente);
+    public ResponseEntity<Object> listarCarrinho(){
+        return carrinhoService.listarCarrinho();
     }
     @PatchMapping("/carrinho/comprar")
-    public ResponseEntity<Object> comprarTodosItens(@RequestBody Cliente cliente){
-      return carrinhoService.comprarTodosItens(cliente);
+    public ResponseEntity<Object> comprarTodosItens(){
+      return carrinhoService.comprarTodosItens();
     }
     @PatchMapping("/carrinho/comprar/{produto_id}")
-    public ResponseEntity<Object> comprarUmItem(@PathVariable   Long produto_id,@RequestBody Cliente cliente){
-      return carrinhoService.comprarUmItem(produto_id, cliente);
+    public ResponseEntity<Object> comprarUmItem(@PathVariable Long produto_id){
+      return carrinhoService.comprarUmItem(produto_id);
     }
     @PatchMapping("/carrinho/remover/{produto_id}")
-    public ResponseEntity<Object> removerProdutosCarrinho(@PathVariable   Long produto_id,@RequestBody Cliente cliente){
-      return carrinhoService.removerProdutosCarrinho(produto_id, cliente);
+    public ResponseEntity<Object> removerProdutosCarrinho(@PathVariable Long produto_id){
+      return carrinhoService.removerProdutosCarrinho(produto_id);
     }
 }

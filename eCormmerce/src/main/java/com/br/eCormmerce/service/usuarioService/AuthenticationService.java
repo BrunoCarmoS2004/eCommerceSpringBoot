@@ -13,8 +13,10 @@ import com.br.eCormmerce.Infra.Security.TokenService;
 import com.br.eCormmerce.dto.usuarioDTO.AuthenticationDTO;
 import com.br.eCormmerce.dto.usuarioDTO.LoginResponseDTO;
 import com.br.eCormmerce.dto.usuarioDTO.RegisterDTO;
+import com.br.eCormmerce.models.Carrinho;
 import com.br.eCormmerce.models.Endereco;
 import com.br.eCormmerce.models.usuario.Usuario;
+import com.br.eCormmerce.repositorys.CarrinhoRepository;
 import com.br.eCormmerce.repositorys.EnderecoRespository;
 import com.br.eCormmerce.repositorys.usuarioRepository.UsuarioRepository;
 
@@ -28,6 +30,8 @@ public class AuthenticationService {
   private UsuarioRepository usuarioRepository;
   @Autowired
   private EnderecoRespository enderecoRespository;
+  @Autowired
+  private CarrinhoRepository carrinhoRepository;
 
   public ResponseEntity<Object> UsuarioLogin(AuthenticationDTO usuario){
     var usuarioPassword = new UsernamePasswordAuthenticationToken(usuario.email(), usuario.password());
@@ -70,6 +74,8 @@ public class AuthenticationService {
     }
       String encryptedPassword = new BCryptPasswordEncoder().encode(usuario.password());
       Usuario novoUsuario = new Usuario(usuario.email(), encryptedPassword, usuario.nome(), usuario.cpf(), usuario.role(), usuario.saldo(), usuario.cep(), usuario.rua());
+      Carrinho carrinho = new Carrinho(novoUsuario);
+      carrinhoRepository.save(carrinho);
       usuarioRepository.save(novoUsuario);
       return ResponseEntity.ok(novoUsuario);
   }

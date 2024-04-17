@@ -27,10 +27,10 @@ public class Cliente extends Pessoa{
     @OneToMany(mappedBy = "clienteId", fetch = FetchType.LAZY)
     private List<Avaliacao> avaliacoes;
 
-    @OneToOne(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Carrinho carrinho;
 
-    @OneToMany(mappedBy = "clienteId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuarioId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Vendas> vendas;
 
     private Long enderecoId;

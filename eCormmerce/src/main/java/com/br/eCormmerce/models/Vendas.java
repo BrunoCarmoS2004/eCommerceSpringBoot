@@ -21,11 +21,11 @@ public class Vendas {
     
     private Long produtosId;
     
-    private Long clienteId;
+    private String usuarioId;
 
-    public Vendas(Long vendedorId, Long produtosId, Long clienteId) {
+    public Vendas(Long vendedorId, Long produtosId, String usuarioId) {
         this.vendedorId = vendedorId;
         this.produtosId = produtosId;
-        this.clienteId = clienteId;
+        this.usuarioId = usuarioId;
     }
 }

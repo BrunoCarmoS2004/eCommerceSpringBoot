@@ -47,8 +47,8 @@ public class ClienteService implements PessoaService<Cliente>{
                 Optional<Admin> adminOptional = adminRepository.findByCpf(cliente.getCpf());
                 Admin admin = adminOptional.get();
                 if (admin.getNome().equals(cliente.getNome())) {
-                    Carrinho carrinho = new Carrinho(cliente);
-                    carrinhoRepository.save(carrinho);
+                    //Carrinho carrinho = new Carrinho(cliente);
+                    //carrinhoRepository.save(carrinho);
                     cliente.getEnderecos().add(endereco);
                     return ResponseEntity.ok(clienteRepository.save(cliente));
                 }
@@ -66,8 +66,8 @@ public class ClienteService implements PessoaService<Cliente>{
                 return ResponseEntity.badRequest().body(cpfJaEmUso);
             }else{
                 clienteRepository.save(cliente);
-                Carrinho carrinho = new Carrinho(cliente);
-                carrinhoRepository.save(carrinho);
+                //Carrinho carrinho = new Carrinho(cliente);
+                //carrinhoRepository.save(carrinho);
                 cliente.getEnderecos().add(endereco);
                 return ResponseEntity.ok(cliente); 
             }
