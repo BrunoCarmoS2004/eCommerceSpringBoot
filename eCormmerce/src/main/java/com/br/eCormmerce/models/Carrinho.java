@@ -3,6 +3,8 @@ package com.br.eCormmerce.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.br.eCormmerce.models.usuario.Usuario;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -29,6 +31,8 @@ public class Carrinho {
 
     @OneToOne
     private Cliente cliente;
+    @OneToOne
+    private Usuario usuario;
 
     @ManyToMany(cascade = CascadeType.REMOVE)
     private List<Produtos> produto = new ArrayList<>();

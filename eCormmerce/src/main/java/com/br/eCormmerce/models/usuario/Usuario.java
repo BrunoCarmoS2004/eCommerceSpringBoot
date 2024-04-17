@@ -8,14 +8,18 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.br.eCormmerce.models.Carrinho;
 import com.br.eCormmerce.models.Endereco;
 import com.br.eCormmerce.models.Pessoa;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,6 +39,13 @@ public class Usuario extends Pessoa implements UserDetails {
     
   @ManyToMany
   private List<Endereco> enderecos = new ArrayList<>();
+
+  @OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private Carrinho carrinho;
+
+
+
+
 
   public Usuario(String email, String password, String nome, String cpf, UserRole role, double saldo, String cep, String rua, Long enderecoId){
     super(nome, cpf, saldo,rua,cep);
