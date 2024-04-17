@@ -55,7 +55,7 @@ public class AvaliacaoService {
         Optional<Vendas> vendaOptional = vendasRepository.findByProdutosId(avaliacao.getProdutosId());
         if (vendaOptional.isPresent()) {
           Vendas vendas = vendaOptional.get();
-          if (vendas.getUsuarioId() == avaliacao.getUsuarioId()){
+          if (vendas.getClienteId() == avaliacao.getUsuarioId()){
             if (id == null) {
               return ResponseEntity.ok(avaliacaoRepository.save(avaliacao));
             }else{

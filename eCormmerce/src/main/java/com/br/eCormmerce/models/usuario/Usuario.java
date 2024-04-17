@@ -45,10 +45,12 @@ public class Usuario extends Pessoa implements UserDetails {
 
   @OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private Carrinho carrinho;
-  @OneToMany(mappedBy = "usuarioId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  private List<Vendas> vendas;
+  @OneToMany(mappedBy = "clienteId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private List<Vendas> compras;
   @OneToMany(mappedBy = "usuarioId", fetch = FetchType.LAZY)
   private List<Avaliacao> avaliacoes;
+  @OneToMany(mappedBy = "vendedorId", fetch = FetchType.LAZY)
+  private List<Vendas> vendas;
 
 
 

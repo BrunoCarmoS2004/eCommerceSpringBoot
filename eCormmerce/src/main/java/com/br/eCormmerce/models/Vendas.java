@@ -17,15 +17,15 @@ public class Vendas {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long vendas_id;
     
-    private Long vendedorId;
+    private String vendedorId;
     
     private Long produtosId;
     
-    private String usuarioId;
+    private String clienteId;
 
-    public Vendas(Long vendedorId, Long produtosId, String usuarioId) {
+    public Vendas(String vendedorId, Long produtosId, String clienteId) {
         this.vendedorId = vendedorId;
         this.produtosId = produtosId;
-        this.usuarioId = usuarioId;
+        this.clienteId = clienteId;
     }
 }
