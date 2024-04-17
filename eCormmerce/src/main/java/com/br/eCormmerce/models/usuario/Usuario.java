@@ -43,6 +43,21 @@ public class Usuario extends Pessoa implements UserDetails {
     this.role = role;
     this.enderecoId = enderecoId;
   }
+  public Usuario(String nome, String cpf, UserRole role, double saldo, String cep, String rua, Long enderecoId){
+    super(nome, cpf, saldo,rua,cep);
+    this.role = role;
+    this.enderecoId = enderecoId;
+  }
+  public Usuario(String id, Double saldo){
+    super(saldo);
+    this.id = id;
+  }
+  public Usuario(String email, String password, String nome, String cpf, UserRole role, double saldo, String cep, String rua){
+    super(nome, cpf, saldo,rua,cep);
+    this.role = role;
+    this.email = email;
+    this.password = password;
+  }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

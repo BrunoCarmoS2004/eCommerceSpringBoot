@@ -17,12 +17,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.br.eCormmerce.Infra.Security.TokenService;
+import com.br.eCormmerce.dto.usuarioDTO.UsuarioDTO;
+import com.br.eCormmerce.dto.usuarioDTO.UsuarioSaldoDTO;
 import com.br.eCormmerce.models.Avaliacao;
 import com.br.eCormmerce.models.Carrinho;
 import com.br.eCormmerce.models.Cliente;
+import com.br.eCormmerce.models.usuario.Usuario;
 import com.br.eCormmerce.service.AvaliacaoService;
 import com.br.eCormmerce.service.CarrinhoService;
 import com.br.eCormmerce.service.ClienteService;
+import com.br.eCormmerce.service.usuarioService.UsuarioService;
 
 import jakarta.validation.Valid;
 
@@ -38,28 +42,29 @@ public class ClienteController {
     private TokenService tokenService;
     @Autowired
     private CarrinhoService carrinhoService;
+    @Autowired UsuarioService usuarioService;
 
     @GetMapping
-    public List<Cliente> listarClientes(){
+    public List<Usuario> listarClientes(){
         /*SecurityContextHolder.getContext().getAuthentication().getPrincipal();*/
-        return clienteService.listarUsuario();
+        return usuarioService.listarUsuario();
     }
     @PostMapping("/criar")
     public ResponseEntity<Object> criarCliente(@Valid @RequestBody Cliente cliente){
         return clienteService.criarUsuario(cliente);
     }
-    @PutMapping("/atualizar/{id}")
-    public ResponseEntity<Object> atualizarCliente(@PathVariable Long id, @Valid @RequestBody Cliente cliente){
-        return clienteService.atualizarUsuario(id, cliente);
+    @PutMapping("/atualizar")
+    public ResponseEntity<Object> atualizarCliente(@Valid @RequestBody UsuarioDTO usuarioDTO){
+        return usuarioService.atualizarUsuario(usuarioDTO);
     }
-    @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<Object> deletarCliente(@PathVariable Long id){
-        return clienteService.deletarUsuario(id);
+    @DeleteMapping("/deletar")
+    public ResponseEntity<Object> deletarCliente(){
+        return usuarioService.deletarUsuario();
     }
 
     @PatchMapping("/adicionar/saldo/{id}")
-    public ResponseEntity<Object> adicionarSaldo(@PathVariable Long id, @RequestBody Cliente cliente){
-        return clienteService.adicionarSaldo(id, cliente);
+    public ResponseEntity<Object> adicionarSaldo(@RequestBody @Valid UsuarioSaldoDTO usuarioDTO){
+        return usuarioService.adicionarSaldo(usuarioDTO);
     }
 
     //AVALIAÇÃO

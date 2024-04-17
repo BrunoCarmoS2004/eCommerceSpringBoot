@@ -37,6 +37,9 @@ public abstract class Pessoa {
     this.cpf = cpf;
     this.saldo = saldo;
   }
+  public Pessoa(double saldo) {
+    this.saldo = saldo;
+  }
   public Pessoa() {
   }
   public String getNome() {

@@ -36,11 +36,15 @@ public class AuthenticationService {
     return ResponseEntity.ok(new LoginResponseDTO(token));
   }
 
-
+/*
   public ResponseEntity<Object> UsuarioRegister(RegisterDTO usuario){
     if (usuarioRepository.findByEmail(usuario.email()) != null) {
       String emailEmUso = "Email já em uso";
       return ResponseEntity.badRequest().body(emailEmUso);
+    }
+    if (usuarioRepository.existsByCpf(usuario.cpf())) {
+      String cpfEmUso = "CPF já em uso";
+      return ResponseEntity.badRequest().body(cpfEmUso);
     }
     if (enderecoRespository.existsById(usuario.enderecoId())) {
       Optional<Endereco> enderecoOptional = enderecoRespository.findById(usuario.enderecoId());
@@ -53,5 +57,20 @@ public class AuthenticationService {
     }
     String enderecoNaoEncontrado = "Endereço nao encontrado";
     return ResponseEntity.badRequest().body(enderecoNaoEncontrado);
+  }
+  */
+  public ResponseEntity<Object> UsuarioRegister(RegisterDTO usuario){
+    if (usuarioRepository.findByEmail(usuario.email()) != null) {
+      String emailEmUso = "Email já em uso";
+      return ResponseEntity.badRequest().body(emailEmUso);
+    }
+    if (usuarioRepository.existsByCpf(usuario.cpf())) {
+      String cpfEmUso = "CPF já em uso";
+      return ResponseEntity.badRequest().body(cpfEmUso);
+    }
+      String encryptedPassword = new BCryptPasswordEncoder().encode(usuario.password());
+      Usuario novoUsuario = new Usuario(usuario.email(), encryptedPassword, usuario.nome(), usuario.cpf(), usuario.role(), usuario.saldo(), usuario.cep(), usuario.rua());
+      usuarioRepository.save(novoUsuario);
+      return ResponseEntity.ok(novoUsuario);
   }
 }
