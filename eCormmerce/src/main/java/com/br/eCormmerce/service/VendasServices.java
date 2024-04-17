@@ -33,7 +33,7 @@ public class VendasServices {
   public ResponseEntity<Object>atualizarVendas(Long id, Vendas venda){
     if (vendasRepository.existsById(id)){
       if (usuarioRepository.existsById(venda.getClienteId())){
-        if (vendedorRepository.existsById(venda.getVendedorId())){
+        if (usuarioRepository.existsById(venda.getVendedorId())){
           if (produtosRepository.existsById(venda.getProdutosId())){
             venda.setVendas_id(id);
             return ResponseEntity.ok(vendasRepository.save(venda));
