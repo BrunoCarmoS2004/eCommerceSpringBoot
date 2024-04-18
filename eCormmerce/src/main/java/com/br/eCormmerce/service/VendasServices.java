@@ -8,17 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.br.eCormmerce.dto.VendasDTO;
 import com.br.eCormmerce.models.Vendas;
-import com.br.eCormmerce.models.Vendedor;
+import com.br.eCormmerce.models.usuario.Usuario;
 import com.br.eCormmerce.repositorys.ProdutosRepository;
 import com.br.eCormmerce.repositorys.VendasRepository;
-import com.br.eCormmerce.repositorys.VendedorRepository;
 import com.br.eCormmerce.repositorys.usuarioRepository.UsuarioRepository;
 
 @Service
 public class VendasServices {
-  @Autowired
-  private VendedorRepository vendedorRepository;
   @Autowired
   private UsuarioRepository usuarioRepository;
   @Autowired
@@ -30,11 +28,16 @@ public class VendasServices {
     return vendasRepository.findAll();
   }
 
-  public ResponseEntity<Object>atualizarVendas(Long id, Vendas venda){
+  public ResponseEntity<Object>atualizarVendas(Long id, VendasDTO vendaDto){
     if (vendasRepository.existsById(id)){
-      if (usuarioRepository.existsById(venda.getClienteId())){
-        if (usuarioRepository.existsById(venda.getVendedorId())){
-          if (produtosRepository.existsById(venda.getProdutosId())){
+      if (usuarioRepository.existsById(vendaDto.clienteId())){
+        if (usuarioRepository.existsById(vendaDto.vendedorId())){
+          if (produtosRepository.existsById(vendaDto.produtosId())){
+            Optional<Vendas> vendaOptional = vendasRepository.findById(id);
+            Vendas venda = vendaOptional.get();
+            venda.setClienteId(vendaDto.clienteId());
+            venda.setProdutosId(vendaDto.produtosId());
+            venda.setVendedorId(vendaDto.vendedorId());
             venda.setVendas_id(id);
             return ResponseEntity.ok(vendasRepository.save(venda));
           }
@@ -56,9 +59,9 @@ public class VendasServices {
   }
 
   public ResponseEntity<Object> vendedorDestaque() {
-    List<Vendedor> allVendedores = vendedorRepository.findAll();
+    List<Usuario> allVendedores = usuarioRepository.findAll();
     // Encontra o vendedor com mais vendas usando stream
-    Vendedor vendedor = allVendedores.stream().max(Comparator.comparingInt(vendedorDestaque -> vendedorDestaque.getVendas().size())).orElse(null);
+    Usuario vendedor = allVendedores.stream().max(Comparator.comparingInt(vendedorDestaque -> vendedorDestaque.getVendas().size())).orElse(null);
     if (vendedor == null) {
         String naoHaVendas = "Não há nenhuma venda registrada!";
         return ResponseEntity.badRequest().body(naoHaVendas);

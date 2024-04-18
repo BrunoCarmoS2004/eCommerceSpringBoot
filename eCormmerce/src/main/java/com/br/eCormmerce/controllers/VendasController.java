@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.br.eCormmerce.models.Cliente;
 import com.br.eCormmerce.models.Vendas;
 import com.br.eCormmerce.service.CarrinhoService;
 import com.br.eCormmerce.service.VendasServices;

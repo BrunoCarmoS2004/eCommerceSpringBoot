@@ -27,7 +27,6 @@ public class Produtos {
     private String produto_descricao;
     private String produto_imagem;
     private int produto_qtd_vendas;
-
     private String vendedorId;
     private Long categoriaId;
     private String categoriaNome;

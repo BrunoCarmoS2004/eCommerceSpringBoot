@@ -12,20 +12,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.br.eCormmerce.models.Carrinho;
-import com.br.eCormmerce.models.Cliente;
 import com.br.eCormmerce.models.Produtos;
 import com.br.eCormmerce.models.Vendas;
 import com.br.eCormmerce.models.usuario.Usuario;
 import com.br.eCormmerce.repositorys.CarrinhoRepository;
-import com.br.eCormmerce.repositorys.ClienteRepository;
 import com.br.eCormmerce.repositorys.ProdutosRepository;
 import com.br.eCormmerce.repositorys.VendasRepository;
 import com.br.eCormmerce.repositorys.usuarioRepository.UsuarioRepository;
 
 @Service
 public class CarrinhoService {
-  @Autowired
-  private ClienteRepository clienteRepository;
   @Autowired
   private UsuarioRepository usuarioRepository;
   @Autowired

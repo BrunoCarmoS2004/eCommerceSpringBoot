@@ -27,11 +27,11 @@ public class Categoria {
     @OneToMany(mappedBy = "categoriaId", fetch = FetchType.LAZY)
     private List<Produtos> produtos;
     
-    private Long adminid;
+    private String adminid;
     
 
 
-    public Categoria(String categoria_nome, Long adminid) {
+    public Categoria(String categoria_nome, String adminid) {
         this.categoria_nome = categoria_nome;
         this.adminid = adminid;
     }

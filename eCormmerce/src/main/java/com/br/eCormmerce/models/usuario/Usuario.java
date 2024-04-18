@@ -10,8 +10,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.br.eCormmerce.models.Avaliacao;
 import com.br.eCormmerce.models.Carrinho;
+import com.br.eCormmerce.models.Categoria;
 import com.br.eCormmerce.models.Endereco;
 import com.br.eCormmerce.models.Pessoa;
+import com.br.eCormmerce.models.Produtos;
 import com.br.eCormmerce.models.Vendas;
 
 import jakarta.persistence.CascadeType;
@@ -42,15 +44,24 @@ public class Usuario extends Pessoa implements UserDetails {
     
   @ManyToMany
   private List<Endereco> enderecos = new ArrayList<>();
-
+  //Carrinho de todos os usuarios
   @OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private Carrinho carrinho;
+  //Compras do cliente
   @OneToMany(mappedBy = "clienteId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private List<Vendas> compras;
-  @OneToMany(mappedBy = "usuarioId", fetch = FetchType.LAZY)
+  //Avaliações do cliente
+  @OneToMany(mappedBy = "clienteId", fetch = FetchType.LAZY)
   private List<Avaliacao> avaliacoes;
+  //Vendas do Usuario Vendedor
   @OneToMany(mappedBy = "vendedorId", fetch = FetchType.LAZY)
   private List<Vendas> vendas;
+  //Produtos do Usuario Vendedor
+  @OneToMany(mappedBy = "vendedorId", fetch = FetchType.LAZY)
+  private List<Produtos> produtos;
+  //Categorias do Usuario Admin
+  @OneToMany(mappedBy = "adminid", fetch = FetchType.LAZY)
+  private List<Categoria> categorias;
 
 
 

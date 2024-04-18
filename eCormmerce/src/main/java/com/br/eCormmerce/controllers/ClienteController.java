@@ -17,11 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.br.eCormmerce.Infra.Security.TokenService;
+import com.br.eCormmerce.dto.AvaliacaoDTO;
 import com.br.eCormmerce.dto.usuarioDTO.UsuarioDTO;
 import com.br.eCormmerce.dto.usuarioDTO.UsuarioSaldoDTO;
 import com.br.eCormmerce.models.Avaliacao;
 import com.br.eCormmerce.models.Carrinho;
-import com.br.eCormmerce.models.Cliente;
+
 import com.br.eCormmerce.models.usuario.Usuario;
 import com.br.eCormmerce.service.AvaliacaoService;
 import com.br.eCormmerce.service.CarrinhoService;
@@ -49,18 +50,6 @@ public class ClienteController {
         /*SecurityContextHolder.getContext().getAuthentication().getPrincipal();*/
         return usuarioService.listarUsuario();
     }
-    @PostMapping("/criar")
-    public ResponseEntity<Object> criarCliente(@Valid @RequestBody Cliente cliente){
-        return clienteService.criarUsuario(cliente);
-    }
-    @PutMapping("/atualizar")
-    public ResponseEntity<Object> atualizarCliente(@Valid @RequestBody UsuarioDTO usuarioDTO){
-        return usuarioService.atualizarUsuario(usuarioDTO);
-    }
-    @DeleteMapping("/deletar")
-    public ResponseEntity<Object> deletarCliente(){
-        return usuarioService.deletarUsuario();
-    }
 
     @PatchMapping("/adicionar/saldo/{id}")
     public ResponseEntity<Object> adicionarSaldo(@RequestBody @Valid UsuarioSaldoDTO usuarioDTO){
@@ -73,12 +62,12 @@ public class ClienteController {
         return avaliacaoService.listarAvaliacoes();
     }
     @PostMapping("/avaliarproduto/criar")
-    public ResponseEntity<Object> criarProduto(@Valid @RequestBody Avaliacao avaliacao){
+    public ResponseEntity<Object> criarProduto(@Valid @RequestBody AvaliacaoDTO avaliacao){
         return avaliacaoService.criarAvaliacao(avaliacao);
     }
 
     @PutMapping("/avaliarproduto/atualizar/{id}")
-    public ResponseEntity<Object> atualizarProduto(@PathVariable Long id, @Valid @RequestBody Avaliacao avaliacao){
+    public ResponseEntity<Object> atualizarProduto(@PathVariable Long id, @Valid @RequestBody AvaliacaoDTO avaliacao){
         return avaliacaoService.atualizarAvaliacao(id, avaliacao);
     }
 

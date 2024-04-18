@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.br.eCormmerce.dto.ProdutoDTO;
 import com.br.eCormmerce.models.Produtos;
-import com.br.eCormmerce.models.Vendedor;
+import com.br.eCormmerce.models.usuario.Usuario;
 import com.br.eCormmerce.service.ProdutoService;
 import com.br.eCormmerce.service.VendedorService;
 
@@ -29,20 +30,8 @@ public class VendedorController {
     private ProdutoService produtoService;
 
     @GetMapping
-    public List<Vendedor>listarVendedores(){
+    public List<Usuario>listarVendedores(){
         return vendedorService.listarUsuario();
-    }
-    @PostMapping("/criar")
-    public ResponseEntity<Object>criarVendedor(@Valid @RequestBody Vendedor vendedor){
-        return vendedorService.criarUsuario(vendedor);
-    }
-    @PutMapping("/atualizar/{id}")
-    public ResponseEntity<Object>atualizarVendedor(@PathVariable Long id, @Valid @RequestBody Vendedor vendedor){
-        return vendedorService.atualizarUsuario(id, vendedor);
-    }
-    @DeleteMapping("deletar/{id}")
-    public ResponseEntity<Object>deletarVendedor(@PathVariable Long id){
-        return vendedorService.deletarUsuario(id);
     }
 
     //CRUD PRODUTO
@@ -58,11 +47,11 @@ public class VendedorController {
     }
 
     @PostMapping("/produto/criar")
-    public ResponseEntity<Object>criarProduto(@Valid @RequestBody Produtos produtos){
+    public ResponseEntity<Object>criarProduto(@Valid @RequestBody ProdutoDTO produtos){
         return produtoService.criarProduto(produtos);
     }
     @PutMapping("/produto/atualizar/{id}")
-    public ResponseEntity<Object>atualizarProduto(@PathVariable Long id, @Valid @RequestBody Produtos produtos){
+    public ResponseEntity<Object>atualizarProduto(@PathVariable Long id, @Valid @RequestBody ProdutoDTO produtos){
         return produtoService.atualizarProduto(id, produtos);
     }
 

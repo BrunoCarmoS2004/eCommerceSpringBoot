@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.br.eCormmerce.dto.AvaliacaoDTO;
 import com.br.eCormmerce.models.Avaliacao;
 import com.br.eCormmerce.models.Vendas;
 import com.br.eCormmerce.repositorys.AvaliacaoRepository;
-import com.br.eCormmerce.repositorys.ClienteRepository;
 import com.br.eCormmerce.repositorys.ProdutosRepository;
 import com.br.eCormmerce.repositorys.VendasRepository;
 import com.br.eCormmerce.repositorys.usuarioRepository.UsuarioRepository;
@@ -30,12 +30,12 @@ public class AvaliacaoService {
     return avaliacaoRepository.findAll();
   }
 
-  public ResponseEntity<Object>criarAvaliacao(Avaliacao avaliacao){
-    return validacaoAvaliacao(null, avaliacao);
+  public ResponseEntity<Object>criarAvaliacao(AvaliacaoDTO avaliacaoDTO){
+    return validacaoAvaliacao(null, avaliacaoDTO);
   }
 
-  public ResponseEntity<Object>atualizarAvaliacao(Long id, Avaliacao avaliacao){
-    return validacaoAvaliacao(id, avaliacao);
+  public ResponseEntity<Object>atualizarAvaliacao(Long id, AvaliacaoDTO avaliacaoDTO){
+    return validacaoAvaliacao(id, avaliacaoDTO);
   }
 
   public ResponseEntity<Object>deletarAvaliacao(Long id){
@@ -49,18 +49,26 @@ public class AvaliacaoService {
   }
 
 
-  public ResponseEntity<Object>validacaoAvaliacao(Long id, Avaliacao avaliacao){
-    if (usuarioRepository.existsById(avaliacao.getUsuarioId())){
-      if (produtosRepository.existsById(avaliacao.getProdutosId())){
-        Optional<Vendas> vendaOptional = vendasRepository.findByProdutosId(avaliacao.getProdutosId());
+  public ResponseEntity<Object>validacaoAvaliacao(Long id, AvaliacaoDTO avaliacaoDTO){
+    if (usuarioRepository.existsById(avaliacaoDTO.usuarioId())){
+      if (produtosRepository.existsById(avaliacaoDTO.produtosId())){
+        Optional<Vendas> vendaOptional = vendasRepository.findByProdutosId(avaliacaoDTO.produtosId());
         if (vendaOptional.isPresent()) {
           Vendas vendas = vendaOptional.get();
-          if (vendas.getClienteId() == avaliacao.getUsuarioId()){
+          if (vendas.getClienteId() == avaliacaoDTO.usuarioId()){
             if (id == null) {
+              Avaliacao avaliacao = new Avaliacao(avaliacaoDTO.avaliaca_titulo(),avaliacaoDTO.avaliaca_texto(), avaliacaoDTO.avaliaca_estrelas(), avaliacaoDTO.avaliaca_imagem(), avaliacaoDTO.produtosId(), avaliacaoDTO.usuarioId());
               return ResponseEntity.ok(avaliacaoRepository.save(avaliacao));
             }else{
               if (avaliacaoRepository.existsById(id)) {
-                avaliacao.setAvaliaca_id(id);
+                Optional<Avaliacao> avaliacaoOptional = avaliacaoRepository.findById(id);
+                Avaliacao avaliacao = avaliacaoOptional.get();
+                avaliacao.setAvaliaca_estrelas(avaliacaoDTO.avaliaca_estrelas());
+                avaliacao.setAvaliaca_imagem(avaliacaoDTO.avaliaca_imagem());
+                avaliacao.setAvaliaca_texto(avaliacaoDTO.avaliaca_texto());
+                avaliacao.setAvaliaca_titulo(avaliacaoDTO.avaliaca_titulo());
+                avaliacao.setProdutosId(avaliacaoDTO.produtosId());
+                avaliacao.setUsuarioId(avaliacaoDTO.usuarioId());
                 return ResponseEntity.ok(avaliacaoRepository.save(avaliacao));
               }
             }
