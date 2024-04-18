@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.br.eCormmerce.dto.VendasDTO;
 import com.br.eCormmerce.models.Vendas;
 import com.br.eCormmerce.models.usuario.Usuario;
 import com.br.eCormmerce.repositorys.ProdutosRepository;
@@ -27,11 +28,16 @@ public class VendasServices {
     return vendasRepository.findAll();
   }
 
-  public ResponseEntity<Object>atualizarVendas(Long id, Vendas venda){
+  public ResponseEntity<Object>atualizarVendas(Long id, VendasDTO vendaDto){
     if (vendasRepository.existsById(id)){
-      if (usuarioRepository.existsById(venda.getClienteId())){
-        if (usuarioRepository.existsById(venda.getVendedorId())){
-          if (produtosRepository.existsById(venda.getProdutosId())){
+      if (usuarioRepository.existsById(vendaDto.clienteId())){
+        if (usuarioRepository.existsById(vendaDto.vendedorId())){
+          if (produtosRepository.existsById(vendaDto.produtosId())){
+            Optional<Vendas> vendaOptional = vendasRepository.findById(id);
+            Vendas venda = vendaOptional.get();
+            venda.setClienteId(vendaDto.clienteId());
+            venda.setProdutosId(vendaDto.produtosId());
+            venda.setVendedorId(vendaDto.vendedorId());
             venda.setVendas_id(id);
             return ResponseEntity.ok(vendasRepository.save(venda));
           }

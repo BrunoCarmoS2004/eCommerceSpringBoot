@@ -61,7 +61,14 @@ public class AvaliacaoService {
               return ResponseEntity.ok(avaliacaoRepository.save(avaliacao));
             }else{
               if (avaliacaoRepository.existsById(id)) {
-                Avaliacao avaliacao = new Avaliacao(avaliacaoDTO.avaliaca_titulo(),avaliacaoDTO.avaliaca_texto(), avaliacaoDTO.avaliaca_estrelas(), avaliacaoDTO.avaliaca_imagem(), avaliacaoDTO.produtosId(), avaliacaoDTO.usuarioId());
+                Optional<Avaliacao> avaliacaoOptional = avaliacaoRepository.findById(id);
+                Avaliacao avaliacao = avaliacaoOptional.get();
+                avaliacao.setAvaliaca_estrelas(avaliacaoDTO.avaliaca_estrelas());
+                avaliacao.setAvaliaca_imagem(avaliacaoDTO.avaliaca_imagem());
+                avaliacao.setAvaliaca_texto(avaliacaoDTO.avaliaca_texto());
+                avaliacao.setAvaliaca_titulo(avaliacaoDTO.avaliaca_titulo());
+                avaliacao.setProdutosId(avaliacaoDTO.produtosId());
+                avaliacao.setUsuarioId(avaliacaoDTO.usuarioId());
                 return ResponseEntity.ok(avaliacaoRepository.save(avaliacao));
               }
             }

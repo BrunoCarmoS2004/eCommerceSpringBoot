@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.br.eCormmerce.dto.ProdutoDTO;
 import com.br.eCormmerce.models.Produtos;
 import com.br.eCormmerce.models.usuario.Usuario;
 import com.br.eCormmerce.service.ProdutoService;
@@ -46,11 +47,11 @@ public class VendedorController {
     }
 
     @PostMapping("/produto/criar")
-    public ResponseEntity<Object>criarProduto(@Valid @RequestBody Produtos produtos){
+    public ResponseEntity<Object>criarProduto(@Valid @RequestBody ProdutoDTO produtos){
         return produtoService.criarProduto(produtos);
     }
     @PutMapping("/produto/atualizar/{id}")
-    public ResponseEntity<Object>atualizarProduto(@PathVariable Long id, @Valid @RequestBody Produtos produtos){
+    public ResponseEntity<Object>atualizarProduto(@PathVariable Long id, @Valid @RequestBody ProdutoDTO produtos){
         return produtoService.atualizarProduto(id, produtos);
     }
 

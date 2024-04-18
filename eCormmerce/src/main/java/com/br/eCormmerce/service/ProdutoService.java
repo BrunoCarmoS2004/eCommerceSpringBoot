@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.br.eCormmerce.dto.ProdutoDTO;
 import com.br.eCormmerce.models.Categoria;
 import com.br.eCormmerce.models.Produtos;
 import com.br.eCormmerce.repositorys.CategoriaRepository;
@@ -38,11 +39,12 @@ public class ProdutoService {
     return produtos;
   }
 
-  public ResponseEntity<Object>criarProduto(Produtos produtos){
-    if (usuarioRepository.existsById(produtos.getVendedorId())) {
-      if (categoriaRepository.existsById(produtos.getCategoriaId())){
-        Optional<Categoria> categoriaOptional = categoriaRepository.findById(produtos.getCategoriaId());
+  public ResponseEntity<Object>criarProduto(ProdutoDTO produtoDTO){
+    if (usuarioRepository.existsById(produtoDTO.vendedorId())) {
+      if (categoriaRepository.existsById(produtoDTO.categoriaId())){
+        Optional<Categoria> categoriaOptional = categoriaRepository.findById(produtoDTO.categoriaId());
         Categoria categoria = categoriaOptional.get();
+        Produtos produtos = new Produtos(produtoDTO.produto_titulo(),produtoDTO.produto_preco(),produtoDTO.produto_quantidade(),produtoDTO.produto_descricao(),produtoDTO.produto_imagem(),produtoDTO.vendedorId(),produtoDTO.categoriaId());
         produtos.setCategoriaNome(categoria.getCategoria_nome());
         return ResponseEntity.ok(produtosRepository.save(produtos));
       }
@@ -53,10 +55,24 @@ public class ProdutoService {
     return ResponseEntity.badRequest().body(produtoNaoCriado);
   }
 
-  public ResponseEntity<Object>atualizarProduto(Long id, Produtos produtos){
+  public ResponseEntity<Object>atualizarProduto(Long id, ProdutoDTO produtoDTO){
     if (produtosRepository.existsById(id)) {
-      produtos.setProduto_id(id);
-      return ResponseEntity.ok(produtosRepository.save(produtos));
+      if (categoriaRepository.existsById(produtoDTO.categoriaId())) {
+        Produtos produtos = new Produtos();
+        produtos.setCategoriaId(produtoDTO.categoriaId());
+        produtos.setProduto_descricao(produtoDTO.produto_descricao());
+        produtos.setProduto_imagem(produtoDTO.produto_imagem());
+        produtos.setProduto_preco(produtoDTO.produto_preco());
+        produtos.setProduto_quantidade(produtoDTO.produto_quantidade());
+        produtos.setProduto_titulo(produtoDTO.produto_titulo());
+        produtos.setVendedorId(produtoDTO.vendedorId());
+        Optional<Categoria> categoriaOptional = categoriaRepository.findById(produtoDTO.categoriaId());
+        Categoria categoria = categoriaOptional.get();
+        produtos.setCategoriaNome(categoria.getCategoria_nome());
+        return ResponseEntity.ok(produtosRepository.save(produtos));
+      }
+      String produtoNaoCriado = "Não existe categoria com esse id";
+      return ResponseEntity.badRequest().body(produtoNaoCriado);
     }
     String idProdutoNaoEncontrado = "O id do produto não foi encontrado!";
     return ResponseEntity.badRequest().body(idProdutoNaoEncontrado);

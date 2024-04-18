@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.br.eCormmerce.dto.CategoriaDTO;
+import com.br.eCormmerce.dto.EnderecoDTO;
+import com.br.eCormmerce.dto.VendasDTO;
 import com.br.eCormmerce.models.Categoria;
 import com.br.eCormmerce.models.Endereco;
 import com.br.eCormmerce.models.Vendas;
@@ -50,12 +53,12 @@ public class AdminController {
     }
 
     @PostMapping("/categoria/criar")
-    public ResponseEntity<Object> criarCategoria(@Valid @RequestBody Categoria categoria){
+    public ResponseEntity<Object> criarCategoria(@Valid @RequestBody CategoriaDTO categoria){
         return categoriaService.criarCategoria(categoria);
     }
 
     @PutMapping("/categoria/atualizar/{id}")
-    public ResponseEntity<Object> atualizarCategoria(@PathVariable Long id, @Valid @RequestBody Categoria categoria){
+    public ResponseEntity<Object> atualizarCategoria(@PathVariable Long id, @Valid @RequestBody CategoriaDTO categoria){
         return categoriaService.atualizarCategoria(id, categoria);
     }
 
@@ -71,7 +74,7 @@ public class AdminController {
     }
 
     @PutMapping("/venda/atualizar/{id}")
-    public ResponseEntity<Object>atualizarVenda(@PathVariable Long id, Vendas venda){
+    public ResponseEntity<Object>atualizarVenda(@PathVariable Long id, VendasDTO venda){
         return vendasServices.atualizarVendas(id, venda);
     }
     
@@ -87,12 +90,12 @@ public class AdminController {
     }
 
     @PostMapping("/endereco/criar")
-    public ResponseEntity<Object> criarEnderecos(@Valid @RequestBody Endereco categoria){
+    public ResponseEntity<Object> criarEnderecos(@Valid @RequestBody EnderecoDTO categoria){
         return enderecoService.criarEnderecos(categoria);
     }
 
     @PutMapping("/endereco/atualizar/{id}")
-    public ResponseEntity<Object> atualizarEnderecos(@PathVariable Long id, @Valid @RequestBody Endereco categoria){
+    public ResponseEntity<Object> atualizarEnderecos(@PathVariable Long id, @Valid @RequestBody EnderecoDTO categoria){
         return enderecoService.atualizarEnderecos(id, categoria);
     }
 
