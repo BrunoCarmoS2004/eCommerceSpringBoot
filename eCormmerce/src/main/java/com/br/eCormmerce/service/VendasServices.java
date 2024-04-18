@@ -9,16 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.br.eCormmerce.models.Vendas;
-import com.br.eCormmerce.models.Vendedor;
+import com.br.eCormmerce.models.usuario.Usuario;
 import com.br.eCormmerce.repositorys.ProdutosRepository;
 import com.br.eCormmerce.repositorys.VendasRepository;
-import com.br.eCormmerce.repositorys.VendedorRepository;
 import com.br.eCormmerce.repositorys.usuarioRepository.UsuarioRepository;
 
 @Service
 public class VendasServices {
-  @Autowired
-  private VendedorRepository vendedorRepository;
   @Autowired
   private UsuarioRepository usuarioRepository;
   @Autowired
@@ -33,7 +30,7 @@ public class VendasServices {
   public ResponseEntity<Object>atualizarVendas(Long id, Vendas venda){
     if (vendasRepository.existsById(id)){
       if (usuarioRepository.existsById(venda.getClienteId())){
-        if (vendedorRepository.existsById(venda.getVendedorId())){
+        if (usuarioRepository.existsById(venda.getVendedorId())){
           if (produtosRepository.existsById(venda.getProdutosId())){
             venda.setVendas_id(id);
             return ResponseEntity.ok(vendasRepository.save(venda));
@@ -56,9 +53,9 @@ public class VendasServices {
   }
 
   public ResponseEntity<Object> vendedorDestaque() {
-    List<Vendedor> allVendedores = vendedorRepository.findAll();
+    List<Usuario> allVendedores = usuarioRepository.findAll();
     // Encontra o vendedor com mais vendas usando stream
-    Vendedor vendedor = allVendedores.stream().max(Comparator.comparingInt(vendedorDestaque -> vendedorDestaque.getVendas().size())).orElse(null);
+    Usuario vendedor = allVendedores.stream().max(Comparator.comparingInt(vendedorDestaque -> vendedorDestaque.getVendas().size())).orElse(null);
     if (vendedor == null) {
         String naoHaVendas = "Não há nenhuma venda registrada!";
         return ResponseEntity.badRequest().body(naoHaVendas);

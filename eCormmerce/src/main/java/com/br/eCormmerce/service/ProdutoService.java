@@ -13,14 +13,14 @@ import com.br.eCormmerce.models.Categoria;
 import com.br.eCormmerce.models.Produtos;
 import com.br.eCormmerce.repositorys.CategoriaRepository;
 import com.br.eCormmerce.repositorys.ProdutosRepository;
-import com.br.eCormmerce.repositorys.VendedorRepository;
+import com.br.eCormmerce.repositorys.usuarioRepository.UsuarioRepository;
 
 @Service
 public class ProdutoService {
   @Autowired
   private ProdutosRepository produtosRepository;
   @Autowired 
-  private VendedorRepository vendedorRepository;
+  private UsuarioRepository usuarioRepository;
   @Autowired
   private CategoriaRepository categoriaRepository;
 
@@ -39,7 +39,7 @@ public class ProdutoService {
   }
 
   public ResponseEntity<Object>criarProduto(Produtos produtos){
-    if (vendedorRepository.existsById(produtos.getVendedorId())) {
+    if (usuarioRepository.existsById(produtos.getVendedorId())) {
       if (categoriaRepository.existsById(produtos.getCategoriaId())){
         Optional<Categoria> categoriaOptional = categoriaRepository.findById(produtos.getCategoriaId());
         Categoria categoria = categoriaOptional.get();

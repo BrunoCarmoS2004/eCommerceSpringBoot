@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.br.eCormmerce.models.Produtos;
-import com.br.eCormmerce.models.Vendedor;
+import com.br.eCormmerce.models.usuario.Usuario;
 import com.br.eCormmerce.service.ProdutoService;
 import com.br.eCormmerce.service.VendedorService;
 
@@ -29,20 +29,8 @@ public class VendedorController {
     private ProdutoService produtoService;
 
     @GetMapping
-    public List<Vendedor>listarVendedores(){
+    public List<Usuario>listarVendedores(){
         return vendedorService.listarUsuario();
-    }
-    @PostMapping("/criar")
-    public ResponseEntity<Object>criarVendedor(@Valid @RequestBody Vendedor vendedor){
-        return vendedorService.criarUsuario(vendedor);
-    }
-    @PutMapping("/atualizar/{id}")
-    public ResponseEntity<Object>atualizarVendedor(@PathVariable Long id, @Valid @RequestBody Vendedor vendedor){
-        return vendedorService.atualizarUsuario(id, vendedor);
-    }
-    @DeleteMapping("deletar/{id}")
-    public ResponseEntity<Object>deletarVendedor(@PathVariable Long id){
-        return vendedorService.deletarUsuario(id);
     }
 
     //CRUD PRODUTO

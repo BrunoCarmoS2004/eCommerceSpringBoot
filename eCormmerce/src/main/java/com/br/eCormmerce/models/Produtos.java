@@ -27,7 +27,7 @@ public class Produtos {
     private String produto_descricao;
     private String produto_imagem;
     private int produto_qtd_vendas;
-    private Long vendedorId;
+    private String vendedorId;
     private Long categoriaId;
     private String categoriaNome;
 
@@ -39,7 +39,7 @@ public class Produtos {
     
 
     public Produtos(String produto_titulo, double produto_preco, int produto_quantidade, String produto_descricao,
-            String produto_imagem, Long vendedorId, Long categoriaId) {
+            String produto_imagem, String vendedorId, Long categoriaId) {
         this.produto_titulo = produto_titulo;
         this.produto_preco = produto_preco;
         this.produto_quantidade = produto_quantidade;

@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.br.eCormmerce.models.Admin;
 import com.br.eCormmerce.models.Categoria;
 import com.br.eCormmerce.models.Endereco;
 import com.br.eCormmerce.models.Vendas;
+import com.br.eCormmerce.models.usuario.Usuario;
 import com.br.eCormmerce.service.AdminService;
 import com.br.eCormmerce.service.CategoriaService;
 import com.br.eCormmerce.service.EnderecoService;
@@ -38,20 +38,8 @@ public class AdminController {
     
     //CRIAR ADMIN
     @GetMapping
-    public List<Admin>listarAdmin(){
+    public List<Usuario>listarAdmin(){
         return adminService.listarUsuario();
-    }
-    @PostMapping("/criar")
-    public ResponseEntity<Object>criarAdmin(@Valid @RequestBody Admin admin){
-        return adminService.criarUsuario(admin);
-    }
-    @PutMapping("/atualizar/{id}")
-    public ResponseEntity<Object>atualizarAdmin(@PathVariable Long id, @Valid Admin admin){
-        return adminService.atualizarUsuario(id, admin);
-    }
-    @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<Object>deletarAdmin(@PathVariable Long id){
-        return adminService.deletarUsuario(id);
     }
     //
 
@@ -59,11 +47,6 @@ public class AdminController {
     @GetMapping("/categorias")
     public List<Categoria>listarTodasCategorias(){
         return categoriaService.listarCategoria();
-    }
-
-    @GetMapping("/categorias/{id}")
-    public List<Categoria>listarCategoriaPorIdAdmin(@PathVariable Long id){
-        return categoriaService.listarCategoriaPorAdmin(id);
     }
 
     @PostMapping("/categoria/criar")
