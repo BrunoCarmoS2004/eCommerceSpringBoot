@@ -8,7 +8,7 @@ import com.br.eCormmerce.models.Vendas;
 
 public interface VendasRepository extends JpaRepository<Vendas, Long>{
   //CRIAR UM EXISTSBYCLIENTEID
-  Optional<Vendas> findByVendedorId(Long id);
-  Optional<Vendas> findByClienteId(Long id);
+  Optional<Vendas> findByVendedorId(String id);
+  Optional<Vendas> findByClienteId(String id);
   Optional<Vendas> findByProdutosId(Long id);
 }

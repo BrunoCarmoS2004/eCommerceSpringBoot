@@ -41,11 +41,6 @@ public class VendedorController {
         return produtoService.listarTodosProdutos();
     }
     
-    @GetMapping("/produtos/{id}")
-    public List<Produtos>listarProdutosVendedor(@PathVariable Long id){
-        return produtoService.listarProdutoPorVendedor(id);
-    }
-
     @PostMapping("/produto/criar")
     public ResponseEntity<Object>criarProduto(@Valid @RequestBody ProdutoDTO produtos){
         return produtoService.criarProduto(produtos);

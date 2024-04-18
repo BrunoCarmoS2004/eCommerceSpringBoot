@@ -74,9 +74,9 @@ public class AuthenticationService {
     }
       String encryptedPassword = new BCryptPasswordEncoder().encode(usuario.password());
       Usuario novoUsuario = new Usuario(usuario.email(), encryptedPassword, usuario.nome(), usuario.cpf(), usuario.role(), usuario.saldo(), usuario.cep(), usuario.rua());
+      usuarioRepository.save(novoUsuario);
       Carrinho carrinho = new Carrinho(novoUsuario);
       carrinhoRepository.save(carrinho);
-      usuarioRepository.save(novoUsuario);
       return ResponseEntity.ok(novoUsuario);
   }
 }

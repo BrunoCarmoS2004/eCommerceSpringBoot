@@ -46,10 +46,10 @@ public class Carrinho {
         this.usuario = usuario;
     }
 
-    public String getCliente() {
+    public String getUsuario() {
         return usuario.getNome();
     }
-    public String getClienteId() {
+    public String getUsuarioId() {
         return usuario.getId();
     }
 

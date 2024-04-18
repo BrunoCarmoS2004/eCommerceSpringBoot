@@ -28,17 +28,6 @@ public class ProdutoService {
   public List<Produtos>listarTodosProdutos(){
     return produtosRepository.findAll();
   }
-
-  public List<Produtos>listarProdutoPorVendedor(Long id){
-    List<Produtos> produtos = produtosRepository.findByVendedorId(id);  
-    return produtos;
-  }
-
-  public List<Produtos>listarProdutoPorCategoria(Long id){
-    List<Produtos> produtos = produtosRepository.findByCategoriaId(id);  
-    return produtos;
-  }
-
   public ResponseEntity<Object>criarProduto(ProdutoDTO produtoDTO){
     if (usuarioRepository.existsById(produtoDTO.vendedorId())) {
       if (categoriaRepository.existsById(produtoDTO.categoriaId())){
