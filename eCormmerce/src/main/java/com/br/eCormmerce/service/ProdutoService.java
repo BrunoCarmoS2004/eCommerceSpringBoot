@@ -37,15 +37,15 @@ public class ProdutoService {
     UserDetails userDetails = (UserDetails) authentication.getPrincipal();
     UserDetails usuarioDetails = usuarioRepository.findByEmail(userDetails.getUsername());
     Usuario usuario = (Usuario) usuarioDetails;
-      if (categoriaRepository.existsById(produtoDTO.categoriaId())){
-        Optional<Categoria> categoriaOptional = categoriaRepository.findById(produtoDTO.categoriaId());
-        Categoria categoria = categoriaOptional.get();
-        Produtos produtos = new Produtos(produtoDTO.produto_titulo(),produtoDTO.produto_preco(),produtoDTO.produto_quantidade(),produtoDTO.produto_descricao(),produtoDTO.produto_imagem(),usuario.getId(),produtoDTO.categoriaId());
-        produtos.setCategoriaNome(categoria.getCategoria_nome());
-        return ResponseEntity.ok(produtosRepository.save(produtos));
-      }
-      String produtoNaoCriado = "Não existe categoria com esse id";
-      return ResponseEntity.badRequest().body(produtoNaoCriado);
+    if (categoriaRepository.existsById(produtoDTO.categoriaId())){
+      Optional<Categoria> categoriaOptional = categoriaRepository.findById(produtoDTO.categoriaId());
+      Categoria categoria = categoriaOptional.get();
+      Produtos produtos = new Produtos(produtoDTO.produto_titulo(),produtoDTO.produto_preco(),produtoDTO.produto_quantidade(),produtoDTO.produto_descricao(),produtoDTO.produto_imagem(),usuario.getId(),produtoDTO.categoriaId());
+      produtos.setCategoriaNome(categoria.getCategoria_nome());
+      return ResponseEntity.ok(produtosRepository.save(produtos));
+    }
+    String produtoNaoCriado = "Não existe categoria com esse id";
+    return ResponseEntity.badRequest().body(produtoNaoCriado);
   }
 
   public ResponseEntity<Object>atualizarProduto(Long id, ProdutoDTO produtoDTO){
