@@ -17,6 +17,7 @@ import com.br.eCormmerce.models.Produtos;
 import com.br.eCormmerce.models.Vendas;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +26,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,6 +40,9 @@ public class Usuario extends Pessoa implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   private String id;
+  @Column(unique = true)
+  @NotBlank(message = "O campo email não pode estar em branco")
+  @Pattern(regexp = ".+@.+", message = "O email deve conter '@'")
   private String email;
   private String password;
   private UserRole role;
