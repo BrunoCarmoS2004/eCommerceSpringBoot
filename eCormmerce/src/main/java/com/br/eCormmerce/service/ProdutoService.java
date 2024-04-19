@@ -7,11 +7,15 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.br.eCormmerce.dto.ProdutoDTO;
 import com.br.eCormmerce.models.Categoria;
 import com.br.eCormmerce.models.Produtos;
+import com.br.eCormmerce.models.usuario.Usuario;
 import com.br.eCormmerce.repositorys.CategoriaRepository;
 import com.br.eCormmerce.repositorys.ProdutosRepository;
 import com.br.eCormmerce.repositorys.usuarioRepository.UsuarioRepository;
@@ -29,19 +33,19 @@ public class ProdutoService {
     return produtosRepository.findAll();
   }
   public ResponseEntity<Object>criarProduto(ProdutoDTO produtoDTO){
-    if (usuarioRepository.existsById(produtoDTO.vendedorId())) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+    UserDetails usuarioDetails = usuarioRepository.findByEmail(userDetails.getUsername());
+    Usuario usuario = (Usuario) usuarioDetails;
       if (categoriaRepository.existsById(produtoDTO.categoriaId())){
         Optional<Categoria> categoriaOptional = categoriaRepository.findById(produtoDTO.categoriaId());
         Categoria categoria = categoriaOptional.get();
-        Produtos produtos = new Produtos(produtoDTO.produto_titulo(),produtoDTO.produto_preco(),produtoDTO.produto_quantidade(),produtoDTO.produto_descricao(),produtoDTO.produto_imagem(),produtoDTO.vendedorId(),produtoDTO.categoriaId());
+        Produtos produtos = new Produtos(produtoDTO.produto_titulo(),produtoDTO.produto_preco(),produtoDTO.produto_quantidade(),produtoDTO.produto_descricao(),produtoDTO.produto_imagem(),usuario.getId(),produtoDTO.categoriaId());
         produtos.setCategoriaNome(categoria.getCategoria_nome());
         return ResponseEntity.ok(produtosRepository.save(produtos));
       }
       String produtoNaoCriado = "Não existe categoria com esse id";
       return ResponseEntity.badRequest().body(produtoNaoCriado);
-    }
-    String produtoNaoCriado = "Não existe Vendedor com esse ID";
-    return ResponseEntity.badRequest().body(produtoNaoCriado);
   }
 
   public ResponseEntity<Object>atualizarProduto(Long id, ProdutoDTO produtoDTO){
@@ -54,7 +58,6 @@ public class ProdutoService {
         produtos.setProduto_preco(produtoDTO.produto_preco());
         produtos.setProduto_quantidade(produtoDTO.produto_quantidade());
         produtos.setProduto_titulo(produtoDTO.produto_titulo());
-        produtos.setVendedorId(produtoDTO.vendedorId());
         Optional<Categoria> categoriaOptional = categoriaRepository.findById(produtoDTO.categoriaId());
         Categoria categoria = categoriaOptional.get();
         produtos.setCategoriaNome(categoria.getCategoria_nome());

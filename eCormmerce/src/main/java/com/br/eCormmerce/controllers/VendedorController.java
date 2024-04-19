@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.br.eCormmerce.dto.ProdutoDTO;
 import com.br.eCormmerce.models.Produtos;
-import com.br.eCormmerce.models.usuario.Usuario;
 import com.br.eCormmerce.service.ProdutoService;
-import com.br.eCormmerce.service.VendedorService;
 
 import jakarta.validation.Valid;
 
@@ -25,16 +23,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/vendedor")
 public class VendedorController {
     @Autowired
-    private VendedorService vendedorService;
-    @Autowired
     private ProdutoService produtoService;
-
-    @GetMapping
-    public List<Usuario>listarVendedores(){
-        return vendedorService.listarUsuario();
-    }
-
-    //CRUD PRODUTO
 
     @GetMapping("/produtos")
     public List<Produtos>listarTodosProdutos(){

@@ -30,12 +30,12 @@ public class AvaliacaoService {
     return avaliacaoRepository.findAll();
   }
 
-  public ResponseEntity<Object>criarAvaliacao(AvaliacaoDTO avaliacaoDTO){
-    return validacaoAvaliacao(null, avaliacaoDTO);
+  public ResponseEntity<Object>criarAvaliacao(Long id, AvaliacaoDTO avaliacaoDTO){
+    return validacaoAvaliacao(id, avaliacaoDTO, "criar");
   }
 
   public ResponseEntity<Object>atualizarAvaliacao(Long id, AvaliacaoDTO avaliacaoDTO){
-    return validacaoAvaliacao(id, avaliacaoDTO);
+    return validacaoAvaliacao(id, avaliacaoDTO, "atualizar");
   }
 
   public ResponseEntity<Object>deletarAvaliacao(Long id){
@@ -49,18 +49,20 @@ public class AvaliacaoService {
   }
 
 
-  public ResponseEntity<Object>validacaoAvaliacao(Long id, AvaliacaoDTO avaliacaoDTO){
+  public ResponseEntity<Object>validacaoAvaliacao(Long id, AvaliacaoDTO avaliacaoDTO, String tipo){
     if (usuarioRepository.existsById(avaliacaoDTO.usuarioId())){
       if (produtosRepository.existsById(avaliacaoDTO.produtosId())){
         Optional<Vendas> vendaOptional = vendasRepository.findByProdutosId(avaliacaoDTO.produtosId());
         if (vendaOptional.isPresent()) {
           Vendas vendas = vendaOptional.get();
           if (vendas.getClienteId() == avaliacaoDTO.usuarioId()){
-            if (id == null) {
-              Avaliacao avaliacao = new Avaliacao(avaliacaoDTO.avaliaca_titulo(),avaliacaoDTO.avaliaca_texto(), avaliacaoDTO.avaliaca_estrelas(), avaliacaoDTO.avaliaca_imagem(), avaliacaoDTO.produtosId(), avaliacaoDTO.usuarioId());
+            if (tipo == "criar") {
+              /*ID = PRODUTO_ID*/
+              Avaliacao avaliacao = new Avaliacao(avaliacaoDTO.avaliaca_titulo(),avaliacaoDTO.avaliaca_texto(), avaliacaoDTO.avaliaca_estrelas(), avaliacaoDTO.avaliaca_imagem(), id, avaliacaoDTO.usuarioId());
               return ResponseEntity.ok(avaliacaoRepository.save(avaliacao));
             }else{
               if (avaliacaoRepository.existsById(id)) {
+                /*ID = AVALIAÇÃO_ID*/
                 Optional<Avaliacao> avaliacaoOptional = avaliacaoRepository.findById(id);
                 Avaliacao avaliacao = avaliacaoOptional.get();
                 avaliacao.setAvaliaca_estrelas(avaliacaoDTO.avaliaca_estrelas());

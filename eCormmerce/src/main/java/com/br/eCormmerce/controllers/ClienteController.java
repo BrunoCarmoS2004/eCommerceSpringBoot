@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -16,17 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.br.eCormmerce.Infra.Security.TokenService;
 import com.br.eCormmerce.dto.AvaliacaoDTO;
-import com.br.eCormmerce.dto.usuarioDTO.UsuarioDTO;
 import com.br.eCormmerce.dto.usuarioDTO.UsuarioSaldoDTO;
 import com.br.eCormmerce.models.Avaliacao;
-import com.br.eCormmerce.models.Carrinho;
-
-import com.br.eCormmerce.models.usuario.Usuario;
 import com.br.eCormmerce.service.AvaliacaoService;
 import com.br.eCormmerce.service.CarrinhoService;
-import com.br.eCormmerce.service.ClienteService;
 import com.br.eCormmerce.service.usuarioService.UsuarioService;
 
 import jakarta.validation.Valid;
@@ -36,20 +28,11 @@ import jakarta.validation.Valid;
 @RequestMapping("/cliente")
 public class ClienteController {
     @Autowired
-    private ClienteService clienteService;
-    @Autowired
     private AvaliacaoService avaliacaoService;
     @Autowired
-    private TokenService tokenService;
-    @Autowired
     private CarrinhoService carrinhoService;
-    @Autowired UsuarioService usuarioService;
-
-    @GetMapping
-    public List<Usuario> listarClientes(){
-        /*SecurityContextHolder.getContext().getAuthentication().getPrincipal();*/
-        return usuarioService.listarUsuario();
-    }
+    @Autowired 
+    private UsuarioService usuarioService;
 
     @PatchMapping("/adicionar/saldo/{id}")
     public ResponseEntity<Object> adicionarSaldo(@RequestBody @Valid UsuarioSaldoDTO usuarioDTO){
@@ -57,21 +40,21 @@ public class ClienteController {
     }
 
     //AVALIAÇÃO
-    @GetMapping("/avaliarproduto")
+    @GetMapping("/avaliacoes")
     public List<Avaliacao> listarAvaliacaos(){
         return avaliacaoService.listarAvaliacoes();
     }
-    @PostMapping("/avaliarproduto/criar")
-    public ResponseEntity<Object> criarProduto(@Valid @RequestBody AvaliacaoDTO avaliacao){
-        return avaliacaoService.criarAvaliacao(avaliacao);
+    @PostMapping("/avaliar/produto/{id}")
+    public ResponseEntity<Object> criarProduto( @PathVariable Long id,@Valid @RequestBody AvaliacaoDTO avaliacao){
+        return avaliacaoService.criarAvaliacao(id, avaliacao);
     }
 
-    @PutMapping("/avaliarproduto/atualizar/{id}")
+    @PutMapping("/avaliacao/atualizar/{id}")
     public ResponseEntity<Object> atualizarProduto(@PathVariable Long id, @Valid @RequestBody AvaliacaoDTO avaliacao){
         return avaliacaoService.atualizarAvaliacao(id, avaliacao);
     }
 
-    @DeleteMapping("/avaliarproduto/deletar/{id}")
+    @DeleteMapping("/avaliacao/deletar/{id}")
     public ResponseEntity<Object> deletarAvaliacao(@PathVariable Long id){
         return avaliacaoService.deletarAvaliacao(id);
     }

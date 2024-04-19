@@ -5,16 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.br.eCormmerce.models.Vendas;
 import com.br.eCormmerce.service.CarrinhoService;
 import com.br.eCormmerce.service.VendasServices;
-
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/produto")
@@ -29,7 +24,7 @@ public class VendasController {
     return vendasServices.vendedorDestaque();
   }
   //CARRINHO
-  @PatchMapping("/{produto_id}")
+  @PatchMapping("/adicionar-ao-carrinho/{produto_id}")
   public ResponseEntity<Object> adicionarProdutoAoCarrinho(@PathVariable Long produto_id){
       return carrinhoService.adicionarProdutoCarrinho(produto_id);
   }

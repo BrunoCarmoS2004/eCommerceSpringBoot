@@ -16,14 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.br.eCormmerce.dto.CategoriaDTO;
 import com.br.eCormmerce.dto.EnderecoDTO;
 import com.br.eCormmerce.dto.VendasDTO;
-import com.br.eCormmerce.models.Categoria;
 import com.br.eCormmerce.models.Endereco;
 import com.br.eCormmerce.models.Vendas;
 import com.br.eCormmerce.models.usuario.Usuario;
-import com.br.eCormmerce.service.AdminService;
 import com.br.eCormmerce.service.CategoriaService;
 import com.br.eCormmerce.service.EnderecoService;
 import com.br.eCormmerce.service.VendasServices;
+import com.br.eCormmerce.service.usuarioService.UsuarioService;
 
 import jakarta.validation.Valid;
 
@@ -31,26 +30,32 @@ import jakarta.validation.Valid;
 @RequestMapping("/admin")
 public class AdminController {
     @Autowired
-    private AdminService adminService;
-    @Autowired
     private CategoriaService categoriaService;
     @Autowired
     private VendasServices vendasServices;
     @Autowired
     private EnderecoService enderecoService;
+    @Autowired
+    private UsuarioService usuarioService;
     
     //CRIAR ADMIN
     @GetMapping
     public List<Usuario>listarAdmin(){
-        return adminService.listarUsuario();
+        return usuarioService.listarUsuarioAdmin();
+    }
+    @GetMapping("/clientes")
+    public List<Usuario> listarClientes(){
+        return usuarioService.listarUsuarioCliente();
+    }
+
+    @GetMapping("/vendedores")
+    public List<Usuario>listarVendedores(){
+        return usuarioService.listarUsuarioVendedor();
     }
     //
 
     //CRIAR CATEGORIA
-    @GetMapping("/categorias")
-    public List<Categoria>listarTodasCategorias(){
-        return categoriaService.listarCategoria();
-    }
+    
 
     @PostMapping("/categoria/criar")
     public ResponseEntity<Object> criarCategoria(@Valid @RequestBody CategoriaDTO categoria){

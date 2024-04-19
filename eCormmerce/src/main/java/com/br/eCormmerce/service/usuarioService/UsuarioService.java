@@ -1,5 +1,6 @@
 package com.br.eCormmerce.service.usuarioService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.br.eCormmerce.dto.usuarioDTO.UsuarioDTO;
 import com.br.eCormmerce.dto.usuarioDTO.UsuarioSaldoDTO;
 import com.br.eCormmerce.models.Endereco;
+import com.br.eCormmerce.models.usuario.UserRole;
 import com.br.eCormmerce.models.usuario.Usuario;
 import com.br.eCormmerce.repositorys.EnderecoRespository;
 import com.br.eCormmerce.repositorys.usuarioRepository.UsuarioRepository;
@@ -27,9 +29,42 @@ public class UsuarioService {
   private EnderecoRespository enderecoRespository;
 
 
-  public List<Usuario> listarUsuario(){
-    return usuarioRepository.findAll();
+  public List<Usuario> listarUsuarioCliente(){
+    List<Usuario> usuariosList = usuarioRepository.findAll();
+    List<Usuario> usuariosCliente = new ArrayList<>();
+    for (Usuario usuario : usuariosList) {
+      if (usuario.getRole() == UserRole.CLIENTE) {
+        usuariosCliente.add(usuario);
+      }
+    }
+    return usuariosCliente;
   }
+
+  public List<Usuario> listarUsuarioVendedor(){
+    List<Usuario> usuariosList = usuarioRepository.findAll();
+    List<Usuario> usuariosVendedor = new ArrayList<>();
+    for (Usuario usuario : usuariosList) {
+      if (usuario.getRole() == UserRole.VENDEDOR) {
+        usuariosVendedor.add(usuario);
+      }
+    }
+    return usuariosVendedor;
+  }
+
+  public List<Usuario> listarUsuarioAdmin(){
+    List<Usuario> usuariosList = usuarioRepository.findAll();
+    List<Usuario> usuariosAdmin = new ArrayList<>();
+    for (Usuario usuario : usuariosList) {
+      if (usuario.getRole() == UserRole.ADMIN) {
+        usuariosAdmin.add(usuario);
+      }
+    }
+    return usuariosAdmin;
+  }
+
+
+
+
   public ResponseEntity<Object> atualizarUsuario(UsuarioDTO usuarioDTO){
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -63,7 +98,7 @@ public class UsuarioService {
       String usuarioSaldoAtualizado = "Foi adicionado saldo com sucesso\n"
       +"Novo saldo: "+usuario.getSaldo();
       return ResponseEntity.ok(usuarioSaldoAtualizado);
-    
-    
   }
+
+
 }

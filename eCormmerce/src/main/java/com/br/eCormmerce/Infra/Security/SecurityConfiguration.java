@@ -24,8 +24,10 @@ public class SecurityConfiguration {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
     return httpSecurity.csrf(csrf -> csrf.disable()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(authorize -> authorize
-    .requestMatchers("/vendedor").hasRole("VENDEDOR")
-    .requestMatchers("/admin").hasRole("ADMIN")
+    .requestMatchers("/vendedor/**").hasRole("VENDEDOR")
+    .requestMatchers("/admin/**").hasRole("ADMIN")
+    .requestMatchers("/cliente/**").hasRole("CLIENTE")
+    .requestMatchers("/produto/**").hasRole("CLIENTE")
     .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
     .requestMatchers(HttpMethod.POST,"/auth/register").permitAll()
     .requestMatchers("/h2-console").permitAll()

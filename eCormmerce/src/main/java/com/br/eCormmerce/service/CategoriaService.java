@@ -5,10 +5,14 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.br.eCormmerce.dto.CategoriaDTO;
 import com.br.eCormmerce.models.Categoria;
+import com.br.eCormmerce.models.usuario.Usuario;
 import com.br.eCormmerce.repositorys.CategoriaRepository;
 import com.br.eCormmerce.repositorys.usuarioRepository.UsuarioRepository;
 
@@ -24,12 +28,12 @@ public class CategoriaService {
   }
 
   public ResponseEntity<Object>criarCategoria(CategoriaDTO categoriaDTO){
-    if (usuarioRepository.existsById(categoriaDTO.adminid())) {
-      Categoria categoria = new Categoria(categoriaDTO.categoria_nome(), categoriaDTO.adminid());
-      return ResponseEntity.ok(categoriaRepository.save(categoria));
-    }
-    String categoriaNaoCriada = "Não existe Usuario admin com esse ID";
-    return ResponseEntity.badRequest().body(categoriaNaoCriada);
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+    UserDetails usuarioDetails = usuarioRepository.findByEmail(userDetails.getUsername());
+    Usuario usuario = (Usuario) usuarioDetails;
+    Categoria categoria = new Categoria(categoriaDTO.categoria_nome(), usuario.getId());
+    return ResponseEntity.ok(categoriaRepository.save(categoria));
   }
 
   public ResponseEntity<Object>atualizarCategoria(Long id, CategoriaDTO categoriaDTO){

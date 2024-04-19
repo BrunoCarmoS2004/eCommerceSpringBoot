@@ -126,4 +126,58 @@ public class Usuario extends Pessoa implements UserDetails {
   public boolean isEnabled() {
     return true;
   }
+
+
+  public UserRole getRole() {
+    return role;
+  }
+ 
+  public Carrinho getCarrinho() {
+    if (this.role == UserRole.ADMIN || this.role == UserRole.CLIENTE) {
+      return carrinho;
+    }else{
+      return null;
+    }
+  }
+
+  public List<Vendas> getCompras() {
+    if (this.role == UserRole.ADMIN || this.role == UserRole.CLIENTE) {
+      return compras;
+    }else{
+      return null;
+    }
+  }
+
+  public List<Avaliacao> getAvaliacoes() {
+    if (this.role == UserRole.ADMIN || this.role == UserRole.CLIENTE) {
+      return avaliacoes;
+    }else{
+      return null;
+    }
+  }
+ 
+  public List<Vendas> getVendas() {
+    if (this.role == UserRole.ADMIN || this.role == UserRole.VENDEDOR) {
+      return vendas;
+    }else{
+      return null;
+    }
+  }
+ 
+  public List<Produtos> getProdutos() {
+    if (this.role == UserRole.ADMIN || this.role == UserRole.VENDEDOR) {
+      return produtos;
+    }else{
+      return null;
+    }
+  }
+  
+  public List<Categoria> getCategorias() {
+    if (this.role == UserRole.CLIENTE || this.role == UserRole.VENDEDOR) {
+      return categorias;
+    }else{
+      return null;
+    }
+  }
+ 
 }
