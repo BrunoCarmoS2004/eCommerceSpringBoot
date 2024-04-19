@@ -5,11 +5,15 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.br.eCormmerce.dto.AvaliacaoDTO;
 import com.br.eCormmerce.models.Avaliacao;
 import com.br.eCormmerce.models.Vendas;
+import com.br.eCormmerce.models.usuario.Usuario;
 import com.br.eCormmerce.repositorys.AvaliacaoRepository;
 import com.br.eCormmerce.repositorys.ProdutosRepository;
 import com.br.eCormmerce.repositorys.VendasRepository;
@@ -50,15 +54,18 @@ public class AvaliacaoService {
 
 
   public ResponseEntity<Object>validacaoAvaliacao(Long id, AvaliacaoDTO avaliacaoDTO, String tipo){
-    if (usuarioRepository.existsById(avaliacaoDTO.usuarioId())){
-      if (produtosRepository.existsById(avaliacaoDTO.produtosId())){
-        Optional<Vendas> vendaOptional = vendasRepository.findByProdutosId(avaliacaoDTO.produtosId());
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+    UserDetails usuarioDetails = usuarioRepository.findByEmail(userDetails.getUsername());
+    Usuario usuario = (Usuario) usuarioDetails;
+      if (produtosRepository.existsById(id)){
+        Optional<Vendas> vendaOptional = vendasRepository.findByProdutosId(id);
         if (vendaOptional.isPresent()) {
           Vendas vendas = vendaOptional.get();
-          if (vendas.getClienteId() == avaliacaoDTO.usuarioId()){
+          if (vendas.getClienteId() == usuario.getId()){
             if (tipo == "criar") {
               /*ID = PRODUTO_ID*/
-              Avaliacao avaliacao = new Avaliacao(avaliacaoDTO.avaliaca_titulo(),avaliacaoDTO.avaliaca_texto(), avaliacaoDTO.avaliaca_estrelas(), avaliacaoDTO.avaliaca_imagem(), id, avaliacaoDTO.usuarioId());
+              Avaliacao avaliacao = new Avaliacao(avaliacaoDTO.avaliaca_titulo(),avaliacaoDTO.avaliaca_texto(), avaliacaoDTO.avaliaca_estrelas(), avaliacaoDTO.avaliaca_imagem(), id, usuario.getId());
               return ResponseEntity.ok(avaliacaoRepository.save(avaliacao));
             }else{
               if (avaliacaoRepository.existsById(id)) {
@@ -69,8 +76,8 @@ public class AvaliacaoService {
                 avaliacao.setAvaliaca_imagem(avaliacaoDTO.avaliaca_imagem());
                 avaliacao.setAvaliaca_texto(avaliacaoDTO.avaliaca_texto());
                 avaliacao.setAvaliaca_titulo(avaliacaoDTO.avaliaca_titulo());
-                avaliacao.setProdutosId(avaliacaoDTO.produtosId());
-                avaliacao.setUsuarioId(avaliacaoDTO.usuarioId());
+                avaliacao.setProdutosId(id);
+                avaliacao.setUsuarioId(usuario.getId());
                 return ResponseEntity.ok(avaliacaoRepository.save(avaliacao));
               }
             }
@@ -81,9 +88,6 @@ public class AvaliacaoService {
       }
       String avaliacaoNaoCriada = "Não existe um produto com esse id";
       return ResponseEntity.badRequest().body(avaliacaoNaoCriada);
-    }
-    String avaliacaoNaoCriada = "Não existe um cliente com esse id";
-    return ResponseEntity.badRequest().body(avaliacaoNaoCriada);
   }
   
   

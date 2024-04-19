@@ -24,11 +24,6 @@ import jakarta.validation.Valid;
 public class VendedorController {
     @Autowired
     private ProdutoService produtoService;
-
-    @GetMapping("/produtos")
-    public List<Produtos>listarTodosProdutos(){
-        return produtoService.listarTodosProdutos();
-    }
     
     @PostMapping("/produto/criar")
     public ResponseEntity<Object>criarProduto(@Valid @RequestBody ProdutoDTO produtos){
