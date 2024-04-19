@@ -13,13 +13,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.br.eCormmerce.models.Admin;
-import com.br.eCormmerce.models.Categoria;
+import com.br.eCormmerce.dto.CategoriaDTO;
+import com.br.eCormmerce.dto.EnderecoDTO;
+import com.br.eCormmerce.dto.VendasDTO;
+import com.br.eCormmerce.models.Endereco;
 import com.br.eCormmerce.models.Vendas;
-import com.br.eCormmerce.repositorys.CategoriaRepository;
-import com.br.eCormmerce.service.AdminService;
+import com.br.eCormmerce.models.usuario.Usuario;
 import com.br.eCormmerce.service.CategoriaService;
+import com.br.eCormmerce.service.EnderecoService;
 import com.br.eCormmerce.service.VendasServices;
+import com.br.eCormmerce.service.usuarioService.UsuarioService;
 
 import jakarta.validation.Valid;
 
@@ -27,48 +30,40 @@ import jakarta.validation.Valid;
 @RequestMapping("/admin")
 public class AdminController {
     @Autowired
-    private AdminService adminService;
-    @Autowired
     private CategoriaService categoriaService;
     @Autowired
     private VendasServices vendasServices;
+    @Autowired
+    private EnderecoService enderecoService;
+    @Autowired
+    private UsuarioService usuarioService;
     
     //CRIAR ADMIN
     @GetMapping
-    public List<Admin>listarAdmin(){
-        return adminService.listarUsuario();
+    public List<Usuario>listarAdmin(){
+        return usuarioService.listarUsuarioAdmin();
     }
-    @PostMapping("/criar")
-    public ResponseEntity<Object>criarAdmin(@Valid @RequestBody Admin admin){
-        return adminService.criarUsuario(admin);
+    @GetMapping("/clientes")
+    public List<Usuario> listarClientes(){
+        return usuarioService.listarUsuarioCliente();
     }
-    @PutMapping("/atualizar/{id}")
-    public ResponseEntity<Object>atualizarAdmin(@PathVariable Long id, @Valid Admin admin){
-        return adminService.atualizarUsuario(id, admin);
+
+    @GetMapping("/vendedores")
+    public List<Usuario>listarVendedores(){
+        return usuarioService.listarUsuarioVendedor();
     }
-    @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<Object>deletarAdmin(@PathVariable Long id){
-        return adminService.deletarUsuario(id);
-    }
+    //
 
     //CRIAR CATEGORIA
-    @GetMapping("/categorias")
-    public List<Categoria>listarTodasCategorias(){
-        return categoriaService.listarCategoria();
-    }
-
-    @GetMapping("/categorias/{id}")
-    public List<Categoria>listarCategoriaPorIdAdmin(@PathVariable Long id){
-        return categoriaService.listarCategoriaPorAdmin(id);
-    }
+    
 
     @PostMapping("/categoria/criar")
-    public ResponseEntity<Object> criarCategoria(@Valid @RequestBody Categoria categoria){
+    public ResponseEntity<Object> criarCategoria(@Valid @RequestBody CategoriaDTO categoria){
         return categoriaService.criarCategoria(categoria);
     }
 
     @PutMapping("/categoria/atualizar/{id}")
-    public ResponseEntity<Object> atualizarCategoria(@PathVariable Long id, @Valid @RequestBody Categoria categoria){
+    public ResponseEntity<Object> atualizarCategoria(@PathVariable Long id, @Valid @RequestBody CategoriaDTO categoria){
         return categoriaService.atualizarCategoria(id, categoria);
     }
 
@@ -84,8 +79,8 @@ public class AdminController {
     }
 
     @PutMapping("/venda/atualizar/{id}")
-    public ResponseEntity<Object>atualizarVenda(@PathVariable Long id, Vendas venda){
-        return vendasServices.criarVendas(venda);
+    public ResponseEntity<Object>atualizarVenda(@PathVariable Long id, VendasDTO venda){
+        return vendasServices.atualizarVendas(id, venda);
     }
     
     @DeleteMapping("/venda/deletar/{id}")
@@ -93,4 +88,25 @@ public class AdminController {
         return vendasServices.deletarVendas(id);
     }    
 
+    //Endereco
+    @GetMapping("/enderecos")
+    public List<Endereco>listarTodosEnderecos(){
+        return enderecoService.listarEnderecos();
+    }
+
+    @PostMapping("/endereco/criar")
+    public ResponseEntity<Object> criarEnderecos(@Valid @RequestBody EnderecoDTO categoria){
+        return enderecoService.criarEnderecos(categoria);
+    }
+
+    @PutMapping("/endereco/atualizar/{id}")
+    public ResponseEntity<Object> atualizarEnderecos(@PathVariable Long id, @Valid @RequestBody EnderecoDTO categoria){
+        return enderecoService.atualizarEnderecos(id, categoria);
+    }
+
+    @DeleteMapping("/endereco/deletar/{id}")  
+    public ResponseEntity<Object> deletarEnderecos(@PathVariable Long id){
+        return enderecoService.deletarEnderecos(id);
+    }
+    
 }
