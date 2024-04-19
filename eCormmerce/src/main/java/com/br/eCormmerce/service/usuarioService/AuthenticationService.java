@@ -40,7 +40,7 @@ public class AuthenticationService {
     return ResponseEntity.ok(new LoginResponseDTO(token));
   }
 
-/*
+
   public ResponseEntity<Object> UsuarioRegister(RegisterDTO usuario){
     if (usuarioRepository.findByEmail(usuario.email()) != null) {
       String emailEmUso = "Email já em uso";
@@ -57,12 +57,15 @@ public class AuthenticationService {
       Usuario novoUsuario = new Usuario(usuario.email(), encryptedPassword, usuario.nome(), usuario.cpf(), usuario.role(), usuario.saldo(), usuario.cep(), usuario.rua(), usuario.enderecoId());
       novoUsuario.getEnderecos().add(endereco);
       usuarioRepository.save(novoUsuario);
+      Carrinho carrinho = new Carrinho(novoUsuario);
+      carrinhoRepository.save(carrinho);
       return ResponseEntity.ok(novoUsuario);
     }
     String enderecoNaoEncontrado = "Endereço nao encontrado";
     return ResponseEntity.badRequest().body(enderecoNaoEncontrado);
   }
-  */
+  //LOGIN SEM ENDEREÇO
+/* 
   public ResponseEntity<Object> UsuarioRegister(RegisterDTO usuario){
     if (usuarioRepository.findByEmail(usuario.email()) != null) {
       String emailEmUso = "Email já em uso";
@@ -79,4 +82,5 @@ public class AuthenticationService {
       carrinhoRepository.save(carrinho);
       return ResponseEntity.ok(novoUsuario);
   }
+*/
 }
