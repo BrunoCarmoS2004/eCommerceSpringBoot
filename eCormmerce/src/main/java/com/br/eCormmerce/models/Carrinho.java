@@ -25,9 +25,7 @@ public class Carrinho {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long carrinho_id;
-    @NotBlank
     private Double total = 0.0;
-    @NotBlank
     @OneToOne
     private Usuario usuario;
     

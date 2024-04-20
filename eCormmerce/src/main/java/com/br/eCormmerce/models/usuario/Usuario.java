@@ -28,6 +28,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,9 +43,9 @@ public class Usuario extends Pessoa implements UserDetails {
   private String id;
   @Column(unique = true)
   @NotBlank(message = "O campo email não pode estar em branco")
-  @Pattern(regexp = ".+@.+", message = "O email deve conter '@'")
+  @Pattern(regexp = ".*@.*\\.com", message = "O email deve conter '@' e .com")
   private String email;
-  @Pattern(regexp = "^\\d{8}$", message = "A senha deve conter pelo menos 8 digitos")
+  @Pattern(regexp = "^.{8,}$", message = "Senha deve ter pelo menos 8 caracteres")
   private String password;
   private UserRole role;
   private Long enderecoId;
