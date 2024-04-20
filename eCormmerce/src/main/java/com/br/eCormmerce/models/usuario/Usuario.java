@@ -46,9 +46,7 @@ public class Usuario extends Pessoa implements UserDetails {
   private String email;
   @Pattern(regexp = "^\\d{8}$", message = "A senha deve conter pelo menos 8 digitos")
   private String password;
-  @NotBlank
   private UserRole role;
-  @NotBlank
   private Long enderecoId;
     
   @ManyToMany
