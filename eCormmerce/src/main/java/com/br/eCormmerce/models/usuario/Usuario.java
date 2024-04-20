@@ -44,8 +44,11 @@ public class Usuario extends Pessoa implements UserDetails {
   @NotBlank(message = "O campo email não pode estar em branco")
   @Pattern(regexp = ".+@.+", message = "O email deve conter '@'")
   private String email;
+  @Pattern(regexp = "^\\d{8}$", message = "A senha deve conter pelo menos 8 digitos")
   private String password;
+  @NotBlank
   private UserRole role;
+  @NotBlank
   private Long enderecoId;
     
   @ManyToMany
@@ -73,27 +76,21 @@ public class Usuario extends Pessoa implements UserDetails {
 
 
 
-  public Usuario(String email, String password, String nome, String cpf, UserRole role, double saldo, String cep, String rua, Long enderecoId){
-    super(nome, cpf, saldo,rua,cep);
+  public Usuario(String email, String password, String nome, String cpf, UserRole role, String cep, String rua, Long enderecoId){
+    super(nome, cpf,rua,cep);
     this.email = email;
     this.password = password;
     this.role = role;
     this.enderecoId = enderecoId;
   }
-  public Usuario(String nome, String cpf, UserRole role, double saldo, String cep, String rua, Long enderecoId){
-    super(nome, cpf, saldo,rua,cep);
+  public Usuario(String nome, String cpf, UserRole role, String cep, String rua, Long enderecoId){
+    super(nome, cpf,rua,cep);
     this.role = role;
     this.enderecoId = enderecoId;
   }
   public Usuario(String id, Double saldo){
     super(saldo);
     this.id = id;
-  }
-  public Usuario(String email, String password, String nome, String cpf, UserRole role, double saldo, String cep, String rua){
-    super(nome, cpf, saldo,rua,cep);
-    this.role = role;
-    this.email = email;
-    this.password = password;
   }
 
   @Override

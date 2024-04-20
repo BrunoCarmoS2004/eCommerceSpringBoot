@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,12 +25,12 @@ public class Carrinho {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long carrinho_id;
-
+    @NotBlank
     private Double total = 0.0;
-
+    @NotBlank
     @OneToOne
     private Usuario usuario;
-
+    
     @ManyToMany(cascade = CascadeType.REMOVE)
     private List<Produtos> produto = new ArrayList<>();
 
