@@ -27,3 +27,16 @@ Este é um projeto de E-COMMERCE desenvolvido em Java utilizando o framework Spr
 ## Contribuição
 
 Contribuições são bem-vindas! Sinta-se à vontade para abrir um pull request para correções de bugs, melhorias de código ou novas funcionalidades.
+
+### Para usar banco de dados local basta ir em eCormmerce\src\main\resources\application.properties. É nescessário adicionar um endereço para a criação do usuario
+- Retire as "#" das linhas 3 a 7 e se necessario mude o nome do banco de dados para um de sua preferencia.
+- Adicione "#" nas linhas 10 a 16 para desvincular o projeto ao banco de dados MySql.
+- Inicie o aplicativo
+- O banco de dados escolhido digite INSERT INTO ENDERECO VALUES(ID,"CIDADE","ESTADO","PAIS");
+- Após isso basta criar as entidades.
+- ### Para Usar outros bancos de dados é nescessário adicionar um endereço para a criação do usuario, siga esse passo a passo para adicionar um endereço:
+- Vá para eCormmerce\src\main\resources\application.properties
+- Caso queira mude o banco de dados na linha 10
+- Inicie o aplicativo
+- O banco de dados escolhido digite INSERT INTO ENDERECO VALUES(ID,"CIDADE","ESTADO","PAIS");
+- Após isso basta criar as entidades.
