@@ -86,27 +86,6 @@ public class AdminController {
     @DeleteMapping("/venda/deletar/{id}")
     public ResponseEntity<Object>deletarVenda(@PathVariable Long id){
         return vendasServices.deletarVendas(id);
-    }    
-
-    //Endereco
-    @GetMapping("/enderecos")
-    public List<Endereco>listarTodosEnderecos(){
-        return enderecoService.listarEnderecos();
-    }
-
-    @PostMapping("/endereco/criar")
-    public ResponseEntity<Object> criarEnderecos(@Valid @RequestBody EnderecoDTO categoria){
-        return enderecoService.criarEnderecos(categoria);
-    }
-
-    @PutMapping("/endereco/atualizar/{id}")
-    public ResponseEntity<Object> atualizarEnderecos(@PathVariable Long id, @Valid @RequestBody EnderecoDTO categoria){
-        return enderecoService.atualizarEnderecos(id, categoria);
-    }
-
-    @DeleteMapping("/endereco/deletar/{id}")  
-    public ResponseEntity<Object> deletarEnderecos(@PathVariable Long id){
-        return enderecoService.deletarEnderecos(id);
-    }
+    }     
     
 }

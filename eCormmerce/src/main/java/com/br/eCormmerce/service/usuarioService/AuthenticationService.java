@@ -37,7 +37,7 @@ public class AuthenticationService {
     var usuarioPassword = new UsernamePasswordAuthenticationToken(usuario.email(), usuario.password());
     var auth = this.authenticationManager.authenticate(usuarioPassword);
     var token = tokenService.generateToken((Usuario)auth.getPrincipal());
-    return ResponseEntity.ok(new LoginResponseDTO(token));
+    return ResponseEntity.ok(new LoginResponseDTO(token, usuario.email()));
   }
 
 
