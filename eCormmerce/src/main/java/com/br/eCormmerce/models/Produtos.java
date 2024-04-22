@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,22 +21,27 @@ public class Produtos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long produto_id;
+    @NotBlank
     private String produto_titulo;
+    @NotBlank
     private double produto_preco;
+    @NotBlank
     private int produto_quantidade;
+    @NotBlank
     private String produto_descricao;
+    @NotBlank
     private String produto_imagem;
     private int produto_qtd_vendas;
+    @NotBlank
     private String vendedorId;
+    @NotBlank
     private Long categoriaId;
+    @NotBlank
     private String categoriaNome;
 
-
+    @NotBlank
     @OneToMany(mappedBy = "produtosId", fetch = FetchType.LAZY)
     private List<Avaliacao>avaliacao;
-    //@ManyToOne
-    //private Carrinho carrinho;
-    
 
     public Produtos(String produto_titulo, double produto_preco, int produto_quantidade, String produto_descricao,
             String produto_imagem, String vendedorId, Long categoriaId) {

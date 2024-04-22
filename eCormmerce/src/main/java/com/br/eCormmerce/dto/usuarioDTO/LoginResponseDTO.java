@@ -1,5 +1,5 @@
 package com.br.eCormmerce.dto.usuarioDTO;
 
-public record LoginResponseDTO(String token) {
+public record LoginResponseDTO(String token, String email) {
   
 }

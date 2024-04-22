@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,12 +22,12 @@ public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoria_id;
-
+    @NotBlank
     private String categoria_nome;
-
+    
     @OneToMany(mappedBy = "categoriaId", fetch = FetchType.LAZY)
     private List<Produtos> produtos;
-    
+    @NotBlank
     private String adminid;
     
 

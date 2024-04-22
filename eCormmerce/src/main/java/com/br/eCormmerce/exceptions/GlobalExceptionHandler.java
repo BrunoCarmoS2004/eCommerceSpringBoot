@@ -15,6 +15,8 @@ import org.springframework.web.client.HttpClientErrorException.Unauthorized;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import jakarta.validation.ConstraintViolationException;
+
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -22,8 +24,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = DataIntegrityViolationException.class)
     public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
         return new ResponseEntity<>("O CPF Informado já esta em uso", HttpStatus.BAD_REQUEST);
+    }/* 
+    @ExceptionHandler(value = ConstraintViolationException.class)
+    public ResponseEntity<Object> handleDataIntegrityViolationException(ConstraintViolationException e) {
+        return new ResponseEntity<>("O Email deve conter @", HttpStatus.BAD_REQUEST);
     }
-
+    */
     @ExceptionHandler(value = Unauthorized.class)
     public ResponseEntity<Object> Unauthorized(Unauthorized e) {
         return new ResponseEntity<>("Você não tem permissão de acessar essa rota", HttpStatus.UNAUTHORIZED);

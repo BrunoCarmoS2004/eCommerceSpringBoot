@@ -37,7 +37,7 @@ public class AuthenticationService {
     var usuarioPassword = new UsernamePasswordAuthenticationToken(usuario.email(), usuario.password());
     var auth = this.authenticationManager.authenticate(usuarioPassword);
     var token = tokenService.generateToken((Usuario)auth.getPrincipal());
-    return ResponseEntity.ok(new LoginResponseDTO(token));
+    return ResponseEntity.ok(new LoginResponseDTO(token, usuario.email()));
   }
 
 
@@ -54,7 +54,7 @@ public class AuthenticationService {
       Optional<Endereco> enderecoOptional = enderecoRespository.findById(usuario.enderecoId());
       Endereco endereco = enderecoOptional.get();
       String encryptedPassword = new BCryptPasswordEncoder().encode(usuario.password());
-      Usuario novoUsuario = new Usuario(usuario.email(), encryptedPassword, usuario.nome(), usuario.cpf(), usuario.role(), usuario.saldo(), usuario.cep(), usuario.rua(), usuario.enderecoId());
+      Usuario novoUsuario = new Usuario(usuario.email(), encryptedPassword, usuario.nome(), usuario.cpf(), usuario.role(), usuario.cep(), usuario.rua(), usuario.enderecoId());
       novoUsuario.getEnderecos().add(endereco);
       usuarioRepository.save(novoUsuario);
       Carrinho carrinho = new Carrinho(novoUsuario);

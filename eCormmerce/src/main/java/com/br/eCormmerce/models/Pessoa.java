@@ -7,10 +7,7 @@ import jakarta.validation.constraints.Pattern;
 
 @MappedSuperclass
 public abstract class Pessoa {
-  @NotBlank(message = "Um nome é obrigatório")
   private String nome;
-
-
   @NotBlank(message = "CPF é obrigatório")
   @Pattern(regexp = "^\\d{11}$", message = "CPF deve conter apenas números e ter 11 dígitos")
   @Column(unique = true)
@@ -27,6 +24,12 @@ public abstract class Pessoa {
     this.cep = cep;
     this.rua = rua;
     this.saldo = saldo;
+  }
+  public Pessoa(String nome, String cpf, String cep, String rua) {
+    this.nome = nome;
+    this.cpf = cpf;
+    this.cep = cep;
+    this.rua = rua;
   }
   public Pessoa(String nome, String cpf) {
     this.nome = nome;

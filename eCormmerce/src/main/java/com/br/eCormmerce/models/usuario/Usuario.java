@@ -17,6 +17,7 @@ import com.br.eCormmerce.models.Produtos;
 import com.br.eCormmerce.models.Vendas;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +26,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,7 +41,11 @@ public class Usuario extends Pessoa implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   private String id;
+  @Column(unique = true)
+  @NotBlank(message = "O campo email não pode estar em branco")
+  @Pattern(regexp = ".*@.*\\.com", message = "O email deve conter '@' e .com")
   private String email;
+  @Pattern(regexp = "^.{8,}$", message = "Senha deve ter pelo menos 8 caracteres")
   private String password;
   private UserRole role;
   private Long enderecoId;
@@ -67,27 +75,21 @@ public class Usuario extends Pessoa implements UserDetails {
 
 
 
-  public Usuario(String email, String password, String nome, String cpf, UserRole role, double saldo, String cep, String rua, Long enderecoId){
-    super(nome, cpf, saldo,rua,cep);
+  public Usuario(String email, String password, String nome, String cpf, UserRole role, String cep, String rua, Long enderecoId){
+    super(nome, cpf,rua,cep);
     this.email = email;
     this.password = password;
     this.role = role;
     this.enderecoId = enderecoId;
   }
-  public Usuario(String nome, String cpf, UserRole role, double saldo, String cep, String rua, Long enderecoId){
-    super(nome, cpf, saldo,rua,cep);
+  public Usuario(String nome, String cpf, UserRole role, String cep, String rua, Long enderecoId){
+    super(nome, cpf,rua,cep);
     this.role = role;
     this.enderecoId = enderecoId;
   }
   public Usuario(String id, Double saldo){
     super(saldo);
     this.id = id;
-  }
-  public Usuario(String email, String password, String nome, String cpf, UserRole role, double saldo, String cep, String rua){
-    super(nome, cpf, saldo,rua,cep);
-    this.role = role;
-    this.email = email;
-    this.password = password;
   }
 
   @Override
