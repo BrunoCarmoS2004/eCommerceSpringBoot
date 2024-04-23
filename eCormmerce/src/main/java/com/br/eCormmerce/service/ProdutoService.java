@@ -51,7 +51,7 @@ public class ProdutoService {
   public ResponseEntity<Object>atualizarProduto(Long id, ProdutoDTO produtoDTO){
     if (produtosRepository.existsById(id)) {
       if (categoriaRepository.existsById(produtoDTO.categoriaId())) {
-        Optional<Produtos> produtoOptional= produtosRepository.findById(id)
+        Optional<Produtos> produtoOptional= produtosRepository.findById(id);
         Produtos produtos = produtoOptional.get();
         produtos.setCategoriaId(produtoDTO.categoriaId());
         produtos.setProduto_descricao(produtoDTO.produto_descricao());
