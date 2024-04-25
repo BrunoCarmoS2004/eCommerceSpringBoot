@@ -24,23 +24,26 @@ import com.br.eCormmerce.repositorys.usuarioRepository.UsuarioRepository;
 public class ProdutoService {
   @Autowired
   private ProdutosRepository produtosRepository;
-  @Autowired 
+  @Autowired
   private UsuarioRepository usuarioRepository;
   @Autowired
   private CategoriaRepository categoriaRepository;
 
-  public List<Produtos>listarTodosProdutos(){
+  public List<Produtos> listarTodosProdutos() {
     return produtosRepository.findAll();
   }
-  public ResponseEntity<Object>criarProduto(ProdutoDTO produtoDTO){
+
+  public ResponseEntity<Object> criarProduto(ProdutoDTO produtoDTO) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     UserDetails userDetails = (UserDetails) authentication.getPrincipal();
     UserDetails usuarioDetails = usuarioRepository.findByEmail(userDetails.getUsername());
     Usuario usuario = (Usuario) usuarioDetails;
-    if (categoriaRepository.existsById(produtoDTO.categoriaId())){
+    if (categoriaRepository.existsById(produtoDTO.categoriaId())) {
       Optional<Categoria> categoriaOptional = categoriaRepository.findById(produtoDTO.categoriaId());
       Categoria categoria = categoriaOptional.get();
-      Produtos produtos = new Produtos(produtoDTO.produto_titulo(),produtoDTO.produto_preco(),produtoDTO.produto_quantidade(),produtoDTO.produto_descricao(),produtoDTO.produto_imagem(),usuario.getId(),produtoDTO.categoriaId());
+      Produtos produtos = new Produtos(produtoDTO.produto_titulo(), produtoDTO.produto_preco(),
+          produtoDTO.produto_quantidade(), produtoDTO.produto_descricao(), produtoDTO.produto_imagem(), usuario.getId(),
+          produtoDTO.categoriaId());
       produtos.setCategoriaNome(categoria.getCategoria_nome());
       return ResponseEntity.ok(produtosRepository.save(produtos));
     }
@@ -48,10 +51,10 @@ public class ProdutoService {
     return ResponseEntity.badRequest().body(produtoNaoCriado);
   }
 
-  public ResponseEntity<Object>atualizarProduto(Long id, ProdutoDTO produtoDTO){
+  public ResponseEntity<Object> atualizarProduto(Long id, ProdutoDTO produtoDTO) {
     if (produtosRepository.existsById(id)) {
       if (categoriaRepository.existsById(produtoDTO.categoriaId())) {
-        Optional<Produtos> produtoOptional= produtosRepository.findById(id);
+        Optional<Produtos> produtoOptional = produtosRepository.findById(id);
         Produtos produtos = produtoOptional.get();
         produtos.setCategoriaId(produtoDTO.categoriaId());
         produtos.setProduto_descricao(produtoDTO.produto_descricao());
@@ -71,8 +74,8 @@ public class ProdutoService {
     return ResponseEntity.badRequest().body(idProdutoNaoEncontrado);
   }
 
-  public ResponseEntity<Object>deletarProduto(Long id){
-    if(produtosRepository.existsById(id)){
+  public ResponseEntity<Object> deletarProduto(Long id) {
+    if (produtosRepository.existsById(id)) {
       produtosRepository.deleteById(id);
       String produtoExcluido = "O produto foi excluido com sucesso!";
       return ResponseEntity.ok(produtoExcluido);
@@ -83,8 +86,9 @@ public class ProdutoService {
 
   public List<Produtos> produtosDestaque() {
     List<Produtos> allProdutos = produtosRepository.findAll();
-    //Ordenar a lista de produtos com base na quantidade de vendas (em ordem decrescente)
+    // Ordenar a lista de produtos com base na quantidade de vendas (em ordem
+    // decrescente)
     Collections.sort(allProdutos, Comparator.comparingInt(Produtos::getProduto_qtd_vendas).reversed());
     return allProdutos;
-}
+  }
 }

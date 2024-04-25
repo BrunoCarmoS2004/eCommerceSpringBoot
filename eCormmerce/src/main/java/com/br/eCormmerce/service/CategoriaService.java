@@ -23,11 +23,11 @@ public class CategoriaService {
   @Autowired
   private UsuarioRepository usuarioRepository;
 
-  public List<Categoria>listarCategoria(){
+  public List<Categoria> listarCategoria() {
     return categoriaRepository.findAll();
   }
 
-  public ResponseEntity<Object>criarCategoria(CategoriaDTO categoriaDTO){
+  public ResponseEntity<Object> criarCategoria(CategoriaDTO categoriaDTO) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     UserDetails userDetails = (UserDetails) authentication.getPrincipal();
     UserDetails usuarioDetails = usuarioRepository.findByEmail(userDetails.getUsername());
@@ -36,8 +36,8 @@ public class CategoriaService {
     return ResponseEntity.ok(categoriaRepository.save(categoria));
   }
 
-  public ResponseEntity<Object>atualizarCategoria(Long id, CategoriaDTO categoriaDTO){
-    if(categoriaRepository.existsById(id)){
+  public ResponseEntity<Object> atualizarCategoria(Long id, CategoriaDTO categoriaDTO) {
+    if (categoriaRepository.existsById(id)) {
       Optional<Categoria> categoriaOptional = categoriaRepository.findById(id);
       Categoria categoria = categoriaOptional.get();
       categoria.setAdminid(categoriaDTO.adminid());
@@ -48,7 +48,7 @@ public class CategoriaService {
     return ResponseEntity.badRequest().body(idCategoriaNaoEncontrado);
   }
 
-  public ResponseEntity<Object>deletarCategoria(Long id){
+  public ResponseEntity<Object> deletarCategoria(Long id) {
     if (categoriaRepository.existsById(id)) {
       categoriaRepository.deleteById(id);
       String categoriaExcluida = "Categoria Excluida com sucesso!";

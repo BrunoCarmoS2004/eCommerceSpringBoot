@@ -15,16 +15,17 @@ import com.br.eCormmerce.repositorys.EnderecoRespository;
 public class EnderecoService {
   @Autowired
   private EnderecoRespository enderecoRespository;
-  public List<Endereco>listarEnderecos(){
+
+  public List<Endereco> listarEnderecos() {
     return enderecoRespository.findAll();
   }
 
-  public ResponseEntity<Object>criarEnderecos(EnderecoDTO enderecoDTO){
+  public ResponseEntity<Object> criarEnderecos(EnderecoDTO enderecoDTO) {
     Endereco endereco = new Endereco(enderecoDTO.pais(), enderecoDTO.estado(), enderecoDTO.cidade());
     return ResponseEntity.ok(enderecoRespository.save(endereco));
   }
 
-  public ResponseEntity<Object>atualizarEnderecos(Long id, EnderecoDTO enderecoDTO){
+  public ResponseEntity<Object> atualizarEnderecos(Long id, EnderecoDTO enderecoDTO) {
     if (enderecoRespository.existsById(id)) {
       Optional<Endereco> enderecoOptional = enderecoRespository.findById(id);
       Endereco endereco = enderecoOptional.get();
@@ -37,7 +38,7 @@ public class EnderecoService {
     return ResponseEntity.badRequest().body(enderecoNaoExiste);
   }
 
-  public ResponseEntity<Object>deletarEnderecos(Long id){
+  public ResponseEntity<Object> deletarEnderecos(Long id) {
     if (enderecoRespository.existsById(id)) {
       enderecoRespository.deleteById(id);
       String enderecoExcluido = "Endereço excluido com sucesso!";
