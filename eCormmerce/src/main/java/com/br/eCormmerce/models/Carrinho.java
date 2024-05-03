@@ -49,5 +49,4 @@ public class Carrinho {
     public String getUsuarioId() {
         return usuario.getId();
     }
-
 }
