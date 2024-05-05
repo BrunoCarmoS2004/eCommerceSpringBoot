@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,11 +34,12 @@ public class AuthenticationService {
   @Autowired
   private CarrinhoRepository carrinhoRepository;
 
-  public ResponseEntity<Object> UsuarioLogin(AuthenticationDTO usuario){
-    var usuarioPassword = new UsernamePasswordAuthenticationToken(usuario.email(), usuario.password());
+  public ResponseEntity<Object> UsuarioLogin(AuthenticationDTO login){
+    var usuarioPassword = new UsernamePasswordAuthenticationToken(login.email(), login.password());
     var auth = this.authenticationManager.authenticate(usuarioPassword);
     var token = tokenService.generateToken((Usuario)auth.getPrincipal());
-    return ResponseEntity.ok(new LoginResponseDTO(token, usuario.email()));
+    UserDetails usuario = usuarioRepository.findByEmail(login.email());
+    return ResponseEntity.ok(new LoginResponseDTO(token, usuario.getUsername(), usuario.getAuthorities()));
   }
 
 
