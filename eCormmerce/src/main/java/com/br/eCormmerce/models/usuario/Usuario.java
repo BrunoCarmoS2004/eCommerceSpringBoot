@@ -45,7 +45,6 @@ public class Usuario extends Pessoa implements UserDetails {
   @NotBlank(message = "O campo email não pode estar em branco")
   @Pattern(regexp = ".*@.*\\.com", message = "O email deve conter '@' e .com")
   private String email;
-  @Pattern(regexp = "^.{8,}$", message = "Senha deve ter pelo menos 8 caracteres")
   private String password;
   private UserRole role;
   private Long enderecoId;

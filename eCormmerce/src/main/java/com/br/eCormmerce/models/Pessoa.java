@@ -3,13 +3,12 @@ package com.br.eCormmerce.models;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+
 
 @MappedSuperclass
 public abstract class Pessoa {
   private String nome;
   @NotBlank(message = "CPF é obrigatório")
-  @Pattern(regexp = "^\\d{11}$", message = "CPF deve conter apenas números e ter 11 dígitos")
   @Column(unique = true)
   private String cpf;
   
