@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
@@ -24,7 +26,9 @@ public class SecurityConfiguration {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
-    return httpSecurity.csrf(csrf -> csrf.disable()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(authorize -> authorize
+    return httpSecurity.csrf(csrf -> csrf.disable()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+    
+    .authorizeHttpRequests(authorize -> authorize
     .requestMatchers("/vendedor/**").hasRole("VENDEDOR")
     .requestMatchers("/admin/**").hasRole("ADMIN")
     .requestMatchers("/cliente/**").hasRole("CLIENTE")
@@ -33,9 +37,15 @@ public class SecurityConfiguration {
     .requestMatchers(HttpMethod.GET,"/endereco/get").permitAll()
     .requestMatchers(HttpMethod.POST,"/auth/register").permitAll()
     .requestMatchers("/endereco/**").permitAll()
-    .requestMatchers("/h2-console/**").permitAll()
     .requestMatchers(HttpMethod.POST,"/admin/endereco/criar").permitAll()
     .anyRequest().authenticated())
+    .logout(logout -> logout
+            .logoutUrl("/auth/logout")
+            .logoutSuccessHandler((request, response, authentication) -> {
+                // Você pode adicionar qualquer manipulação adicional aqui após o logout bem-sucedido
+                response.setStatus(HttpServletResponse.SC_OK);
+            })
+    )
     .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
     .build();
   }
