@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
 public class EnderecoController {
     @Autowired
     private EnderecoService enderecoService;
-    @GetMapping
+    @GetMapping("/get")
     public List<Endereco>listarTodosEnderecos(){
         return enderecoService.listarEnderecos();
     }

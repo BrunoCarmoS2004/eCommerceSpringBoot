@@ -30,6 +30,7 @@ public class SecurityConfiguration {
     .requestMatchers("/cliente/**").hasRole("CLIENTE")
     .requestMatchers("/produto/**").hasRole("CLIENTE")
     .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
+    .requestMatchers(HttpMethod.GET,"/endereco/get").permitAll()
     .requestMatchers(HttpMethod.POST,"/auth/register").permitAll()
     .requestMatchers("/endereco/**").permitAll()
     .requestMatchers("/h2-console/**").permitAll()
