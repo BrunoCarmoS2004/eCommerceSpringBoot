@@ -48,9 +48,7 @@ public class Usuario extends Pessoa implements UserDetails {
   private String password;
   private UserRole role;
   private Long enderecoId;
-    
-  @ManyToMany
-  private List<Endereco> enderecos = new ArrayList<>();
+
   //Carrinho de todos os usuarios
   @OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private Carrinho carrinho;
@@ -71,21 +69,13 @@ public class Usuario extends Pessoa implements UserDetails {
   private List<Categoria> categorias;
 
 
-
-
-
-  public Usuario(String email, String password, String nome, String cpf, UserRole role, String cep, String rua, Long enderecoId){
-    super(nome, cpf,rua,cep);
+  public Usuario(String email, String password, String nome, String sobreNome, String numeroTelefone, String cpf, UserRole role, String cep, String logradouro, String bairro, String localidade, String uf, String pais){
+    super(nome, sobreNome, numeroTelefone, cpf, cep, logradouro, bairro, localidade, uf, pais);
     this.email = email;
     this.password = password;
     this.role = role;
-    this.enderecoId = enderecoId;
   }
-  public Usuario(String nome, String cpf, UserRole role, String cep, String rua, Long enderecoId){
-    super(nome, cpf,rua,cep);
-    this.role = role;
-    this.enderecoId = enderecoId;
-  }
+ 
   public Usuario(String id, Double saldo){
     super(saldo);
     this.id = id;
