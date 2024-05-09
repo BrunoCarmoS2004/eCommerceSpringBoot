@@ -69,8 +69,8 @@ public class Usuario extends Pessoa implements UserDetails {
   private List<Categoria> categorias;
 
 
-  public Usuario(String email, String password, String nome, String sobreNome, String numeroTelefone, String cpf, UserRole role, String cep, String logradouro, String bairro, String localidade, String uf, String pais){
-    super(nome, sobreNome, numeroTelefone, cpf, cep, logradouro, bairro, localidade, uf, pais);
+  public Usuario(String email, String password, String nome, String sobreNome, String numeroTelefone, String cpf, UserRole role, String cep, String logradouro, String complemento, String bairro, String localidade, String uf, String pais){
+    super(nome, sobreNome, numeroTelefone, cpf, cep, logradouro, complemento, bairro, localidade, uf, pais);
     this.email = email;
     this.password = password;
     this.role = role;

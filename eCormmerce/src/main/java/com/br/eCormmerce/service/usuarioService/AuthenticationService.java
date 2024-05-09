@@ -63,6 +63,7 @@ public class AuthenticationService {
     usuario.role(),
     usuario.cep(),
     usuario.logradouro(),
+    usuario.complemento(),
     usuario.bairro(),
     usuario.localidade(),
     usuario.uf(),
