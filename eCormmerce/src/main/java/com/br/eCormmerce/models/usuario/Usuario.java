@@ -27,10 +27,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Usuario extends Pessoa implements UserDetails {
@@ -43,7 +45,6 @@ public class Usuario extends Pessoa implements UserDetails {
   private String email;
   private String password;
   private UserRole role;
-  private Long enderecoId;
 
   //Carrinho de todos os usuarios
   @OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

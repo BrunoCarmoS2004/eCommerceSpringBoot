@@ -19,14 +19,8 @@ public class Endereco {
   private Long id;
   @NotBlank
   private String pais;
-  @NotBlank
-  private String estado;
-  @NotBlank
-  private String cidade;
   
-  public Endereco(String pais, String estado, String cidade){
+  public Endereco(String pais){
     this.pais = pais;
-    this.estado = estado;
-    this.cidade = cidade;
   }
 }
