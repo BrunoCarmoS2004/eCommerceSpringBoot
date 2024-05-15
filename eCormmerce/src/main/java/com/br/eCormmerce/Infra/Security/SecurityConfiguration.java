@@ -36,6 +36,7 @@ public class SecurityConfiguration {
     .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
     .requestMatchers(HttpMethod.GET,"/endereco/get").permitAll()
     .requestMatchers(HttpMethod.POST,"/auth/register").permitAll()
+    .requestMatchers(HttpMethod.GET,"/usuario/verificar/**").permitAll()
     .requestMatchers("/endereco/**").permitAll()
     .requestMatchers(HttpMethod.POST,"/admin/endereco/criar").permitAll()
     .anyRequest().authenticated())

@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.br.eCormmerce.dto.usuarioDTO.UsuarioCpfDTO;
 import com.br.eCormmerce.dto.usuarioDTO.UsuarioDTO;
+import com.br.eCormmerce.dto.usuarioDTO.UsuarioEmailDTO;
 import com.br.eCormmerce.dto.usuarioDTO.UsuarioSaldoDTO;
 import com.br.eCormmerce.models.usuario.UserRole;
 import com.br.eCormmerce.models.usuario.Usuario;
@@ -20,6 +22,22 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class UsuarioService {
   @Autowired
   private UsuarioRepository usuarioRepository;
+
+  public ResponseEntity<Object> verificarEmailEmUso(UsuarioEmailDTO verificar){
+    System.out.println(usuarioRepository.findByEmail(verificar.email()));
+    if (usuarioRepository.findByEmail(verificar.email()) != null) {
+      return ResponseEntity.badRequest().build();
+    }
+    return ResponseEntity.ok().build();
+  }
+
+  public ResponseEntity<Object> verificarCPFEmUso(UsuarioCpfDTO verificar){
+    if (usuarioRepository.existsByCpf(verificar.cpf())) {
+      String cpfEmUso = "CPF já em uso";
+      return ResponseEntity.badRequest().body(cpfEmUso);
+    }
+    return ResponseEntity.ok().build();
+  }
 
   public List<Usuario> listarUsuarioCliente(){
     List<Usuario> usuariosList = usuarioRepository.findAll();

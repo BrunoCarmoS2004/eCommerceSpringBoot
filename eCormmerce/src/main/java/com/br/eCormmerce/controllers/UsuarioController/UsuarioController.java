@@ -8,10 +8,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.br.eCormmerce.dto.usuarioDTO.UsuarioCpfDTO;
 import com.br.eCormmerce.dto.usuarioDTO.UsuarioDTO;
+import com.br.eCormmerce.dto.usuarioDTO.UsuarioEmailDTO;
 import com.br.eCormmerce.service.usuarioService.UsuarioService;
 
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
+
+
 
 @RestController
 @RequestMapping("/usuario")
@@ -27,4 +32,13 @@ public class UsuarioController {
   public ResponseEntity<Object> deletarUsuario(){
     return usuarioService.deletarUsuario();
   }
+  @GetMapping("/verificar/email")
+  public ResponseEntity<Object> verificarEmailEmUso(@RequestBody UsuarioEmailDTO verificar) {
+     return usuarioService.verificarEmailEmUso(verificar);
+  }
+  @GetMapping("/verificar/cpf")
+  public ResponseEntity<Object> verificarCPFEmUso(@RequestBody UsuarioCpfDTO verificar) {
+      return usuarioService.verificarCPFEmUso(verificar);
+  }
+  
 }
