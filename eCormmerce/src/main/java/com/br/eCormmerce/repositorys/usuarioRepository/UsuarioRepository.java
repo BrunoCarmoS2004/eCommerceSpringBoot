@@ -10,4 +10,5 @@ import com.br.eCormmerce.models.usuario.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, String>{
   UserDetails findByEmail(String email);
   Boolean existsByCpf(String cpf);
+  Usuario findByCpf(String cpf);
 }

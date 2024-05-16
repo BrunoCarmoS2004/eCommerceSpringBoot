@@ -1,7 +1,9 @@
 package com.br.eCormmerce.service.usuarioService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,20 +25,19 @@ public class UsuarioService {
   @Autowired
   private UsuarioRepository usuarioRepository;
 
-  public ResponseEntity<Object> verificarEmailEmUso(UsuarioEmailDTO verificar){
-    System.out.println(usuarioRepository.findByEmail(verificar.email()));
-    if (usuarioRepository.findByEmail(verificar.email()) != null) {
-      return ResponseEntity.badRequest().build();
-    }
-    return ResponseEntity.ok().build();
-  }
+public ResponseEntity<Object> verificarEmailEmUso(String email){
+    boolean emailEmUso = usuarioRepository.findByEmail(email) != null;
+    Map<String, Boolean> response = new HashMap<>();
+    response.put("emailEmUso", emailEmUso);
+    return ResponseEntity.ok(response);
+}
 
-  public ResponseEntity<Object> verificarCPFEmUso(UsuarioCpfDTO verificar){
-    if (usuarioRepository.existsByCpf(verificar.cpf())) {
-      String cpfEmUso = "CPF já em uso";
-      return ResponseEntity.badRequest().body(cpfEmUso);
-    }
-    return ResponseEntity.ok().build();
+  public ResponseEntity<Object> verificarCPFEmUso(String cpf){
+    boolean cpfEmUso = usuarioRepository.findByCpf(cpf) != null;
+    Map<String, Boolean> response = new HashMap<>();
+    response.put("cpfEmUso", cpfEmUso);
+    System.out.println(response);
+    return ResponseEntity.ok(response);
   }
 
   public List<Usuario> listarUsuarioCliente(){

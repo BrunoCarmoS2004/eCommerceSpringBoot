@@ -15,6 +15,7 @@ import com.br.eCormmerce.service.usuarioService.UsuarioService;
 
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 
@@ -32,13 +33,13 @@ public class UsuarioController {
   public ResponseEntity<Object> deletarUsuario(){
     return usuarioService.deletarUsuario();
   }
-  @GetMapping("/verificar/email")
-  public ResponseEntity<Object> verificarEmailEmUso(@RequestBody UsuarioEmailDTO verificar) {
-     return usuarioService.verificarEmailEmUso(verificar);
+  @GetMapping("/verificar/email/{email}")
+  public ResponseEntity<Object> verificarEmailEmUso(@PathVariable String email) {
+     return usuarioService.verificarEmailEmUso(email);
   }
-  @GetMapping("/verificar/cpf")
-  public ResponseEntity<Object> verificarCPFEmUso(@RequestBody UsuarioCpfDTO verificar) {
-      return usuarioService.verificarCPFEmUso(verificar);
+  @GetMapping("/verificar/cpf/{cpf}")
+  public ResponseEntity<Object> verificarCPFEmUso(@PathVariable String cpf) {
+      return usuarioService.verificarCPFEmUso(cpf);
   }
   
 }
