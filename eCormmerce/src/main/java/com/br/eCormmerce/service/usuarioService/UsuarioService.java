@@ -36,7 +36,6 @@ public ResponseEntity<Object> verificarEmailEmUso(String email){
     boolean cpfEmUso = usuarioRepository.findByCpf(cpf) != null;
     Map<String, Boolean> response = new HashMap<>();
     response.put("cpfEmUso", cpfEmUso);
-    System.out.println(response);
     return ResponseEntity.ok(response);
   }
 
