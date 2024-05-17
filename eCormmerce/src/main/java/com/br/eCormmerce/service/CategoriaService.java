@@ -32,7 +32,9 @@ public class CategoriaService {
     UserDetails userDetails = (UserDetails) authentication.getPrincipal();
     UserDetails usuarioDetails = usuarioRepository.findByEmail(userDetails.getUsername());
     Usuario usuario = (Usuario) usuarioDetails;
-    Categoria categoria = new Categoria(categoriaDTO.categoria_nome(), usuario.getId());
+    Categoria categoria = new Categoria(
+      categoriaDTO.categoria_nome(), 
+      usuario.getId());
     return ResponseEntity.ok(categoriaRepository.save(categoria));
   }
 

@@ -21,7 +21,7 @@ public class EnderecoService {
   }
 
   public ResponseEntity<Object> criarEnderecos(EnderecoDTO enderecoDTO) {
-    Endereco endereco = new Endereco(enderecoDTO.pais(), enderecoDTO.estado(), enderecoDTO.cidade());
+    Endereco endereco = new Endereco(enderecoDTO.pais());
     return ResponseEntity.ok(enderecoRespository.save(endereco));
   }
 
@@ -30,8 +30,6 @@ public class EnderecoService {
       Optional<Endereco> enderecoOptional = enderecoRespository.findById(id);
       Endereco endereco = enderecoOptional.get();
       endereco.setPais(enderecoDTO.pais());
-      endereco.setEstado(enderecoDTO.estado());
-      endereco.setCidade(enderecoDTO.cidade());
       return ResponseEntity.ok(enderecoRespository.save(endereco));
     }
     String enderecoNaoExiste = "Endereço nao existe!";

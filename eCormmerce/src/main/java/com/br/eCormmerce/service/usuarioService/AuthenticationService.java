@@ -1,7 +1,5 @@
 package com.br.eCormmerce.service.usuarioService;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,10 +13,8 @@ import com.br.eCormmerce.dto.usuarioDTO.AuthenticationDTO;
 import com.br.eCormmerce.dto.usuarioDTO.LoginResponseDTO;
 import com.br.eCormmerce.dto.usuarioDTO.RegisterDTO;
 import com.br.eCormmerce.models.Carrinho;
-import com.br.eCormmerce.models.Endereco;
 import com.br.eCormmerce.models.usuario.Usuario;
 import com.br.eCormmerce.repositorys.CarrinhoRepository;
-import com.br.eCormmerce.repositorys.EnderecoRespository;
 import com.br.eCormmerce.repositorys.usuarioRepository.UsuarioRepository;
 
 @Service
@@ -30,8 +26,6 @@ public class AuthenticationService {
   @Autowired 
   private UsuarioRepository usuarioRepository;
   @Autowired
-  private EnderecoRespository enderecoRespository;
-  @Autowired
   private CarrinhoRepository carrinhoRepository;
 
   public ResponseEntity<Object> UsuarioLogin(AuthenticationDTO login){
@@ -39,7 +33,12 @@ public class AuthenticationService {
     var auth = this.authenticationManager.authenticate(usuarioPassword);
     var token = tokenService.generateToken((Usuario)auth.getPrincipal());
     UserDetails usuario = usuarioRepository.findByEmail(login.email());
-    return ResponseEntity.ok(new LoginResponseDTO(token, usuario.getUsername(), usuario.getAuthorities()));
+    return ResponseEntity.ok(new LoginResponseDTO
+      (
+      token, 
+      usuario.getUsername(), 
+      usuario.getAuthorities()
+      ));
   }
 
 
@@ -52,18 +51,27 @@ public class AuthenticationService {
       String cpfEmUso = "CPF já em uso";
       return ResponseEntity.badRequest().body(cpfEmUso);
     }
-    if (enderecoRespository.existsById(usuario.enderecoId())) {
-      Optional<Endereco> enderecoOptional = enderecoRespository.findById(usuario.enderecoId());
-      Endereco endereco = enderecoOptional.get();
-      String encryptedPassword = new BCryptPasswordEncoder().encode(usuario.password());
-      Usuario novoUsuario = new Usuario(usuario.email(), encryptedPassword, usuario.nome(), usuario.cpf(), usuario.role(), usuario.cep(), usuario.rua(), usuario.enderecoId());
-      novoUsuario.getEnderecos().add(endereco);
-      usuarioRepository.save(novoUsuario);
-      Carrinho carrinho = new Carrinho(novoUsuario);
-      carrinhoRepository.save(carrinho);
-      return ResponseEntity.ok(novoUsuario);
-    }
-    String enderecoNaoEncontrado = "Endereço nao encontrado";
-    return ResponseEntity.badRequest().body(enderecoNaoEncontrado);
+    String encryptedPassword = new BCryptPasswordEncoder().encode(usuario.password());
+    Usuario novoUsuario = new Usuario
+    (
+    usuario.email(),
+    encryptedPassword,
+    usuario.nome(),
+    usuario.sobreNome(),
+    usuario.numeroTelefone(),
+    usuario.cpf(),
+    usuario.role(),
+    usuario.cep(),
+    usuario.logradouro(),
+    usuario.complemento(),
+    usuario.bairro(),
+    usuario.localidade(),
+    usuario.uf(),
+    usuario.pais()
+    );
+    usuarioRepository.save(novoUsuario);
+    Carrinho carrinho = new Carrinho(novoUsuario);
+    carrinhoRepository.save(carrinho);
+    return ResponseEntity.ok(novoUsuario);
   }
 }

@@ -1,6 +1,5 @@
 package com.br.eCormmerce.models.usuario;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.br.eCormmerce.models.Avaliacao;
 import com.br.eCormmerce.models.Carrinho;
 import com.br.eCormmerce.models.Categoria;
-import com.br.eCormmerce.models.Endereco;
 import com.br.eCormmerce.models.Pessoa;
 import com.br.eCormmerce.models.Produtos;
 import com.br.eCormmerce.models.Vendas;
@@ -23,18 +21,18 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Usuario extends Pessoa implements UserDetails {
@@ -47,10 +45,7 @@ public class Usuario extends Pessoa implements UserDetails {
   private String email;
   private String password;
   private UserRole role;
-  private Long enderecoId;
-    
-  @ManyToMany
-  private List<Endereco> enderecos = new ArrayList<>();
+
   //Carrinho de todos os usuarios
   @OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private Carrinho carrinho;
@@ -71,21 +66,13 @@ public class Usuario extends Pessoa implements UserDetails {
   private List<Categoria> categorias;
 
 
-
-
-
-  public Usuario(String email, String password, String nome, String cpf, UserRole role, String cep, String rua, Long enderecoId){
-    super(nome, cpf,rua,cep);
+  public Usuario(String email, String password, String nome, String sobreNome, String numeroTelefone, String cpf, UserRole role, String cep, String logradouro, String complemento, String bairro, String localidade, String uf, String pais){
+    super(nome, sobreNome, numeroTelefone, cpf, cep, logradouro, complemento, bairro, localidade, uf, pais);
     this.email = email;
     this.password = password;
     this.role = role;
-    this.enderecoId = enderecoId;
   }
-  public Usuario(String nome, String cpf, UserRole role, String cep, String rua, Long enderecoId){
-    super(nome, cpf,rua,cep);
-    this.role = role;
-    this.enderecoId = enderecoId;
-  }
+ 
   public Usuario(String id, Double saldo){
     super(saldo);
     this.id = id;
