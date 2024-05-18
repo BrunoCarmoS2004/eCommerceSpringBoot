@@ -1,0 +1,134 @@
+<main>
+  <div class="form_wrapper">
+    <div class="form_container" *ngIf="!isValidUser">
+      <div class="title_container">
+        <h2>Faça seu cadastro!</h2>
+      </div>
+      <div class="row clearfix">
+        <div class="">
+          <form  [formGroup]="usuarioRegisterForm">
+            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+              <input type="email" name="email" placeholder="Seu Email" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuario($any(usuarioRegisterForm).controls['email'])|| emailEmUso}"  formControlName="email" required />
+            </div>
+            <div *ngIf="!isValidEmail">
+              <p>Email no formato errado!</p>
+            </div>
+            <div *ngIf="emailEmUso">
+              <p>Email ja em uso!</p>
+            </div>
+            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+              <input type="text" name="cpf" placeholder="Seu cpf" formControlName="cpf" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuario($any(usuarioRegisterForm).controls['cpf'])|| cpfEmUso}" (input)="mascaraCPF(usuarioRegisterForm.value.cpf)" maxlength="11" required />
+            </div>
+            <div *ngIf="!isMinLenghCpf">
+              <p>O CPF deve conter 11 digitos</p>
+            </div>
+            <div *ngIf="cpfEmUso">
+              <p>CPF ja em uso!</p>
+            </div>
+            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+              <input type="password" name="password" placeholder="Sua Senha" formControlName="password" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuario($any(usuarioRegisterForm).controls['password'])}" required />
+            </div>
+            <div *ngIf="!isValidPassword">
+              <p>Sua senha precisa ter mais de 8 caracteres</p>
+            </div>
+            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+              <input type="password" name="confirmPassword" placeholder="Digite sua senha novamente" formControlName="confirmPassword" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuario($any(usuarioRegisterForm).controls['confirmPassword'])}" required />
+            </div>
+            <div *ngIf="!isEqualPassoword">
+              <p>As senhas não combinão!</p>
+            </div>
+            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+              <input type="text" name="numeroTelefone" placeholder="(00) 00000-0000" formControlName="numeroTelefone" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuario($any(usuarioRegisterForm).controls['numeroTelefone'])}" (input)="mascaraTelefone(usuarioRegisterForm.value.numeroTelefone)" maxlength="15"  required />
+            </div>
+            <div class="row clearfix">
+              <div class="col_half">
+                <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+                  <input type="text" name="name" placeholder="Nome" formControlName="nome" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuario($any(usuarioRegisterForm).controls['nome'])}" required/>
+                </div>
+              </div>
+              <div class="col_half">
+                <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+                  <input type="text" name="sobreNome" placeholder="Sobre Nome" formControlName="sobreNome" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuario($any(usuarioRegisterForm).controls['sobreNome'])}" required />
+                </div>
+              </div>
+            </div>
+          </form>
+          <button class="button" (click)="registarDadosBase()">Continuar</button>
+        </div>
+      </div>
+    </div>
+    <div class="form_container" *ngIf="isValidUser">
+      <div class="title_container">
+        <h2>Complete seu cadastro</h2>
+      </div>
+      <p>Selecione seu Pais:</p>
+          <div class="input_field select_option">
+            <select [(ngModel)]="selectedPais">
+              <option *ngFor="let pais of paises" [value]="pais">{{ pais }}</option>
+            </select>
+            <div class="select_arrow"></div>
+          </div>
+      <div class="row clearfix" *ngIf="selectedPais">
+        <div>
+          <form>
+            <div class="row clearfix" *ngIf="selectedPais === 'Brasil'">
+              <div class="col_half" >
+                <div class="input_field" > <span><i aria-hidden="true" class="fa fa-user"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+                  <input type="text" name="cep" placeholder="Seu CEP" [(ngModel)]="cep" name="cep" (ngModelChange)="trazerDadosViaCep()" [ngClass]="{ 'campo-vazio': isCampoVazioEndereco}" required/>
+                </div>
+                <div *ngIf="isCampoVazioEndereco && selectedPais === 'Brasil'">
+                  <p>Informe seu CEP!</p>
+                </div>
+              </div>
+              <div class="col_half">
+                <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+                  <input type="text" name="name" placeholder="Cidade" [(ngModel)]="enderecoAPI.localidade" [disabled]="selectedPais === 'Brasil'"  [ngClass]="{ 'campo-vazio': isCampoVazioEndereco}" required />
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!busacandoAPICEP">
+              <p>Carregando...</p>
+            </div>
+            <div class="input_field" *ngIf="selectedPais !== 'Brasil'"> <span><i aria-hidden="true" class="fa fa-user"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+              <input type="text" name="localidade" placeholder="Cidade" [(ngModel)]="enderecoAPI.localidade" [disabled]="selectedPais === 'Brasil'"  [ngClass]="{ 'campo-vazio': isCampoVazioEndereco}" required />
+            </div>
+            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+              <input type="text" name="logradouro" placeholder="Rua" [(ngModel)]="enderecoAPI.logradouro" [disabled]="selectedPais === 'Brasil'"  [ngClass]="{ 'campo-vazio': isCampoVazioEndereco}" required />
+            </div>
+            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+              <input type="text" name="complemento" placeholder="Complemento" [(ngModel)]="complemento" required />
+            </div>
+            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+              <input type="text" name="bairro" placeholder="Bairro" [(ngModel)]="enderecoAPI.bairro" [disabled]="selectedPais === 'Brasil'" [ngClass]="{ 'campo-vazio': isCampoVazioEndereco}" required />
+            </div>
+            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+              <input type="text" name="uf" placeholder="Estado" [(ngModel)]="enderecoAPI.uf" [disabled]="selectedPais === 'Brasil'"  [ngClass]="{ 'campo-vazio': isCampoVazioEndereco}"  required />
+            </div>
+          </form>
+          <button class="button" (click)="isCampoVazioDadosEndereco()">Finalizar Cadastro</button>
+        </div>
+      </div>
+      <button class="back_button" (click)="voltar()">Voltar</button>
+    </div>
+  </div>
+  <div class="form_wrapper">
+    <div class="form_container">
+      <div class="title_container">
+        <h2>Responsive Registration Form</h2>
+      </div>
+      <div class="row clearfix">
+        <div class="">
+          <form>
+            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+              <input type="email" name="email" placeholder="Email" required />
+            </div>
+            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+              <input type="password" name="password" placeholder="Password" required />
+            </div>
+            <input class="button" type="submit" value="Register" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

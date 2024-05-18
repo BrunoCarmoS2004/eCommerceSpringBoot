@@ -1,0 +1,74 @@
+<h1>Seja bem vindo...</h1>
+<h3>Por favor Cadastre-se para contuinuar</h3>
+<form [formGroup]="usuarioRegisterForm">
+  <label for="email">Email</label>
+  <input type="email" formControlName="email" required>
+  <label for="password">Senha</label>
+  <input type="password" formControlName="password" required>
+  <label for="nome">Seu nome</label>
+  <input type="text" formControlName="nome" required>
+  <label for="cpf">CPF</label>
+  <input type="number" formControlName="cpf" required>
+  <label for="sobreNome">sobreNome</label>
+  <input type="text" formControlName="sobreNome" required>
+  <label for="numeroTelefone">numero Telefone</label>
+  <input type="text" formControlName="numeroTelefone" required>
+  <button (click)="registarDadosBase()">Cadastrar</button>
+</form>
+<br>
+<h3>Por cadastre seu endereco</h3>
+<div *ngIf="selectedPais">
+  <form>
+    <div *ngIf="selectedPais === 'Brasil'">
+      <label for="cep">CEP</label>
+      <input type="text" [(ngModel)]="cep" name="cep" (ngModelChange)="onCepInputChange()">
+    </div>
+    <label for="logradouro">logradouro</label>
+    <input type="text" [(ngModel)]="enderecoAPI.logradouro" name="logradouro" [disabled]="selectedPais === 'Brasil'">
+    <label for="logradouro">complemento</label>
+    <input type="text" [(ngModel)]="complemento" name="complemento">
+    <label for="logradouro">bairro</label>
+    <input type="text" [(ngModel)]="enderecoAPI.bairro" name="bairro" [disabled]="selectedPais === 'Brasil'">
+    <label for="logradouro">localidade</label>
+    <input type="text" [(ngModel)]="enderecoAPI.localidade" name="localidade" [disabled]="selectedPais === 'Brasil'">
+    <label for="logradouro">Estado</label>
+    <input type="text" [(ngModel)]="enderecoAPI.uf" name="uf" [disabled]="selectedPais === 'Brasil'">
+    <button (click)="registarUsuario()">Cadastrar</button>
+  </form>
+</div>
+
+<br>
+<h3>Por favor faça login para contuinuar</h3>
+<form [formGroup]="usuarioLoginForm">
+  <label for="email">Email</label>
+  <input type="email" formControlName="email" required>
+  <label for="password">Senha</label>
+  <input type="password" formControlName="password" required>
+  <button (click)="login()">Cadastrar</button>
+</form>
+<button (click)="excluirDados()">Excluir Dados</button>
+<br>
+<h3>Categoria</h3>
+<form [formGroup]="categoriaForm">
+  <label for="categoria_nome">Nome da Categoria</label>
+  <input type="text" formControlName="categoria_nome" required>
+  <button (click)="criarCategoria()">Criar</button>
+</form>
+<div *ngIf="enderecos">
+  <ul>
+    <li *ngFor="let pais of paises">
+      {{pais}}
+    </li>
+  </ul>
+</div>
+<div>
+  <!--(ngModelChange)="getEstadosPorPais()"-->
+  <select [(ngModel)]="selectedPais">
+    <option *ngFor="let pais of paises" [value]="pais">{{pais}}</option>
+  </select>
+</div>
+<p>Pais selecionado: {{selectedPais}}</p>
+
+<button (click)="getEnderecoAPI()"></button>
+
+<p *ngIf="enderecoAPI">{{enderecoAPI.logradouro}}</p>
