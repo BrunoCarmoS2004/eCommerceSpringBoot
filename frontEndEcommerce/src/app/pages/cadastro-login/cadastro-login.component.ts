@@ -143,9 +143,9 @@ export class CadastroLoginComponent implements OnInit{
         (response)=>{
           if(response.emailEmUso){
             this.emailEmUso = true;
-            this.verificacoesFinalizadas();
           }else{
             this.emailEmUso = false;
+            this.verificacoesFinalizadas();
           }
         },(error)=>{
           alert("Erro na verificação de email")
