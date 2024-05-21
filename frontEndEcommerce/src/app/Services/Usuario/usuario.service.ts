@@ -4,6 +4,7 @@ import { UsuarioRegister } from '../../Models/Usuarios/usuarioRegister.model';
 import { environment } from '../../../assets/environment';
 import { UsuarioLogin } from '../../Models/Usuarios/usuarioLogin.model';
 import { catchError, Observable, tap, throwError } from 'rxjs';
+import { error } from 'console';
 
 @Injectable({
   providedIn: 'root'
@@ -47,9 +48,15 @@ export class UsuarioService {
   }
 
   verificarEmailEmUso(email: string): Observable<any> {
-    return this.http.get(this.pathApiUrl.pathUsuario+"/verificar/email/"+email);
+    if (!email || email.trim() === '') {
+      return throwError(()=> new Error('Email não pode ser vazio'));
+    }
+    return this.http.get(this.pathApiUrl.pathUsuario+"/verificar/email/"+email)
   }
   verificarCpfEmUso(cpf:string):Observable<any>{
+    if (!cpf || cpf.trim() === '') {
+      return throwError(()=> new Error('Cpf não pode ser vazio'));
+    }
     return this.http.get(this.pathApiUrl.pathUsuario+"/verificar/cpf/"+cpf);
   }
 }
