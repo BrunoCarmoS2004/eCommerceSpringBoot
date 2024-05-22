@@ -57,7 +57,7 @@
         </div>
       </div>
     </div>
-    <div class="form_container" *ngIf="!isValidUser">
+    <div class="form_container" *ngIf="isValidUser">
       <div *ngIf="!isLogin">
         <div class="title_container">
           <h2>Complete seu cadastro</h2>
@@ -80,6 +80,14 @@
                   <div *ngIf="isCampoVazioEndereco && selectedPais === 'Brasil'"  class="div-validacoes">
                     <p>Informe seu CEP!</p>
                   </div>
+                  <div *ngIf="!busacandoAPICEP" class="busca-cep">
+                    <div class="img-busca-cep">
+                      <img src="../../../assets/img/Infinity@1x-1.0s-200px-200px (1).svg" alt="">
+                    </div>
+                    <div class="p-busca-cep">
+                      <p>Buscando dados do CEP...</p>
+                    </div>
+                  </div>
                 </div>
                 <div class="col_half">
                   <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
@@ -87,9 +95,7 @@
                   </div>
                 </div>
               </div>
-              <div *ngIf="!busacandoAPICEP">
-                <p>Carregando...</p>
-              </div>
+
               <div class="input_field" *ngIf="selectedPais !== 'Brasil'"> <span><i aria-hidden="true" class="fa fa-user"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
                 <input type="text" name="localidade" placeholder="Cidade" [(ngModel)]="enderecoAPI.localidade" [disabled]="selectedPais === 'Brasil'"  [ngClass]="{ 'campo-vazio': isCampoVazioEndereco}" required />
               </div>
@@ -141,6 +147,7 @@
             </div>
             <button class="button" (click)="login()">Continuar</button>
           </form>
+          <p (click)="abaRegistro()" class="p-abaRegistro">Não possui cadastro?</p>
         </div>
       </div>
     </div>

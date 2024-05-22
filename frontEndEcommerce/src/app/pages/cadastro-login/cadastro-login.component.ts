@@ -340,4 +340,9 @@ export class CadastroLoginComponent implements OnInit{
   voltar(){
     this.isValidUser = false;
   }
+
+  abaRegistro(){
+    this.isLogin = false;
+    this.isValidUser = false;
+  }
 }

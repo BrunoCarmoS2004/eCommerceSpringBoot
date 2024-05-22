@@ -156,7 +156,23 @@ $grey: #cccccc;
     }
   }
 
-
+  .busca-cep{
+    display: flex;
+    align-items: center;
+    .p-busca-cep{
+      align-items: center;
+      p{
+        margin-bottom: 0px;
+      }
+    }
+    .img-busca-cep{
+      width: 15%;
+      justify-content: center;
+      img{
+        width: 100%;
+      }
+    }
+  }
 
   .button {
     background: $orange;
@@ -348,16 +364,9 @@ $grey: #cccccc;
   }
 }
 
-.credit {
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  padding: 15px;
-  color: $yellow;
-
-  a {
-    color: darken($yellow, 7%);
-  }
+.p-abaRegistro{
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 @keyframes check {
