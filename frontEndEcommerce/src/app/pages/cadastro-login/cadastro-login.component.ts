@@ -43,7 +43,8 @@ export class CadastroLoginComponent implements OnInit{
   confirmPassword:string = "";
   isEqualPassoword:boolean = true;
   isMinLenghCpf:boolean = true;
-  emailEmUso:boolean = false;
+  emailEmUsoRegistro:boolean = false;
+  isValidLogin:boolean = true;
   cpfEmUso:boolean = false;
   isLogin:boolean = true;
 
@@ -74,7 +75,6 @@ export class CadastroLoginComponent implements OnInit{
 
   constructor(private usuarioService:UsuarioService, public dialog:MatDialog, private categoriaService:CategoriaService, private enderecoService:EnderecoService){
     this.usuarioRole = new UsuarioRole();
-
     this.usuarioRegistro = new UsuarioRegister(this.usuarioRole.admin);
     this.usuarioLogin = new UsuarioLogin();
     this.categoriaPost = new CategoriaPost();
@@ -146,9 +146,9 @@ export class CadastroLoginComponent implements OnInit{
       this.usuarioService.verificarEmailEmUso(this.usuarioRegisterForm.value.email).subscribe(
         (response)=>{
           if(response.emailEmUso){
-            this.emailEmUso = true;
+            this.emailEmUsoRegistro = true;
           }else{
-            this.emailEmUso = false;
+            this.emailEmUsoRegistro = false;
             this.verificacoesFinalizadas();
           }
         },(error)=>{
@@ -172,8 +172,8 @@ export class CadastroLoginComponent implements OnInit{
   }
 
   verificacoesFinalizadas(){
-    if(!this.isRegisterNulo && this.isEqualPassoword && this.isValidEmail && this.isValidPassword && this.isMinLenghCpf && this.emailEmUso == false && this.cpfEmUso == false){
-      this.emailEmUso = false;
+    if(!this.isRegisterNulo && this.isEqualPassoword && this.isValidEmail && this.isValidPassword && this.isMinLenghCpf && this.emailEmUsoRegistro == false && this.cpfEmUso == false){
+      this.emailEmUsoRegistro = false;
       this.cpfEmUso = false;
       this.isValidUser = true;
       this.isMinLenghCpf = true;
@@ -183,12 +183,21 @@ export class CadastroLoginComponent implements OnInit{
     }
   }
 
-  isCampoVazioDadosUsuario(campo: FormControl): boolean {
-    if(this.isRegisterNulo || this.isLoginNulo){
+  isCampoVazioDadosUsuarioRegistro(registro: FormControl): boolean {
+    if(this.isRegisterNulo){
+      return registro.value === '' || registro.value === null || registro.value === undefined;
+    }
+    return false;
+  }
+
+  isCampoVazioDadosUsuarioLogin(campo: FormControl): boolean {
+    if(this.isLoginNulo){
       return campo.value === '' || campo.value === null || campo.value === undefined;
     }
     return false;
   }
+
+
   trazerCpf() {
     this.cpfInputSubject.next(this.usuarioRegisterForm.value.cpf);
   }
@@ -243,6 +252,9 @@ export class CadastroLoginComponent implements OnInit{
 
 
   login(){
+    this.isValidPassword = true;
+    this.isLoginNulo = false;
+    this.isValidEmail = true;
     const EMAIL_REGEXP = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     Object.keys(this.usuarioLoginForm.controls).forEach(field => {
       const control = this.usuarioLoginForm.get(field);
@@ -261,7 +273,7 @@ export class CadastroLoginComponent implements OnInit{
         this.isValidPassword = false;
       }
     }
-    if(this.isLoginNulo == false){
+    if(this.isLoginNulo == false && this.isValidPassword && this.isValidEmail){
       this.usuarioLogin.email = this.usuarioLoginForm.value.email;
       this.usuarioLogin.password = this.usuarioLoginForm.value.password;
       this.usuarioService.login(this.usuarioLogin).subscribe(
@@ -271,7 +283,7 @@ export class CadastroLoginComponent implements OnInit{
           window.location.reload();
           }, 1000);
         },(error)=>{
-          alert("Erro ao fazer o login. Por favor, tente novamente.");
+          this.isValidLogin = false;
         }
       );
     }

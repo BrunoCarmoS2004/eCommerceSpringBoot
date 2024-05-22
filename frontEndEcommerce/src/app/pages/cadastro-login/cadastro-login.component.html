@@ -7,17 +7,17 @@
       <div class="row clearfix">
         <div class="">
           <form  [formGroup]="usuarioRegisterForm">
-            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
-              <input type="email" name="email" placeholder="Seu Email" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuario($any(usuarioRegisterForm).controls['email'])|| emailEmUso}"  formControlName="email" required />
+            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"><mat-icon matSuffix style="font-size: 25px;">face</mat-icon></i></span>
+              <input type="email" name="email" placeholder="Seu Email" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuarioRegistro($any(usuarioRegisterForm).controls['email'])|| emailEmUsoRegistro}"  formControlName="email" required />
             </div>
             <div *ngIf="!isValidEmail" class="div-validacoes">
               <p>Formato de e-mail incorreto!</p>
             </div>
-            <div *ngIf="emailEmUso" class="div-validacoes">
+            <div *ngIf="emailEmUsoRegistro" class="div-validacoes">
               <p>Email ja em uso!</p>
             </div>
-            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
-              <input type="text" name="cpf" placeholder="Seu cpf" formControlName="cpf" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuario($any(usuarioRegisterForm).controls['cpf'])|| cpfEmUso}" (input)="mascaraCPF(usuarioRegisterForm.value.cpf)" maxlength="11" required />
+            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"><mat-icon matSuffix style="font-size: 25px;">fingerprint</mat-icon></i></span>
+              <input type="text" name="cpf" placeholder="Seu cpf" formControlName="cpf" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuarioRegistro($any(usuarioRegisterForm).controls['cpf'])|| cpfEmUso}" (input)="mascaraCPF(usuarioRegisterForm.value.cpf)" maxlength="11" required />
             </div>
             <div *ngIf="!isMinLenghCpf" class="div-validacoes">
               <p>O CPF deve conter 11 digitos</p>
@@ -25,30 +25,30 @@
             <div *ngIf="cpfEmUso" class="div-validacoes">
               <p>CPF ja em uso!</p>
             </div>
-            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
-              <input type="password" name="password" placeholder="Sua Senha" formControlName="password" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuario($any(usuarioRegisterForm).controls['password'])}" required />
+            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"><mat-icon matSuffix style="font-size: 25px;">lock_outline</mat-icon></i></span>
+              <input type="password" name="password" placeholder="Sua Senha" formControlName="password" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuarioRegistro($any(usuarioRegisterForm).controls['password'])}" required />
             </div>
             <div *ngIf="!isValidPassword" class="div-validacoes">
               <p>Sua senha precisa ter mais de 8 caracteres</p>
             </div>
-            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
-              <input type="password" name="confirmPassword" placeholder="Digite sua senha novamente" formControlName="confirmPassword" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuario($any(usuarioRegisterForm).controls['confirmPassword'])}" required />
+            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"><mat-icon matSuffix style="font-size: 25px;">lock_outline</mat-icon></i></span>
+              <input type="password" name="confirmPassword" placeholder="Digite sua senha novamente" formControlName="confirmPassword" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuarioRegistro($any(usuarioRegisterForm).controls['confirmPassword'])}" required />
             </div>
             <div *ngIf="!isEqualPassoword" class="div-validacoes">
               <p>As senhas não combinão!</p>
             </div>
-            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
-              <input type="text" name="numeroTelefone" placeholder="(00) 00000-0000" formControlName="numeroTelefone" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuario($any(usuarioRegisterForm).controls['numeroTelefone'])}" (input)="mascaraTelefone(usuarioRegisterForm.value.numeroTelefone)" maxlength="15"  required />
+            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"><mat-icon matSuffix style="font-size: 25px;">call</mat-icon></i></span>
+              <input type="text" name="numeroTelefone" placeholder="(00) 00000-0000" formControlName="numeroTelefone" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuarioRegistro($any(usuarioRegisterForm).controls['numeroTelefone'])}" (input)="mascaraTelefone(usuarioRegisterForm.value.numeroTelefone)" maxlength="15"  required />
             </div>
             <div class="row clearfix">
               <div class="col_half">
-                <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
-                  <input type="text" name="name" placeholder="Nome" formControlName="nome" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuario($any(usuarioRegisterForm).controls['nome'])}" required/>
+                <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"><mat-icon matSuffix style="font-size: 25px;">account_circle</mat-icon></i></span>
+                  <input type="text" name="name" placeholder="Nome" formControlName="nome" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuarioRegistro($any(usuarioRegisterForm).controls['nome'])}" required/>
                 </div>
               </div>
               <div class="col_half">
-                <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
-                  <input type="text" name="sobreNome" placeholder="Sobre Nome" formControlName="sobreNome" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuario($any(usuarioRegisterForm).controls['sobreNome'])}" required />
+                <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"><mat-icon matSuffix style="font-size: 25px;">account_circle</mat-icon></i></span>
+                  <input type="text" name="sobreNome" placeholder="Sobre Nome" formControlName="sobreNome" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuarioRegistro($any(usuarioRegisterForm).controls['sobreNome'])}" required />
                 </div>
               </div>
             </div>
@@ -74,7 +74,7 @@
             <form>
               <div class="row clearfix" *ngIf="selectedPais === 'Brasil'">
                 <div class="col_half" >
-                  <div class="input_field" > <span><i aria-hidden="true" class="fa fa-user"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+                  <div class="input_field" > <span><i aria-hidden="true" class="fa fa-user"><mat-icon matSuffix style="font-size: 25px;">navigation</mat-icon></i></span>
                     <input type="text" name="cep" placeholder="Seu CEP" [(ngModel)]="cep" name="cep" (ngModelChange)="trazerDadosViaCep()" [ngClass]="{ 'campo-vazio': isCampoVazioEndereco}" required/>
                   </div>
                   <div *ngIf="isCampoVazioEndereco && selectedPais === 'Brasil'"  class="div-validacoes">
@@ -90,25 +90,25 @@
                   </div>
                 </div>
                 <div class="col_half">
-                  <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+                  <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"><mat-icon matSuffix style="font-size: 25px;">location_city</mat-icon></i></span>
                     <input type="text" name="name" placeholder="Cidade" [(ngModel)]="enderecoAPI.localidade" [disabled]="selectedPais === 'Brasil'"  [ngClass]="{ 'campo-vazio': isCampoVazioEndereco}" required />
                   </div>
                 </div>
               </div>
 
-              <div class="input_field" *ngIf="selectedPais !== 'Brasil'"> <span><i aria-hidden="true" class="fa fa-user"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+              <div class="input_field" *ngIf="selectedPais !== 'Brasil'"> <span><i aria-hidden="true" class="fa fa-user"><mat-icon matSuffix style="font-size: 25px;">location_city</mat-icon></i></span>
                 <input type="text" name="localidade" placeholder="Cidade" [(ngModel)]="enderecoAPI.localidade" [disabled]="selectedPais === 'Brasil'"  [ngClass]="{ 'campo-vazio': isCampoVazioEndereco}" required />
               </div>
-              <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+              <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"><mat-icon matSuffix style="font-size: 25px;">domain</mat-icon></i></span>
                 <input type="text" name="logradouro" placeholder="Rua" [(ngModel)]="enderecoAPI.logradouro" [disabled]="selectedPais === 'Brasil'"  [ngClass]="{ 'campo-vazio': isCampoVazioEndereco}" required />
               </div>
-              <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+              <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"><mat-icon matSuffix style="font-size: 25px;">notifications</mat-icon></i></span>
                 <input type="text" name="complemento" placeholder="Complemento" [(ngModel)]="complemento" required />
               </div>
-              <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+              <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"><mat-icon matSuffix style="font-size: 25px;">people</mat-icon></i></span>
                 <input type="text" name="bairro" placeholder="Bairro" [(ngModel)]="enderecoAPI.bairro" [disabled]="selectedPais === 'Brasil'" [ngClass]="{ 'campo-vazio': isCampoVazioEndereco}" required />
               </div>
-              <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
+              <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"><mat-icon matSuffix style="font-size: 25px;">public</mat-icon></i></span>
                 <input type="text" name="uf" placeholder="Estado" [(ngModel)]="enderecoAPI.uf" [disabled]="selectedPais === 'Brasil'"  [ngClass]="{ 'campo-vazio': isCampoVazioEndereco}"  required />
               </div>
             </form>
@@ -133,17 +133,20 @@
       <div class="row clearfix">
         <div class="">
           <form [formGroup]="usuarioLoginForm">
-            <div class="input_field input-login"> <span><i aria-hidden="true" class="fa fa-envelope"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
-              <input type="email" name="email" placeholder="Email" formControlName="email" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuario($any(usuarioLoginForm).controls['email'])}" required/>
+            <div class="input_field input-login"> <span><i aria-hidden="true" class="fa fa-envelope"><mat-icon matSuffix style="font-size: 25px;">face</mat-icon></i></span>
+              <input type="email" name="email" placeholder="Email" formControlName="email" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuarioLogin($any(usuarioLoginForm).controls['email'])}" required/>
             </div>
             <div *ngIf="!isValidEmail" class="div-validacoes">
               <p>Formato de e-mail incorreto!</p>
             </div>
-            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"><mat-icon matSuffix style="font-size: 25px;">sentiment_very_satisfied</mat-icon></i></span>
-              <input type="password" name="password" placeholder="Password" formControlName="password" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuario($any(usuarioLoginForm).controls['password'])}" required />
+            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"><mat-icon matSuffix style="font-size: 25px;">lock_outline</mat-icon></i></span>
+              <input type="password" name="password" placeholder="Password" formControlName="password" [ngClass]="{ 'campo-vazio': isCampoVazioDadosUsuarioLogin($any(usuarioLoginForm).controls['password'])}" required />
             </div>
             <div *ngIf="!isValidPassword" class="div-validacoes">
               <p>Sua senha precisa ter mais de 8 caracteres</p>
+            </div>
+            <div *ngIf="!isValidLogin" class="div-validacoes">
+              <p>Email ou senha Invalidos!</p>
             </div>
             <button class="button" (click)="login()">Continuar</button>
           </form>

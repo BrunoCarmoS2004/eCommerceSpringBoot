@@ -26,7 +26,6 @@ export class UsuarioService {
       tap((value:any)=>{
         sessionStorage.setItem("user-token",value.token)
         sessionStorage.setItem("user-email",value.email)
-        catchError(error => this.handleError(error))
       })
     )
   }
