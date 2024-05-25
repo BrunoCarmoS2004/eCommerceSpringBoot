@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.br.eCormmerce.dto.usuarioDTO.UsuarioCpfDTO;
 import com.br.eCormmerce.dto.usuarioDTO.UsuarioDTO;
-import com.br.eCormmerce.dto.usuarioDTO.UsuarioEmailDTO;
 import com.br.eCormmerce.dto.usuarioDTO.UsuarioSaldoDTO;
 import com.br.eCormmerce.models.usuario.UserRole;
 import com.br.eCormmerce.models.usuario.Usuario;
@@ -36,48 +35,53 @@ public ResponseEntity<Object> verificarEmailEmUso(String email){
     boolean cpfEmUso = usuarioRepository.findByCpf(cpf) != null;
     Map<String, Boolean> response = new HashMap<>();
     response.put("cpfEmUso", cpfEmUso);
-    System.out.println(response);
     return ResponseEntity.ok(response);
   }
 
   public List<Usuario> listarUsuarioCliente(){
     List<Usuario> usuariosList = usuarioRepository.findAll();
     List<Usuario> usuariosCliente = new ArrayList<>();
-    for (Usuario usuario : usuariosList) {
-      if (usuario.getRole() == UserRole.CLIENTE) {
-        usuariosCliente.add(usuario);
-      }
-    }
+    usuariosCliente = usuariosList.stream().filter(cliente -> cliente.getRole().equals(UserRole.CLIENTE)).collect(Collectors.toList());
     return usuariosCliente;
   }
 
   public List<Usuario> listarUsuarioVendedor(){
     List<Usuario> usuariosList = usuarioRepository.findAll();
     List<Usuario> usuariosVendedor = new ArrayList<>();
-    for (Usuario usuario : usuariosList) {
-      if (usuario.getRole() == UserRole.VENDEDOR) {
-        usuariosVendedor.add(usuario);
-      }
-    }
+    usuariosVendedor = usuariosList.stream().filter(vendedor -> vendedor.getRole().equals(UserRole.VENDEDOR)).collect(Collectors.toList());
     return usuariosVendedor;
   }
 
   public List<Usuario> listarUsuarioAdmin(){
     List<Usuario> usuariosList = usuarioRepository.findAll();
     List<Usuario> usuariosAdmin = new ArrayList<>();
-    for (Usuario usuario : usuariosList) {
-      if (usuario.getRole() == UserRole.ADMIN) {
-        usuariosAdmin.add(usuario);
-      }
-    }
+    usuariosAdmin = usuariosList.stream().filter(admin -> admin.getRole().equals(UserRole.ADMIN)).collect(Collectors.toList());
     return usuariosAdmin;
+  }
+
+  public ResponseEntity<Object> validarRoleUsuario(){
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    UserDetails principal = (UserDetails) authentication.getPrincipal();
+    UserDetails userDetails = usuarioRepository.findByEmail(principal.getUsername());
+    Usuario usuario = (Usuario) userDetails;
+    Map<String, String> response = new HashMap<>();
+    if (usuario.getRole() == UserRole.ADMIN) {
+      response.put("usuario","admin");
+      return ResponseEntity.ok(response);
+    }
+    if (usuario.getRole() == UserRole.CLIENTE){
+      response.put("usuario", "cliente");
+      return ResponseEntity.ok(response);
+    }
+    response.put("usuario", "vendedor");
+    return ResponseEntity.ok(response);
   }
 
   public ResponseEntity<Object> atualizarUsuario(UsuarioDTO usuarioDTO){
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-    UserDetails usuarioDetails = usuarioRepository.findByEmail(userDetails.getUsername());
-    Usuario usuario = (Usuario) usuarioDetails;
+    UserDetails principal = (UserDetails) authentication.getPrincipal();
+    UserDetails userDetails = usuarioRepository.findByEmail(principal.getUsername());
+    Usuario usuario = (Usuario) userDetails;
     usuario.setCep(usuarioDTO.cep());
     usuario.setNome(usuarioDTO.nome());
     usuario.setLogradouro(usuarioDTO.rua());
@@ -88,18 +92,18 @@ public ResponseEntity<Object> verificarEmailEmUso(String email){
 
   public ResponseEntity<Object> deletarUsuario(){
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-    UserDetails usuarioDetails = usuarioRepository.findByEmail(userDetails.getUsername());
-    Usuario usuario = (Usuario) usuarioDetails;
+    UserDetails principal = (UserDetails) authentication.getPrincipal();
+    UserDetails userDetails = usuarioRepository.findByEmail(principal.getUsername());
+    Usuario usuario = (Usuario) userDetails;
     usuarioRepository.deleteById(usuario.getId());
     String usuarioExcluido = "Usuario Excluido";
     return ResponseEntity.ok(usuarioExcluido);
   }
   public ResponseEntity<Object> adicionarSaldo(UsuarioSaldoDTO usuarioDTO){
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-      UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-      UserDetails usuarioDetails = usuarioRepository.findByEmail(userDetails.getUsername());
-      Usuario usuario = (Usuario) usuarioDetails;
+      UserDetails principal = (UserDetails) authentication.getPrincipal();
+      UserDetails userDetails = usuarioRepository.findByEmail(principal.getUsername());
+      Usuario usuario = (Usuario) userDetails;
       usuario.setSaldo(usuario.getSaldo() + usuarioDTO.saldo());
       usuario.setId(usuario.getId());
       usuarioRepository.save(usuario);
