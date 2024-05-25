@@ -40,4 +40,8 @@ public class UsuarioController {
       return usuarioService.verificarCPFEmUso(cpf);
   }
   
+  @GetMapping("verificar/role")
+  public ResponseEntity<Object> verificarRole(){
+    return usuarioService.validarRoleUsuario();
+  }
 }

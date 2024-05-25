@@ -24,12 +24,29 @@ public class UsuarioService {
   @Autowired
   private UsuarioRepository usuarioRepository;
 
-public ResponseEntity<Object> verificarEmailEmUso(String email){
-    boolean emailEmUso = usuarioRepository.findByEmail(email) != null;
-    Map<String, Boolean> response = new HashMap<>();
-    response.put("emailEmUso", emailEmUso);
+  public ResponseEntity<Object> verificarEmailEmUso(String email){
+      boolean emailEmUso = usuarioRepository.findByEmail(email) != null;
+      Map<String, Boolean> response = new HashMap<>();
+      response.put("emailEmUso", emailEmUso);
+      return ResponseEntity.ok(response);
+  }
+  public ResponseEntity<Object> validarRoleUsuario(){
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    UserDetails principal = (UserDetails) authentication.getPrincipal();
+    UserDetails userDetails = usuarioRepository.findByEmail(principal.getUsername());
+    Usuario usuario = (Usuario) userDetails;
+    Map<String, String> response = new HashMap<>();
+    if (usuario.getRole() == UserRole.ADMIN) {
+      response.put("usuario","admin");
+      return ResponseEntity.ok(response);
+    }
+    if (usuario.getRole() == UserRole.CLIENTE){
+      response.put("usuario", "cliente");
+      return ResponseEntity.ok(response);
+    }
+    response.put("usuario", "vendedor");
     return ResponseEntity.ok(response);
-}
+  }
 
   public ResponseEntity<Object> verificarCPFEmUso(String cpf){
     boolean cpfEmUso = usuarioRepository.findByCpf(cpf) != null;
@@ -57,24 +74,6 @@ public ResponseEntity<Object> verificarEmailEmUso(String email){
     List<Usuario> usuariosAdmin = new ArrayList<>();
     usuariosAdmin = usuariosList.stream().filter(admin -> admin.getRole().equals(UserRole.ADMIN)).collect(Collectors.toList());
     return usuariosAdmin;
-  }
-
-  public ResponseEntity<Object> validarRoleUsuario(){
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    UserDetails principal = (UserDetails) authentication.getPrincipal();
-    UserDetails userDetails = usuarioRepository.findByEmail(principal.getUsername());
-    Usuario usuario = (Usuario) userDetails;
-    Map<String, String> response = new HashMap<>();
-    if (usuario.getRole() == UserRole.ADMIN) {
-      response.put("usuario","admin");
-      return ResponseEntity.ok(response);
-    }
-    if (usuario.getRole() == UserRole.CLIENTE){
-      response.put("usuario", "cliente");
-      return ResponseEntity.ok(response);
-    }
-    response.put("usuario", "vendedor");
-    return ResponseEntity.ok(response);
   }
 
   public ResponseEntity<Object> atualizarUsuario(UsuarioDTO usuarioDTO){
