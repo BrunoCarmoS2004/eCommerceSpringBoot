@@ -94,7 +94,6 @@ $grey: #cccccc;
     position: relative;
     margin-bottom: 20px;
     animation: bounce 0.6s ease-out;
-
     > span {
       position: absolute;
       left: 0;
@@ -136,11 +135,10 @@ $grey: #cccccc;
   input[type="text"],
   input[type="email"],
   input[type="password"] {
-    width: 100%;
+    width: 100%;  
     padding: 8px 10px 9px 35px;
     height: 35px;
     border: 1px solid $grey;
-
     box-sizing: border-box;
     outline: none;
     transition: all 0.30s ease-in-out;
@@ -219,6 +217,7 @@ $grey: #cccccc;
 }
 
 .form_container {
+  width: 70%;
   .row {
     .col_half.last {
       border-left: 1px solid $grey;
