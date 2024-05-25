@@ -25,11 +25,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
         return new ResponseEntity<>("O CPF Informado já esta em uso", HttpStatus.BAD_REQUEST);
     }/* 
-    @ExceptionHandler(value = ConstraintViolationException.class)
-    public ResponseEntity<Object> handleDataIntegrityViolationException(ConstraintViolationException e) {
-        return new ResponseEntity<>("O Email deve conter @", HttpStatus.BAD_REQUEST);
-    }
-    */
+    @ExceptionHandler(value = java.lang.NullPointerException.class)
+    public ResponseEntity<Object> handleDataIntegrityViolationException(java.lang.NullPointerException e) {
+        return new ResponseEntity<>("Não foi detectado usuario Logado!", HttpStatus.BAD_REQUEST);
+    }*/
+    
     @ExceptionHandler(value = Unauthorized.class)
     public ResponseEntity<Object> Unauthorized(Unauthorized e) {
         return new ResponseEntity<>("Você não tem permissão de acessar essa rota", HttpStatus.UNAUTHORIZED);
