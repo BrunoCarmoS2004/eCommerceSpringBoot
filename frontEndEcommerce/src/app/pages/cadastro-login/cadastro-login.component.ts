@@ -20,6 +20,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { error } from 'console';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cadastro-login',
@@ -78,7 +79,7 @@ export class CadastroLoginComponent implements OnInit{
   cepInputSubject = new Subject<string>()
   cpfInputSubject = new Subject<string>()
 
-  constructor(private usuarioService:UsuarioService, public dialog:MatDialog, private categoriaService:CategoriaService, private enderecoService:EnderecoService){
+  constructor(private usuarioService:UsuarioService, public dialog:MatDialog, private categoriaService:CategoriaService, private enderecoService:EnderecoService, private router: Router){
     this.usuarioRole = new UsuarioRole();
     this.usuarioRegistro = new UsuarioRegister(this.usuarioRole.admin);
     this.usuarioLogin = new UsuarioLogin();
@@ -293,10 +294,13 @@ export class CadastroLoginComponent implements OnInit{
       this.usuarioLogin.password = this.usuarioLoginForm.value.password;
       this.usuarioService.login(this.usuarioLogin).subscribe(
         () =>{
+          /*
           alert("Login Realizado com sucesso!")
           setTimeout(() => {
           window.location.reload();
           }, 1000);
+          */
+          this.router.navigate(['/home']);
         },(error)=>{
           this.isValidLogin = false;
         }
