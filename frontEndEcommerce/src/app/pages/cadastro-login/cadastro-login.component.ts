@@ -36,7 +36,7 @@ export class CadastroLoginComponent implements OnInit{
 
   isRegisterNulo:boolean = false;
   isLoginNulo:boolean = false;
-  usuarioRole:UsuarioRole;
+  
   isValidPassword:boolean = true;
   isValidUser:boolean = true;
   isValidEmail:boolean = true;
@@ -47,6 +47,8 @@ export class CadastroLoginComponent implements OnInit{
   isValidLogin:boolean = true;
   cpfEmUso:boolean = false;
   isLogin:boolean = true;
+  emailNaoVerificado = true;
+  cpfNaoVerificado = true;
 
   enderecoAPI:any  = {};
   paises = new Set<string>();
@@ -62,6 +64,8 @@ export class CadastroLoginComponent implements OnInit{
   cep:string = "";
   complemento:string = "";
 
+  usuarioRole:UsuarioRole;
+
   usuarioRegisterForm!:FormGroup;
   usuarioRegistro:UsuarioRegister;
 
@@ -70,6 +74,7 @@ export class CadastroLoginComponent implements OnInit{
 
   categoriaForm!:FormGroup<CategoriaForm>
   categoriaPost:CategoriaPost;
+
   cepInputSubject = new Subject<string>()
   cpfInputSubject = new Subject<string>()
 
@@ -118,6 +123,8 @@ export class CadastroLoginComponent implements OnInit{
     this.isValidPassword= true;
     this.isMinLenghCpf = true;
     this.isRegisterNulo = false;
+    this.emailNaoVerificado = true;
+    this.cpfNaoVerificado = true;
     Object.keys(this.usuarioRegisterForm.controls).forEach(field => {
       const control = this.usuarioRegisterForm.get(field);
       if (control instanceof FormControl) {
@@ -149,7 +156,10 @@ export class CadastroLoginComponent implements OnInit{
             this.emailEmUsoRegistro = true;
           }else{
             this.emailEmUsoRegistro = false;
-            this.verificacoesFinalizadas();
+            if(!this.emailEmUsoRegistro){
+              this.emailNaoVerificado = false;
+              this.verificacoesFinalizadas();
+            }
           }
         },(error)=>{
         }
@@ -160,10 +170,12 @@ export class CadastroLoginComponent implements OnInit{
         (response)=>{
           if(response.cpfEmUso == false){
             this.cpfEmUso = false;
-            this.verificacoesFinalizadas();
+            if(!this.cpfEmUso){
+              this.cpfNaoVerificado = false;
+              this.verificacoesFinalizadas();
+            }
           }else{
             this.cpfEmUso = true;
-
           }
         },(error)=>{
         }
@@ -172,8 +184,10 @@ export class CadastroLoginComponent implements OnInit{
   }
 
   verificacoesFinalizadas(){
-    if(!this.isRegisterNulo && this.isEqualPassoword && this.isValidEmail && this.isValidPassword && this.isMinLenghCpf && this.emailEmUsoRegistro == false && this.cpfEmUso == false){
+    if(!this.isRegisterNulo && this.isEqualPassoword && this.isValidEmail && this.isValidPassword && this.isMinLenghCpf && this.emailNaoVerificado == false && this.cpfNaoVerificado == false){
       this.emailEmUsoRegistro = false;
+      this.emailNaoVerificado = true;
+      this.cpfNaoVerificado = true;
       this.cpfEmUso = false;
       this.isValidUser = true;
       this.isMinLenghCpf = true;
@@ -239,6 +253,7 @@ export class CadastroLoginComponent implements OnInit{
       this.usuarioRegistro.uf = this.enderecoAPI.uf;
       this.usuarioRegistro.pais = this.selectedPais;
       this.isCampoVazioEndereco = false;
+      this.isLoginNulo = false;
     }
     this.usuarioService.registro(this.usuarioRegistro).subscribe(
       () => {
