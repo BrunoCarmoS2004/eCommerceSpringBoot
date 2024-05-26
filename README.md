@@ -2,7 +2,7 @@
 
 Este é um projeto de E-COMMERCE desenvolvido em Java utilizando o framework Spring Boot. Ele inclui funcionalidades como autenticação com Spring Security e geração de tokens JWT, além de integração com o Lombok para reduzir a verbosidade do código.
 
-##Front End em angamento! Veja as mais novas publicações sobre no meu Linkedin: [Ultima Publicação]([http://www.exemplo.com](https://www.linkedin.com/posts/bruno-carmo-dev_front-end-angular-para-o-projeto-back-end-activity-7200303579679641601-_Kp_?utm_source=share&utm_medium=member_desktop)
+##Front End em angamento! Veja as mais novas publicações sobre no meu Linkedin: [Ultima Publicação]([http://www.exemplo.com](https://www.linkedin.com/posts/bruno-carmo-dev_front-end-angular-para-o-projeto-back-end-activity-7200303579679641601-_Kp_?utm_source=share&utm_medium=member_desktop))
 ## Funcionalidades Principais
 
 - **Autenticação e Autorização**: Utiliza o Spring Security para proteger os endpoints da aplicação. Suporta diferentes papéis de usuário, incluindo ADMIN, VENDEDOR e CLIENTE.
