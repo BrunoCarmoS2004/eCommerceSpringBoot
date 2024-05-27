@@ -1,0 +1,49 @@
+$orange:#FF8300;
+$purple: #6A0DAD;
+$yellow: #f5ba1a;
+$black: #000000;
+$grey: #cccccc;
+
+
+.nav_bar{
+  display: flex;
+  .input_field {
+    position: relative;
+    margin-bottom: 20px;
+    animation: bounce 0.6s ease-out;
+    > span {
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #333;
+      height: 100%;
+      border-right: 1px solid $grey;
+      text-align: center;
+      width: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      > i {
+        padding-top: 10px;
+      }
+    }
+  }
+  .input_nav_bar{
+      width: 100%;
+      padding: 8px 10px 9px 35px;
+      height: 35px;
+      border: 1px solid $grey;
+      box-sizing: border-box;
+      outline: none;
+      transition: all 0.30s ease-in-out;
+      &:hover,
+      &:focus {
+        background: #fafafa;
+      }
+      &:focus {
+        box-shadow: 0 0 2px 1px #ff8400;
+        border: 1px solid $orange;
+        background: #fafafa;
+      }
+    }
+}
