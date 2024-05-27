@@ -26,23 +26,25 @@ public class EnderecoService {
   }
 
   public ResponseEntity<Object> atualizarEnderecos(Long id, EnderecoDTO enderecoDTO) {
-    if (enderecoRespository.existsById(id)) {
-      Optional<Endereco> enderecoOptional = enderecoRespository.findById(id);
-      Endereco endereco = enderecoOptional.get();
-      endereco.setPais(enderecoDTO.pais());
-      return ResponseEntity.ok(enderecoRespository.save(endereco));
+    if (!enderecoRespository.existsById(id)) {
+      String enderecoNaoExiste = "Endereço nao existe!";
+      return ResponseEntity.badRequest().body(enderecoNaoExiste);
     }
-    String enderecoNaoExiste = "Endereço nao existe!";
-    return ResponseEntity.badRequest().body(enderecoNaoExiste);
-  }
+    Optional<Endereco> enderecoOptional = enderecoRespository.findById(id);
+    Endereco endereco = enderecoOptional.get();
+    endereco.setPais(enderecoDTO.pais());
+    return ResponseEntity.ok(enderecoRespository.save(endereco));
+    }
+
 
   public ResponseEntity<Object> deletarEnderecos(Long id) {
-    if (enderecoRespository.existsById(id)) {
+    if (!enderecoRespository.existsById(id)) {
+      String enderecoNaoExiste = "Endereço nao existe!";
+      return ResponseEntity.badRequest().body(enderecoNaoExiste);
+    }
       enderecoRespository.deleteById(id);
       String enderecoExcluido = "Endereço excluido com sucesso!";
       return ResponseEntity.ok(enderecoExcluido);
     }
-    String enderecoNaoExiste = "Endereço nao existe!";
-    return ResponseEntity.badRequest().body(enderecoNaoExiste);
-  }
+    
 }

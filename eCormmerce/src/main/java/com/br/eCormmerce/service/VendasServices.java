@@ -29,34 +29,41 @@ public class VendasServices {
   }
 
   public ResponseEntity<Object>atualizarVendas(Long id, VendasDTO vendaDto){
-    if (vendasRepository.existsById(id)){
-      if (usuarioRepository.existsById(vendaDto.clienteId())){
-        if (usuarioRepository.existsById(vendaDto.vendedorId())){
-          if (produtosRepository.existsById(vendaDto.produtosId())){
-            Optional<Vendas> vendaOptional = vendasRepository.findById(id);
-            Vendas venda = vendaOptional.get();
-            venda.setClienteId(vendaDto.clienteId());
-            venda.setProdutosId(vendaDto.produtosId());
-            venda.setVendedorId(vendaDto.vendedorId());
-            venda.setVendas_id(id);
-            return ResponseEntity.ok(vendasRepository.save(venda));
-          }
-        }
-      } 
-    } 
-    String idVendaNaoExiste = "Não existe vendas com esse id";
-    return ResponseEntity.badRequest().body(idVendaNaoExiste);  
+    if (!vendasRepository.existsById(id)){
+      String idVendaNaoExiste = "Não existe vendas com esse id";
+      return ResponseEntity.badRequest().body(idVendaNaoExiste);  
+    }
+    if (!usuarioRepository.existsById(vendaDto.clienteId())){
+      String idClienteNaoExiste = "Não existe cliente com esse id";
+      return ResponseEntity.badRequest().body(idClienteNaoExiste);
+    }
+    if (!usuarioRepository.existsById(vendaDto.vendedorId())){
+      String idVendedorNaoExiste = "Não existe vendedor com esse id";
+      return ResponseEntity.badRequest().body(idVendedorNaoExiste);
+    }
+    if (!produtosRepository.existsById(vendaDto.produtosId())){
+      String idProdutoNaoExiste = "Não existe produto com esse id";
+      return ResponseEntity.badRequest().body(idProdutoNaoExiste);
+    }
+    Optional<Vendas> vendaOptional = vendasRepository.findById(id);
+    Vendas venda = vendaOptional.get();
+    venda.setClienteId(vendaDto.clienteId());
+    venda.setProdutosId(vendaDto.produtosId());
+    venda.setVendedorId(vendaDto.vendedorId());
+    venda.setVendas_id(id);
+    return ResponseEntity.ok(vendasRepository.save(venda));
   }
 
   public ResponseEntity<Object>deletarVendas(Long id){
-    if (vendasRepository.existsById(id)){
-      vendasRepository.deleteById(id);
-      String vendaExcluida = "Venda excluida com sucesso!";
-      return ResponseEntity.ok(vendaExcluida);
+    if (!vendasRepository.existsById(id)){
+      String vendaNaoExcluida = "Id de venda não encontrado!";
+      return ResponseEntity.badRequest().body(vendaNaoExcluida);
     }
-    String vendaNaoExcluida = "Id de venda não encontrado!";
-    return ResponseEntity.badRequest().body(vendaNaoExcluida);
-  }
+    vendasRepository.deleteById(id);
+    String vendaExcluida = "Venda excluida com sucesso!";
+    return ResponseEntity.ok(vendaExcluida);
+    }
+
 
   public ResponseEntity<Object> vendedorDestaque() {
     List<Usuario> allVendedores = usuarioRepository.findAll();

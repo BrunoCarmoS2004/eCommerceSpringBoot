@@ -42,20 +42,20 @@ public class CarrinhoService {
     UserDetails userDetails = (UserDetails) authentication.getPrincipal();
     UserDetails usuarioDetails = usuarioRepository.findByEmail(userDetails.getUsername());
     Usuario usuario = (Usuario) usuarioDetails;
-    if (produtosRepository.existsById(produto_id)) {
-        Optional<Produtos> produtoOptional = produtosRepository.findById(produto_id);
-        Produtos produtos = produtoOptional.get();
-        Optional<Carrinho> carrinhoOptional = carrinhoRepository.findById(usuario.getCarrinho().getCarrinho_id());
-        Carrinho carrinho = carrinhoOptional.get();
-        carrinho.getProduto().add(produtos);
-        carrinho.setTotal(carrinho.getTotal() + produtos.getProduto_preco());
-        carrinho.setCarrinho_id(usuario.getCarrinho().getCarrinho_id());
-        carrinhoRepository.save(carrinho);
-        String produtoAdicionado = produtos.getProduto_titulo()+" foi adicionado com sucesso ao carrinho!";
-        return ResponseEntity.ok(produtoAdicionado);
+    if (!produtosRepository.existsById(produto_id)){
+      String produtoNaoEncontrado = "Produto não encontrado!";
+      return ResponseEntity.badRequest().body(produtoNaoEncontrado);
     }
-    String produtoNaoEncontrado = "Produto não encontrado!";
-    return ResponseEntity.badRequest().body(produtoNaoEncontrado);
+    Optional<Produtos> produtoOptional = produtosRepository.findById(produto_id);
+    Produtos produtos = produtoOptional.get();
+    Optional<Carrinho> carrinhoOptional = carrinhoRepository.findById(usuario.getCarrinho().getCarrinho_id());
+    Carrinho carrinho = carrinhoOptional.get();
+    carrinho.getProduto().add(produtos);
+    carrinho.setTotal(carrinho.getTotal() + produtos.getProduto_preco());
+    carrinho.setCarrinho_id(usuario.getCarrinho().getCarrinho_id());
+    carrinhoRepository.save(carrinho);
+    String produtoAdicionado = produtos.getProduto_titulo()+" foi adicionado com sucesso ao carrinho!";
+    return ResponseEntity.ok(produtoAdicionado);
   }
 
   public ResponseEntity<Object> removerProdutosCarrinho(Long produto_id){
@@ -63,16 +63,18 @@ public class CarrinhoService {
     UserDetails userDetails = (UserDetails) authentication.getPrincipal();
     UserDetails usuarioDetails = usuarioRepository.findByEmail(userDetails.getUsername());
     Usuario usuario = (Usuario) usuarioDetails;
-    if (produtosRepository.existsById(produto_id)) {
-      Optional<Carrinho> carrinhoOptional = carrinhoRepository.findById(usuario.getCarrinho().getCarrinho_id());
-      Carrinho carrinho = carrinhoOptional.get();
-      Produtos excluir = carrinho.getProduto().stream().filter(produto -> produto.getProduto_id().equals(produto_id)).findFirst().orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
-      carrinho.getProduto().remove(excluir);
-      carrinho.setCarrinho_id(usuario.getCarrinho().getCarrinho_id());
-      carrinhoRepository.save(carrinho);
+    if (!produtosRepository.existsById(produto_id)){
+      String produtoNaoEncontrado = "Produto não encontrado!";
+      return ResponseEntity.badRequest().body(produtoNaoEncontrado);
     }
-    String produtoNaoEncontrado = "Produto não encontrado!";
-    return ResponseEntity.badRequest().body(produtoNaoEncontrado);
+    Optional<Carrinho> carrinhoOptional = carrinhoRepository.findById(usuario.getCarrinho().getCarrinho_id());
+    Carrinho carrinho = carrinhoOptional.get();
+    Produtos excluir = carrinho.getProduto().stream().filter(produto -> produto.getProduto_id().equals(produto_id)).findFirst().orElseThrow();
+    carrinho.getProduto().remove(excluir);
+    carrinho.setCarrinho_id(usuario.getCarrinho().getCarrinho_id());
+    carrinhoRepository.save(carrinho);
+    String produtoRemovido = excluir.getProduto_titulo()+" foi removido com sucesso ao carrinho!";
+    return ResponseEntity.ok(produtoRemovido);
   }
 
   public ResponseEntity<Object>comprarTodosItens(){
@@ -82,7 +84,7 @@ public class CarrinhoService {
     Usuario usuario = (Usuario) usuarioDetails;
     Optional<Carrinho> carrinhoOptional = carrinhoRepository.findById(usuario.getCarrinho().getCarrinho_id());
     Carrinho carrinho = carrinhoOptional.get();
-    if (usuario.getSaldo() >= carrinho.getTotal()) {
+    if (usuario.getSaldo() >= carrinho.getTotal()){
       for (Produtos produtos : carrinho.getProduto()) {
         usuario.setSaldo(usuario.getSaldo() - produtos.getProduto_preco());
         Vendas vendas = new Vendas(produtos.getVendedorId(), produtos.getProduto_id(), usuario.getId());
@@ -103,24 +105,24 @@ public class CarrinhoService {
     UserDetails userDetails = (UserDetails) authentication.getPrincipal();
     UserDetails usuarioDetails = usuarioRepository.findByEmail(userDetails.getUsername());
     Usuario usuario = (Usuario) usuarioDetails;
-      if (produtosRepository.existsById(produto_id)) {
-        Optional<Carrinho> carrinhoOptional = carrinhoRepository.findById(usuario.getCarrinho().getCarrinho_id());
-        Carrinho carrinho = carrinhoOptional.get();
-        Produtos produtoSelecionado = carrinho.getProduto().stream().filter(produto -> produto.getProduto_id().equals(produto_id)).findFirst().orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
-        if (usuario.getSaldo() >= produtoSelecionado.getProduto_preco()) {
-          usuario.setSaldo(usuario.getSaldo() - produtoSelecionado.getProduto_preco());
-          Vendas vendas = new Vendas(produtoSelecionado.getVendedorId(), produtoSelecionado.getProduto_id(), usuario.getId());
-          vendasRepository.save(vendas);
-          carrinho.getProduto().remove(produtoSelecionado);
-          carrinho.setCarrinho_id(usuario.getCarrinho().getCarrinho_id());
-          carrinhoRepository.save(carrinho);
-          String itemComprado = produtoSelecionado.getProduto_titulo()+" comprado com sucesso!";
-          return ResponseEntity.ok(itemComprado);
-        }
-        String clienteSemSaldo = "Cliente sem saldo suficiente, adicione saldo para comprar "+produtoSelecionado.getProduto_titulo();
-        return ResponseEntity.badRequest().body(clienteSemSaldo);
-      }
+    if (!produtosRepository.existsById(produto_id)){
       String produtoNaoEncontrado = "Produto não encontrado!";
       return ResponseEntity.badRequest().body(produtoNaoEncontrado);
+    }
+    Optional<Carrinho> carrinhoOptional = carrinhoRepository.findById(usuario.getCarrinho().getCarrinho_id());
+    Carrinho carrinho = carrinhoOptional.get();
+    Produtos produtoSelecionado = carrinho.getProduto().stream().filter(produto -> produto.getProduto_id().equals(produto_id)).findFirst().orElseThrow();
+    if (usuario.getSaldo() <= produtoSelecionado.getProduto_preco()) {
+      String clienteSemSaldo = "Cliente sem saldo suficiente, adicione saldo para comprar "+produtoSelecionado.getProduto_titulo();
+      return ResponseEntity.badRequest().body(clienteSemSaldo);
+    }
+    usuario.setSaldo(usuario.getSaldo() - produtoSelecionado.getProduto_preco());
+    Vendas vendas = new Vendas(produtoSelecionado.getVendedorId(), produtoSelecionado.getProduto_id(), usuario.getId());
+    vendasRepository.save(vendas);
+    carrinho.getProduto().remove(produtoSelecionado);
+    carrinho.setCarrinho_id(usuario.getCarrinho().getCarrinho_id());
+    carrinhoRepository.save(carrinho);
+    String itemComprado = produtoSelecionado.getProduto_titulo()+" comprado com sucesso!";
+    return ResponseEntity.ok(itemComprado);
   }
 }

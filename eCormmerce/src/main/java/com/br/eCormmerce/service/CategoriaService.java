@@ -39,24 +39,25 @@ public class CategoriaService {
   }
 
   public ResponseEntity<Object> atualizarCategoria(Long id, CategoriaDTO categoriaDTO) {
-    if (categoriaRepository.existsById(id)) {
-      Optional<Categoria> categoriaOptional = categoriaRepository.findById(id);
-      Categoria categoria = categoriaOptional.get();
-      categoria.setAdminid(categoriaDTO.adminid());
-      categoria.setCategoria_nome(categoriaDTO.categoria_nome());
-      return ResponseEntity.ok(categoriaRepository.save(categoria));
+    if (!categoriaRepository.existsById(id)) {
+      String idCategoriaNaoEncontrado = "Não existe uma categoria com esse id";
+      return ResponseEntity.badRequest().body(idCategoriaNaoEncontrado);
     }
-    String idCategoriaNaoEncontrado = "Não existe uma categoria com esse id";
-    return ResponseEntity.badRequest().body(idCategoriaNaoEncontrado);
-  }
+    Optional<Categoria> categoriaOptional = categoriaRepository.findById(id);
+    Categoria categoria = categoriaOptional.get();
+    categoria.setAdminid(categoriaDTO.adminid());
+    categoria.setCategoria_nome(categoriaDTO.categoria_nome());
+    return ResponseEntity.ok(categoriaRepository.save(categoria));
+    }
+
 
   public ResponseEntity<Object> deletarCategoria(Long id) {
-    if (categoriaRepository.existsById(id)) {
+    if (!categoriaRepository.existsById(id)) {
+      String categoriaNaoExcluida = "Não existe uma categoria com esse id";
+      return ResponseEntity.ok().body(categoriaNaoExcluida);
+    }
       categoriaRepository.deleteById(id);
       String categoriaExcluida = "Categoria Excluida com sucesso!";
       return ResponseEntity.ok(categoriaExcluida);
     }
-    String categoriaNaoExcluida = "Não existe uma categoria com esse id";
-    return ResponseEntity.ok().body(categoriaNaoExcluida);
-  }
 }

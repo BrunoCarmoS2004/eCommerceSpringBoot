@@ -52,44 +52,41 @@ public class AvaliacaoService {
     return ResponseEntity.badRequest().body(avaliacaoNaoExcluida);
   }
 
-
   public ResponseEntity<Object>validacaoAvaliacao(Long id, AvaliacaoDTO avaliacaoDTO, String tipo){
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     UserDetails userDetails = (UserDetails) authentication.getPrincipal();
     UserDetails usuarioDetails = usuarioRepository.findByEmail(userDetails.getUsername());
     Usuario usuario = (Usuario) usuarioDetails;
-      if (produtosRepository.existsById(id)){
-        Optional<Vendas> vendaOptional = vendasRepository.findByProdutosId(id);
-        if (vendaOptional.isPresent()) {
-          Vendas vendas = vendaOptional.get();
-          if (vendas.getClienteId() == usuario.getId()){
-            if (tipo == "criar") {
-              /*ID = PRODUTO_ID*/
-              Avaliacao avaliacao = new Avaliacao(avaliacaoDTO.avaliaca_titulo(),avaliacaoDTO.avaliaca_texto(), avaliacaoDTO.avaliaca_estrelas(), avaliacaoDTO.avaliaca_imagem(), id, usuario.getId());
-              return ResponseEntity.ok(avaliacaoRepository.save(avaliacao));
-            }else{
-              if (avaliacaoRepository.existsById(id)) {
-                /*ID = AVALIAÇÃO_ID*/
-                Optional<Avaliacao> avaliacaoOptional = avaliacaoRepository.findById(id);
-                Avaliacao avaliacao = avaliacaoOptional.get();
-                avaliacao.setAvaliaca_estrelas(avaliacaoDTO.avaliaca_estrelas());
-                avaliacao.setAvaliaca_imagem(avaliacaoDTO.avaliaca_imagem());
-                avaliacao.setAvaliaca_texto(avaliacaoDTO.avaliaca_texto());
-                avaliacao.setAvaliaca_titulo(avaliacaoDTO.avaliaca_titulo());
-                avaliacao.setProdutosId(id);
-                avaliacao.setUsuarioId(usuario.getId());
-                return ResponseEntity.ok(avaliacaoRepository.save(avaliacao));
-              }
-            }
-          }
-        }
-        String avaliacaoNaoCriada = "Esse produto não pertence a esse cliente";
-        return ResponseEntity.badRequest().body(avaliacaoNaoCriada);
-      }
+    if(!produtosRepository.existsById(id)){
       String avaliacaoNaoCriada = "Não existe um produto com esse id";
       return ResponseEntity.badRequest().body(avaliacaoNaoCriada);
+    }
+    Optional<Vendas> vendaOptional = vendasRepository.findByProdutosId(id);
+    if (vendaOptional.isPresent()) {
+      Vendas vendas = vendaOptional.get();
+      if (vendas.getClienteId() == usuario.getId()){
+        //A variavel tipo vem dos métodos criarAvaliacao e atualizarAvaliacao
+        if (tipo == "criar") {
+          /*ID = PRODUTO_ID*/
+          Avaliacao avaliacao = new Avaliacao(avaliacaoDTO.avaliaca_titulo(),avaliacaoDTO.avaliaca_texto(), avaliacaoDTO.avaliaca_estrelas(), avaliacaoDTO.avaliaca_imagem(), id, usuario.getId());
+          return ResponseEntity.ok(avaliacaoRepository.save(avaliacao));
+        }else{
+            if (avaliacaoRepository.existsById(id)) {
+            /*ID = AVALIAÇÃO_ID*/
+            Optional<Avaliacao> avaliacaoOptional = avaliacaoRepository.findById(id);
+            Avaliacao avaliacao = avaliacaoOptional.get();
+            avaliacao.setAvaliaca_estrelas(avaliacaoDTO.avaliaca_estrelas());
+            avaliacao.setAvaliaca_imagem(avaliacaoDTO.avaliaca_imagem());
+            avaliacao.setAvaliaca_texto(avaliacaoDTO.avaliaca_texto());
+            avaliacao.setAvaliaca_titulo(avaliacaoDTO.avaliaca_titulo());
+            avaliacao.setProdutosId(id);
+            avaliacao.setUsuarioId(usuario.getId());
+            return ResponseEntity.ok(avaliacaoRepository.save(avaliacao));
+          }
+        }
+      }
+    }
+    String avaliacaoNaoCriada = "Esse produto não pertence a esse cliente";
+    return ResponseEntity.badRequest().body(avaliacaoNaoCriada);
   }
-  
-  
-  
 }
