@@ -61,6 +61,7 @@
       <div *ngIf="!isLogin">
         <div class="title_container">
           <h2>Complete seu cadastro</h2>
+          <p>a</p>
         </div>
         <p>Selecione seu Pais:</p>
             <div class="input_field select_option">
@@ -117,6 +118,9 @@
         </div>
         <button class="back_button" (click)="voltar()">Voltar</button>
       </div>
+    </div>
+    <div class="possui-cadastro" *ngIf="!isLogin">
+      <p class="p-abaRegistro" (click)="abaLogin()">Já possui cadastro?</p>
     </div>
     <div class="div-img-register" *ngIf="isLogin">
       <img src="../../../assets/img/ImgLogin.svg" alt="">

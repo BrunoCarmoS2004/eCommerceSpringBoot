@@ -37,7 +37,7 @@ export class CadastroLoginComponent implements OnInit{
 
   isRegisterNulo:boolean = false;
   isLoginNulo:boolean = false;
-  
+
   isValidPassword:boolean = true;
   isValidUser:boolean = true;
   isValidEmail:boolean = true;
@@ -81,7 +81,7 @@ export class CadastroLoginComponent implements OnInit{
 
   constructor(private usuarioService:UsuarioService, public dialog:MatDialog, private categoriaService:CategoriaService, private enderecoService:EnderecoService, private router: Router){
     this.usuarioRole = new UsuarioRole();
-    this.usuarioRegistro = new UsuarioRegister(this.usuarioRole.admin);
+    this.usuarioRegistro = new UsuarioRegister(this.usuarioRole.cliente);
     this.usuarioLogin = new UsuarioLogin();
     this.categoriaPost = new CategoriaPost();
     this.cepInputSubject.pipe(
@@ -264,6 +264,7 @@ export class CadastroLoginComponent implements OnInit{
         alert("Erro ao cadastrar usuário. Por favor, tente novamente.");
       }
     );
+    this.usuarioRegisterForm.reset();
   }
 
 
@@ -305,6 +306,7 @@ export class CadastroLoginComponent implements OnInit{
           this.isValidLogin = false;
         }
       );
+
     }
   }
 
@@ -375,5 +377,10 @@ export class CadastroLoginComponent implements OnInit{
   abaRegistro(){
     this.isLogin = false;
     this.isValidUser = false;
+  }
+
+  abaLogin(){
+    this.isLogin = true;
+    this.isValidUser = true;
   }
 }

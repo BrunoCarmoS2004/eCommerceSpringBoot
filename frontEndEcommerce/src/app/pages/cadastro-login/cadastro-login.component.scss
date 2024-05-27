@@ -49,6 +49,7 @@ $grey: #cccccc;
     display: flex;
     align-items: center;
     justify-content: center;
+    animation: bounce 0.6s ease-out;
     img{
       width: 70%;
     }
@@ -63,6 +64,7 @@ $grey: #cccccc;
     width: 100%;
     text-align: center;
     padding-bottom: 15px;
+    animation: bounce 0.6s ease-out;
   }
 
   h3 {
@@ -135,7 +137,7 @@ $grey: #cccccc;
   input[type="text"],
   input[type="email"],
   input[type="password"] {
-    width: 100%;  
+    width: 100%;
     padding: 8px 10px 9px 35px;
     height: 35px;
     border: 1px solid $grey;
@@ -185,6 +187,7 @@ $grey: #cccccc;
     color: #fff;
     font-size: 1.1em;
     margin-bottom: 10px;
+    animation: bounce 0.6s ease-out;
     transition: all 0.30s ease-in-out;
 
     &:hover,
@@ -366,6 +369,7 @@ $grey: #cccccc;
 }
 
 .p-abaRegistro{
+  animation: bounce 0.6s ease-out;
   text-decoration: underline;
   cursor: pointer;
 }
