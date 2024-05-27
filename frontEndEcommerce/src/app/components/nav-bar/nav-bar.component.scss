@@ -4,13 +4,20 @@ $yellow: #f5ba1a;
 $black: #000000;
 $grey: #cccccc;
 
-
 .nav_bar{
   display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 3px;
+  background-color: $orange;
+  height: 10%;
+  h1{
+    margin-bottom: 0px;
+  }
   .input_field {
     position: relative;
-    margin-bottom: 20px;
     animation: bounce 0.6s ease-out;
+    width: 60%;
     > span {
       position: absolute;
       left: 0;
@@ -35,7 +42,9 @@ $grey: #cccccc;
       border: 1px solid $grey;
       box-sizing: border-box;
       outline: none;
+      border-radius: 50px;
       transition: all 0.30s ease-in-out;
+
       &:hover,
       &:focus {
         background: #fafafa;
