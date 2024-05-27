@@ -84,21 +84,22 @@ public class CarrinhoService {
     Usuario usuario = (Usuario) usuarioDetails;
     Optional<Carrinho> carrinhoOptional = carrinhoRepository.findById(usuario.getCarrinho().getCarrinho_id());
     Carrinho carrinho = carrinhoOptional.get(); 
-    if (usuario.getSaldo() >= carrinho.getTotal()){
-      carrinho.getProduto().stream().forEach(produto -> {
-      usuario.setSaldo(usuario.getSaldo() - produto.getProduto_preco());
-      Vendas vendas = new Vendas(produto.getVendedorId(), produto.getProduto_id(), usuario.getId());
-      vendasRepository.save(vendas);
-      });
-      carrinho.setCarrinho_id(usuario.getCarrinho().getCarrinho_id());
-      carrinho.getProduto().clear();
-      carrinhoRepository.save(carrinho);
-      String itensComprados = "Itens comprados com sucesso!";
-      return ResponseEntity.ok(itensComprados);
+    if (usuario.getSaldo() <= carrinho.getTotal()){
+      String clienteSemSaldo = "Sem saldo suficiente, retire algum item, ou adicione saldo";
+      return ResponseEntity.badRequest().body(clienteSemSaldo);
     }
-    String clienteSemSaldo = "Sem saldo suficiente, retire algum item, ou adicione saldo";
-    return ResponseEntity.badRequest().body(clienteSemSaldo);
-  }
+    carrinho.getProduto().stream().forEach(produto -> {
+    usuario.setSaldo(usuario.getSaldo() - produto.getProduto_preco());
+    Vendas vendas = new Vendas(produto.getVendedorId(), produto.getProduto_id(), usuario.getId());
+    vendasRepository.save(vendas);
+    });
+    carrinho.setCarrinho_id(usuario.getCarrinho().getCarrinho_id());
+    carrinho.getProduto().clear();
+    carrinhoRepository.save(carrinho);
+    String itensComprados = "Itens comprados com sucesso!";
+    return ResponseEntity.ok(itensComprados);
+    }
+    
 
   public ResponseEntity<Object> comprarUmItem(Long produto_id){
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
