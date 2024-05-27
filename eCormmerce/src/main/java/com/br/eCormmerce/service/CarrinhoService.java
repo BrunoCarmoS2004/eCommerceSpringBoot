@@ -83,13 +83,13 @@ public class CarrinhoService {
     UserDetails usuarioDetails = usuarioRepository.findByEmail(userDetails.getUsername());
     Usuario usuario = (Usuario) usuarioDetails;
     Optional<Carrinho> carrinhoOptional = carrinhoRepository.findById(usuario.getCarrinho().getCarrinho_id());
-    Carrinho carrinho = carrinhoOptional.get();
+    Carrinho carrinho = carrinhoOptional.get(); 
     if (usuario.getSaldo() >= carrinho.getTotal()){
-      for (Produtos produtos : carrinho.getProduto()) {
-        usuario.setSaldo(usuario.getSaldo() - produtos.getProduto_preco());
-        Vendas vendas = new Vendas(produtos.getVendedorId(), produtos.getProduto_id(), usuario.getId());
-        vendasRepository.save(vendas);
-      }
+      carrinho.getProduto().stream().forEach(produto -> {
+      usuario.setSaldo(usuario.getSaldo() - produto.getProduto_preco());
+      Vendas vendas = new Vendas(produto.getVendedorId(), produto.getProduto_id(), usuario.getId());
+      vendasRepository.save(vendas);
+      });
       carrinho.setCarrinho_id(usuario.getCarrinho().getCarrinho_id());
       carrinho.getProduto().clear();
       carrinhoRepository.save(carrinho);
